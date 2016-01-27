@@ -1,0 +1,280 @@
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 32 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 33 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 34 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 35 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 36 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 38 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 41 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 41 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 42 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 42 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 18 : Using default destination of 1 (file).
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Found label after column 1. (d3)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 19 : Duplicate label ("d3" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Found label after column 1. (i)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 20 : Duplicate label ("i" or redefining symbol that cannot be redefined)
+Warning[207] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Found label after column 1. (mask)
+Error[115]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 21 : Duplicate label ("mask" or redefining symbol that cannot be redefined)
+Error[144]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 22 : Unmatched ENDC
+Warning[206] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Found call to macro in column 1. (ROTATE)
+Error[136]   C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 24 : Duplicate macro name (ROTATE)
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 110 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 110 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 111 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 111 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 114 : Using default destination of 1 (file).
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 114 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 114 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 116 : Using default destination of 1 (file).
+Warning[219] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 116 : Invalid RAM location specified.
+Message[302] C:\USERS\OWNER\DESKTOP\PICPROJECTS\MAIN.ASM 116 : Register in operand not in bank 0.  Ensure that bank bits are correct.

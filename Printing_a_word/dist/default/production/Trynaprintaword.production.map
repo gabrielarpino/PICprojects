@@ -1,0 +1,96 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Tue Jan 26 17:12:48 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x0001ba
+                   .cinit    romdata   0x0000dd    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/MAIN.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0000de      
+                            0x002007    0x002007      
+            224 out of 8454 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                 Alphabet   0x000061    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+            Clear_Display   0x000080    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   ClrLCD   0x0000b1    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                    HalfS   0x000083    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  InitLCD   0x000093    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                 LLD_LOOP   0x0000d6    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                     Main   0x00000e    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             Switch_Lines   0x00007d    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+               SwtichLine   0x000038    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  WR_DATA   0x0000c3    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   WR_INS   0x0000b4    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+              Welcome_Msg   0x000044    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             Welcome_Msgg   0x000053    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0019   0x000019    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0036   0x000036    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0043   0x000043    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008A   0x00008a    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008C   0x00008c    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008F   0x00008f    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_00D9   0x0000d9    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                _0HalfS_0   0x000089    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _1end_   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _1loop_   0x000010    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _2end_   0x000029    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _2loop_   0x000021    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _3end_   0x000035    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _3loop_   0x00002d    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _4end_   0x000043    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _4loop_   0x00003b    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                     init   0x000001    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             lcdLongDelay   0x0000d4    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                     test   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     init   0x000001    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                     Main   0x00000e    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _1loop_   0x000010    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _1end_   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                     test   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0019   0x000019    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _2loop_   0x000021    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _2end_   0x000029    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _3loop_   0x00002d    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _3end_   0x000035    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0036   0x000036    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+               SwtichLine   0x000038    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  _4loop_   0x00003b    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   _4end_   0x000043    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_0043   0x000043    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+              Welcome_Msg   0x000044    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             Welcome_Msgg   0x000053    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                 Alphabet   0x000061    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             Switch_Lines   0x00007d    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+            Clear_Display   0x000080    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                    HalfS   0x000083    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                _0HalfS_0   0x000089    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008A   0x00008a    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008C   0x00008c    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_008F   0x00008f    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  InitLCD   0x000093    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   ClrLCD   0x0000b1    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                   WR_INS   0x0000b4    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                  WR_DATA   0x0000c3    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             lcdLongDelay   0x0000d4    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+                 LLD_LOOP   0x0000d6    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+             _.org_0_00D9   0x0000d9    program     static C:\Users\OWNER\Desktop\PICprojects\Trynaprintaword\main.asm
+
+

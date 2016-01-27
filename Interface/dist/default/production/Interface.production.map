@@ -1,0 +1,108 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Tue Jan 26 17:42:02 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x00020e
+                   .cinit    romdata   0x000107    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/MAIN.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000108      
+                            0x002007    0x002007      
+            266 out of 8454 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            Clear_Display   0x0000aa    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   ClrLCD   0x0000db    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 Display1   0x000031    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 Display2   0x000041    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                    HalfS   0x0000ad    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  InitLCD   0x0000bd    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 LLD_LOOP   0x000100    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                     Main   0x00000e    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                Operation   0x000074    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  Results   0x00009e    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             Switch_Lines   0x0000a7    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+               SwtichLine   0x000025    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  WR_DATA   0x0000ed    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   WR_INS   0x0000de    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+              WantResults   0x000082    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+            WantTheResult   0x00004d    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+              Welcome_Msg   0x000058    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0019   0x000019    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0023   0x000023    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0030   0x000030    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B4   0x0000b4    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B6   0x0000b6    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B9   0x0000b9    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0103   0x000103    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                _0HalfS_0   0x0000b3    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _1end_   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _1loop_   0x000010    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _2end_   0x000030    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _2loop_   0x000028    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _3end_   0x00003c    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _3loop_   0x000034    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _4end_   0x00004c    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _4loop_   0x000044    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _5end_   0x000057    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _5loop_   0x00004f    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                     init   0x000001    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             lcdLongDelay   0x0000fe    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                     test   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     init   0x000001    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                     Main   0x00000e    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _1loop_   0x000010    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                     test   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _1end_   0x000018    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0019   0x000019    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0023   0x000023    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+               SwtichLine   0x000025    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _2loop_   0x000028    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _2end_   0x000030    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0030   0x000030    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 Display1   0x000031    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _3loop_   0x000034    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _3end_   0x00003c    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 Display2   0x000041    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _4loop_   0x000044    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _4end_   0x00004c    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+            WantTheResult   0x00004d    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  _5loop_   0x00004f    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   _5end_   0x000057    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+              Welcome_Msg   0x000058    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                Operation   0x000074    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+              WantResults   0x000082    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  Results   0x00009e    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             Switch_Lines   0x0000a7    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+            Clear_Display   0x0000aa    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                    HalfS   0x0000ad    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                _0HalfS_0   0x0000b3    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B4   0x0000b4    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B6   0x0000b6    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_00B9   0x0000b9    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  InitLCD   0x0000bd    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   ClrLCD   0x0000db    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                   WR_INS   0x0000de    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                  WR_DATA   0x0000ed    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             lcdLongDelay   0x0000fe    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+                 LLD_LOOP   0x000100    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+             _.org_0_0103   0x000103    program     static C:\Users\OWNER\Desktop\PICprojects\Interface\main.asm
+
+

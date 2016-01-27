@@ -1,0 +1,74 @@
+MPLINK 4.43, Linker
+Linker Map File - Created Sun Feb 03 23:26:32 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000146
+                   .cinit    romdata   0x0000a3    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/_EXT/14       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0000a4      
+                            0x002007    0x002007      
+            166 out of 8454 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                 Alphabet   0x000027    program     static ..\main.asm              
+            Clear_Display   0x000046    program     static ..\main.asm              
+                   ClrLCD   0x000077    program     static ..\main.asm              
+                    HalfS   0x000049    program     static ..\main.asm              
+                  InitLCD   0x000059    program     static ..\main.asm              
+                 LLD_LOOP   0x00009c    program     static ..\main.asm              
+                     Main   0x00000e    program     static ..\main.asm              
+             Switch_Lines   0x000043    program     static ..\main.asm              
+                  WR_DATA   0x000089    program     static ..\main.asm              
+                   WR_INS   0x00007a    program     static ..\main.asm              
+              Welcome_Msg   0x000019    program     static ..\main.asm              
+             _.org_0_0018   0x000018    program     static ..\main.asm              
+             _.org_0_0050   0x000050    program     static ..\main.asm              
+             _.org_0_0052   0x000052    program     static ..\main.asm              
+             _.org_0_0055   0x000055    program     static ..\main.asm              
+             _.org_0_009F   0x00009f    program     static ..\main.asm              
+                _0HalfS_0   0x00004f    program     static ..\main.asm              
+                   _1end_   0x000018    program     static ..\main.asm              
+                  _1loop_   0x000010    program     static ..\main.asm              
+                     init   0x000001    program     static ..\main.asm              
+             lcdLongDelay   0x00009a    program     static ..\main.asm              
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     init   0x000001    program     static ..\main.asm              
+                     Main   0x00000e    program     static ..\main.asm              
+                  _1loop_   0x000010    program     static ..\main.asm              
+                   _1end_   0x000018    program     static ..\main.asm              
+             _.org_0_0018   0x000018    program     static ..\main.asm              
+              Welcome_Msg   0x000019    program     static ..\main.asm              
+                 Alphabet   0x000027    program     static ..\main.asm              
+             Switch_Lines   0x000043    program     static ..\main.asm              
+            Clear_Display   0x000046    program     static ..\main.asm              
+                    HalfS   0x000049    program     static ..\main.asm              
+                _0HalfS_0   0x00004f    program     static ..\main.asm              
+             _.org_0_0050   0x000050    program     static ..\main.asm              
+             _.org_0_0052   0x000052    program     static ..\main.asm              
+             _.org_0_0055   0x000055    program     static ..\main.asm              
+                  InitLCD   0x000059    program     static ..\main.asm              
+                   ClrLCD   0x000077    program     static ..\main.asm              
+                   WR_INS   0x00007a    program     static ..\main.asm              
+                  WR_DATA   0x000089    program     static ..\main.asm              
+             lcdLongDelay   0x00009a    program     static ..\main.asm              
+                 LLD_LOOP   0x00009c    program     static ..\main.asm              
+             _.org_0_009F   0x00009f    program     static ..\main.asm              
+
+
