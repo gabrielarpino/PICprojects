@@ -1,0 +1,3 @@
+Warning[207] /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm 11 : Found label after column 1. (COUNTH)
+Warning[207] /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm 12 : Found label after column 1. (COUNTM)
+Warning[207] /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm 13 : Found label after column 1. (COUNTL)

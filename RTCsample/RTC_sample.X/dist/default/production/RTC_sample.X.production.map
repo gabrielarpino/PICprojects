@@ -1,0 +1,152 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Tue Feb 16 13:54:44 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000002
+                   .cinit    romdata   0x000001    program   0x000004
+                   .org_1       code   0x000100    program   0x0001ce
+                    .code       code   0x0001e7    program   0x000290
+.config_2007_BUILD/DEFAULT/PRODUCTION/MAIN.O       code   0x002007    program   0x000002
+               .udata_shr      udata   0x000070       data   0x000008
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000002      
+                            0x000100    0x00032e      
+                            0x002007    0x002007      
+            563 out of 8454 program addresses used, program memory utilization is 6%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   ClrLCD   0x000205    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                  InitLCD   0x0001e7    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                 LLD_LOOP   0x00022a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                     OneS   0x0001d7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                   RD_END   0x0002c7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   RD_ERR   0x0002c6    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                    R_END   0x000329    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                  WR_DATA   0x000217    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   WR_END   0x000278    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   WR_ERR   0x000277    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   WR_INS   0x000208    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                    W_END   0x0002ff    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0010   0x000241    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0016   0x000247    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_001E   0x00024f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_002E   0x00025f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_003E   0x00026f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0046   0x00022d    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+              _.code_004B   0x00027c    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0051   0x000282    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0059   0x00028a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0069   0x00029a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0074   0x0002a5    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_007C   0x0002ad    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0087   0x0002b8    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0093   0x0002c4    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_009A   0x0002cb    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00AE   0x0002df    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00B6   0x0002e7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00C6   0x0002f7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00D2   0x000303    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00D8   0x000309    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00E0   0x000311    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00EB   0x00031c    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00F7   0x000328    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00FC   0x00032d    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+             _.org_1_01DE   0x0001de    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             _.org_1_01E0   0x0001e0    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             _.org_1_01E3   0x0001e3    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                 _0OneS_0   0x0001dd    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+         i2c_common_setup   0x000231    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                     init   0x000100    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             lcdLongDelay   0x000228    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                 p2p_read   0x000305    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                p2p_write   0x0002db    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                 read_rtc   0x00027e    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              rtc_convert   0x0002cd    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+             set_rtc_time   0x00016f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                 show_RTC   0x00010f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                write_rtc   0x000243    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   COUNTH   0x000070       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                   COUNTL   0x000072       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                   COUNTM   0x000071       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                      com   0x000076       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                      dat   0x000077       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   lcd_d1   0x000074       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   lcd_d2   0x000075       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                  lcd_tmp   0x000073       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     init   0x000100    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                 show_RTC   0x00010f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             set_rtc_time   0x00016f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                     OneS   0x0001d7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                 _0OneS_0   0x0001dd    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             _.org_1_01DE   0x0001de    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             _.org_1_01E0   0x0001e0    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+             _.org_1_01E3   0x0001e3    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                  InitLCD   0x0001e7    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   ClrLCD   0x000205    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   WR_INS   0x000208    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                  WR_DATA   0x000217    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+             lcdLongDelay   0x000228    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                 LLD_LOOP   0x00022a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+              _.code_0046   0x00022d    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+         i2c_common_setup   0x000231    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0010   0x000241    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                write_rtc   0x000243    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0016   0x000247    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_001E   0x00024f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_002E   0x00025f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_003E   0x00026f    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   WR_ERR   0x000277    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   WR_END   0x000278    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_004B   0x00027c    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                 read_rtc   0x00027e    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0051   0x000282    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0059   0x00028a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0069   0x00029a    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0074   0x0002a5    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_007C   0x0002ad    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0087   0x0002b8    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_0093   0x0002c4    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   RD_ERR   0x0002c6    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   RD_END   0x0002c7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_009A   0x0002cb    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              rtc_convert   0x0002cd    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                p2p_write   0x0002db    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00AE   0x0002df    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00B6   0x0002e7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00C6   0x0002f7    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                    W_END   0x0002ff    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00D2   0x000303    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                 p2p_read   0x000305    program     extern /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00D8   0x000309    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00E0   0x000311    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00EB   0x00031c    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00F7   0x000328    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                    R_END   0x000329    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+              _.code_00FC   0x00032d    program     static /Users/Andrej/Desktop/RTC/RTC_sample.X/i2c_common.asm
+                   COUNTH   0x000070       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                   COUNTM   0x000071       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                   COUNTL   0x000072       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/main.asm
+                  lcd_tmp   0x000073       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   lcd_d1   0x000074       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                   lcd_d2   0x000075       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                      com   0x000076       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+                      dat   0x000077       data     static /Users/Andrej/Desktop/RTC/RTC_sample.X/lcd.asm
+
+

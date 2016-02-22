@@ -1,0 +1,97 @@
+	 ;;;;;;;;;;;;;;;;;;;; Configure A to D
+	 
+
+
+Bank2
+	 
+movlw b'10001110'
+	 
+movwf ADCON1
+	 
+	
+Bank1
+	 
+movlw b'11000001'
+	 
+movwf ADCON0
+
+
+
+
+test1	
+call		HalfS
+	
+call		HalfS
+	
+call ClrLCD
+	
+bsf	ADCON0,2
+	
+btfsc	ADCON0,2
+	
+goto $-1
+	
+movf	ADRESH,W
+	
+movwf	NumH
+	
+Bank2
+	
+movf	ADRESL,W
+	
+Bank1
+	
+movwf	NumL
+	
+	
+call	bintodec
+	
+	
+movf	    TenK,W	
+	
+andlw	0x0F
+        
+call     BtoChar 
+;Convert binary value to LCD character (value is still held in W)
+        
+call     WR_DATA
+	
+	
+movf	    Thou,W	
+	
+andlw	0x0F
+        
+call     BtoChar 
+;Convert binary value to LCD character (value is still held in W)
+        
+call     WR_DATA
+	
+	
+movf	    Hund,W	
+	
+andlw	0x0F
+        
+call     BtoChar 
+;Convert binary value to LCD character (value is still held in W)
+        
+call     WR_DATA
+	
+	
+movf	    Tens,W	
+	
+andlw	0x0F
+        
+call     BtoChar 
+;Convert binary value to LCD character (value is still held in W)
+        
+call     WR_DATA
+	
+	
+movf	    Ones,W	
+	
+andlw	0x0F
+        
+call     BtoChar 
+;Convert binary value to LCD character (value is still held in W)
+        
+call     WR_DATA

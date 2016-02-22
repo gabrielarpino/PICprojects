@@ -14,6 +14,7 @@
 		com	
 		dat
 		temp
+		count	
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -21,7 +22,7 @@
 		#define	E 	PORTD,3
 
          ORG       0x0000     ;RESET vector must always be at 0x00
-         goto      init       ;Just jump to the main code section.
+         goto      init      ;Just jump to the main code section.
          
 
 ;***************************************
@@ -52,7 +53,17 @@ loop_	movf	Table_Counter,W
 		incf	Table_Counter,F
 		goto	loop_
 end_
-		endm
+		
+looop_2        movlw        b'00011000'        ;Move to the left
+        call        WR_INS
+        call        HalfS
+        call        HalfS
+        decf        count
+        btfsc        STATUS,Z
+            goto        endd_2
+        goto        looop_2
+
+endd_2        endm
 
 ;***************************************
 ; Initialize LCD
@@ -80,34 +91,38 @@ init
 ;***************************************
 Main	Display		Welcome_Msg
 
-test     btfss		PORTB,1     ;Wait until data is available from the keypad
-         goto		$-1 
+test     btfss        PORTB,1     ;Wait until data is available from the keypad
+         goto        $-1 
 
-         swapf		PORTB,W     ;Read PortB<7:4> into W<3:0>
-         andlw		0x0F
-	 
-	 movwf		temp
-	 btfsc		STATUS,Z
-		    call Display1
-		    
-	 
-	; here call the operation module
+         swapf        PORTB,W     ;Read PortB<7:4> into W<3:0>
+         andlw        0x0F
+     
+     ;**********
+     ; Key Cases
+     ;**********
+     
+     ;case key = 1
+     
+     movwf        temp
+     btfsc        STATUS,Z
+            call Display1
+            
+     
+    ;case key = 2
 
-		    
-	 decf		temp
-	 btfsc		STATUS,Z
-		    call Display2
+            
+     decf        temp
+     btfsc        STATUS,Z
+            call Display2
+            
+     btfsc        PORTB,1     ;Wait until key is released
+         goto        $-1
+         goto        test
 
-		    
-         btfsc		PORTB,1     ;Wait until key is released
-         goto		$-1
-         goto		test
-	 
-	 
-	 
-SwtichLine
-		call		Switch_Lines
-		Display		Welcome_Msg
+
+;SwtichLine
+;		call		Switch_Lines
+;		Display		Welcome_Msg
 
 ;ChangeToQuestionMark
 ;		movlw		b'11001011'
@@ -129,42 +144,48 @@ SwtichLine
 
 
 ;***************************************
-; Look up table
+; Display Commands
 ;***************************************
 
 Display1
-		call		Clear_Display
-		Display Operation
-		call HalfS
-		call HalfS
-		call		Clear_Display
-		call	    WantTheResult
-		
-		goto test
+        call        Clear_Display
+        Display Operation
+        call HalfS
+        call HalfS
+        call        Clear_Display
+        call        WantTheResult
+        
+        goto test
 Display2
-		call		Clear_Display
-		Display Results
-		goto test
+        call        Clear_Display
+        Display Results
+        goto test
 
 WantTheResult
-		Display WantResults
-		goto test
-		
-Welcome_Msg	
-		addwf	PCL,F
-		dt		"Press 1 to begin operation", 0
-		
+        Display WantResults
+        goto test
+
+        
+        
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;             Data Tables         ;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
+Welcome_Msg    
+        addwf    PCL,F
+        dt        "Press 1 to begin operation", 0
+        
 Operation
-		addwf	PCL,F
-		dt		"Loading...",0
+        addwf    PCL,F
+        dt        "Loading...",0
 
 WantResults
-		addwf	PCL,F
-		dt		"Press 2 to display results",0
-		
-Results	
-		addwf	PCL,F
-		dt		"Results",0
+        addwf    PCL,F
+        dt        "Press 2 to display results",0
+        
+Results    
+        addwf    PCL,F
+        dt        "Results",0
 
 ;***************************************
 ; LCD control

@@ -1,0 +1,323 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Sun Feb 21 20:47:14 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000870
+                   .cinit    romdata   0x000438    program   0x000004
+                    .code       code   0x00043a    program   0x000290
+                    dbgP0       code   0x001f00    program   0x000200
+.config_2007_BUILD/DEFAULT/DEBUG/MAIN.O       code   0x002007    program   0x000002
+                    dbgD0      udata   0x000070       data   0x000001
+               .udata_shr      udata   0x000071       data   0x000005
+                    dbgD1      udata   0x0000f0       data   0x000001
+                    dbgD2      udata   0x000170       data   0x000001
+                    dbgD3      udata   0x0001e5       data   0x00000b
+                    dbgD4      udata   0x0001f0       data   0x000001
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000581      
+                            0x001f00    0x001fff      
+                            0x002007    0x002007      
+            1667 out of 8454 program addresses used, program memory utilization is 19%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+             BinLocations   0x0002b4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+      BinLocationsDisplay   0x00018c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+      BinLocationsEntries   0x0002bd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     Bins   0x000289    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              BinsDisplay   0x00012f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              BinsEntries   0x000292    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ChooseIR1   0x0000b2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ChooseIR2   0x0000b6    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            Clear_Display   0x000345    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   ClrLCD   0x000556    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                DectoChar   0x000322    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         DectoCharEntries   0x00032b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                    HalfS   0x000348    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  InitLCD   0x000538    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+             KeypadandLCD   0x000062    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            LCDConversion   0x000093    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 LLD_LOOP   0x00057b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                      Lb1   0x000022    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb2   0x000026    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb3   0x00002a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb4   0x00002e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              ListDisplay   0x000118    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     Main   0x00005d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     OneS   0x000420    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                Operation   0x0001d2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         OperationDisplay   0x0000f8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         OperationEntries   0x0001db    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            OperationTime   0x0002d4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     OperationTimeDisplay   0x000198    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     OperationTimeEntries   0x0002dd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        PrintBlackSticker   0x000430    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        PrintWhiteSticker   0x000434    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   RD_END   0x0004d0    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   RD_ERR   0x0004cf    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+               RTCDisplay   0x0001a8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                    R_END   0x000532    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+            ReceivedInput   0x0002ef    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     ReceivedInputEntries   0x0002f8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 Results1   0x00022e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          Results1Entries   0x000237    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 Results2   0x00025c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          Results2Entries   0x000265    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        ScanBackContainer   0x0000d9    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       ScanFrontContainer   0x0000ba    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ShiftLeft   0x0001a4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          SmallValueInput   0x00030d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+   SmallValueInputEntries   0x000316    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+           StickerColours   0x000336    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+    StickerColoursEntries   0x00033f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+           StickerDisplay   0x00013b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            StickerStatus   0x0002a2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     StickerStatusEntries   0x0002ab    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             Switch_Lines   0x000342    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  WR_DATA   0x000568    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   WR_END   0x000481    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   WR_ERR   0x000480    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   WR_INS   0x000559    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                    W_END   0x000508    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              WantResults   0x0001e8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       WantResultsEntries   0x0001f1    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+               WantRotate   0x00020c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        WantRotateEntries   0x000215    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              Welcome_Msg   0x0001b2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       Welcome_MsgEntries   0x0001bb    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              _.code_0010   0x00044a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0016   0x000450    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_001E   0x000458    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_002E   0x000468    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_003E   0x000478    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0046   0x00057e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+              _.code_004B   0x000485    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0051   0x00048b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0059   0x000493    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0069   0x0004a3    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0074   0x0004ae    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_007C   0x0004b6    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0087   0x0004c1    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0093   0x0004cd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_009A   0x0004d4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00AE   0x0004e8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00B6   0x0004f0    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00C6   0x000500    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00D2   0x00050c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00D8   0x000512    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00E0   0x00051a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00EB   0x000525    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00F7   0x000531    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00FC   0x000536    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+             _.org_0_0063   0x000063    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0090   0x000090    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0096   0x000096    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_00BC   0x0000bc    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_00DB   0x0000db    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0147   0x000147    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0152   0x000152    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_015D   0x00015d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0168   0x000168    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0173   0x000173    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_017E   0x00017e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0189   0x000189    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_034F   0x00034f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0351   0x000351    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0354   0x000354    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0427   0x000427    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0429   0x000429    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_042C   0x00042c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                _0HalfS_0   0x00034e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _0OneS_0   0x000426    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   _1end_   0x000059    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _1loop_   0x000051    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _25end_   0x00010c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _25loop_   0x000104    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _26end_   0x000117    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _26loop_   0x00010f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _27end_   0x000123    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _27loop_   0x00011b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _28end_   0x00012e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _28loop_   0x000126    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _29end_   0x00013a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _29loop_   0x000132    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _30end_   0x000197    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _30loop_   0x00018f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _31end_   0x0001a3    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _31loop_   0x00019b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                bin16_BCD   0x000001    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   goback   0x000092    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         i2c_common_setup   0x00043a    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                     init   0x000034    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             lcdLongDelay   0x000579    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                 p2p_read   0x00050e    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                p2p_write   0x0004e4    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                 read_rtc   0x000487    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              rtc_convert   0x0004d6    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+             set_rtc_time   0x0003b8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 show_RTC   0x000358    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                write_rtc   0x00044c    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                      com   0x000074       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                      dat   0x000075       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   lcd_d1   0x000072       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   lcd_d2   0x000073       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                  lcd_tmp   0x000071       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                bin16_BCD   0x000001    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb1   0x000022    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb2   0x000026    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb3   0x00002a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                      Lb4   0x00002e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     init   0x000034    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _1loop_   0x000051    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   _1end_   0x000059    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     Main   0x00005d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             KeypadandLCD   0x000062    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0063   0x000063    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0090   0x000090    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                   goback   0x000092    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            LCDConversion   0x000093    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0096   0x000096    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ChooseIR1   0x0000b2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ChooseIR2   0x0000b6    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       ScanFrontContainer   0x0000ba    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_00BC   0x0000bc    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        ScanBackContainer   0x0000d9    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_00DB   0x0000db    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         OperationDisplay   0x0000f8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _25loop_   0x000104    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _25end_   0x00010c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _26loop_   0x00010f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _26end_   0x000117    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              ListDisplay   0x000118    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _27loop_   0x00011b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _27end_   0x000123    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _28loop_   0x000126    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _28end_   0x00012e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              BinsDisplay   0x00012f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _29loop_   0x000132    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _29end_   0x00013a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+           StickerDisplay   0x00013b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0147   0x000147    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0152   0x000152    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_015D   0x00015d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0168   0x000168    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0173   0x000173    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_017E   0x00017e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0189   0x000189    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+      BinLocationsDisplay   0x00018c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _30loop_   0x00018f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _30end_   0x000197    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     OperationTimeDisplay   0x000198    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _31loop_   0x00019b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                  _31end_   0x0001a3    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                ShiftLeft   0x0001a4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+               RTCDisplay   0x0001a8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              Welcome_Msg   0x0001b2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       Welcome_MsgEntries   0x0001bb    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                Operation   0x0001d2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         OperationEntries   0x0001db    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              WantResults   0x0001e8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+       WantResultsEntries   0x0001f1    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+               WantRotate   0x00020c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        WantRotateEntries   0x000215    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 Results1   0x00022e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          Results1Entries   0x000237    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 Results2   0x00025c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          Results2Entries   0x000265    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     Bins   0x000289    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+              BinsEntries   0x000292    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            StickerStatus   0x0002a2    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     StickerStatusEntries   0x0002ab    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             BinLocations   0x0002b4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+      BinLocationsEntries   0x0002bd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            OperationTime   0x0002d4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     OperationTimeEntries   0x0002dd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            ReceivedInput   0x0002ef    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+     ReceivedInputEntries   0x0002f8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+          SmallValueInput   0x00030d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+   SmallValueInputEntries   0x000316    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                DectoChar   0x000322    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         DectoCharEntries   0x00032b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+           StickerColours   0x000336    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+    StickerColoursEntries   0x00033f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             Switch_Lines   0x000342    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+            Clear_Display   0x000345    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                    HalfS   0x000348    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                _0HalfS_0   0x00034e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_034F   0x00034f    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0351   0x000351    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0354   0x000354    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 show_RTC   0x000358    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             set_rtc_time   0x0003b8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                     OneS   0x000420    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+                 _0OneS_0   0x000426    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0427   0x000427    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_0429   0x000429    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+             _.org_0_042C   0x00042c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        PrintBlackSticker   0x000430    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+        PrintWhiteSticker   0x000434    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\main.asm
+         i2c_common_setup   0x00043a    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0010   0x00044a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                write_rtc   0x00044c    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0016   0x000450    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_001E   0x000458    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_002E   0x000468    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_003E   0x000478    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   WR_ERR   0x000480    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   WR_END   0x000481    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_004B   0x000485    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                 read_rtc   0x000487    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0051   0x00048b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0059   0x000493    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0069   0x0004a3    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0074   0x0004ae    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_007C   0x0004b6    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0087   0x0004c1    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_0093   0x0004cd    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   RD_ERR   0x0004cf    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                   RD_END   0x0004d0    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_009A   0x0004d4    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              rtc_convert   0x0004d6    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                p2p_write   0x0004e4    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00AE   0x0004e8    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00B6   0x0004f0    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00C6   0x000500    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                    W_END   0x000508    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00D2   0x00050c    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                 p2p_read   0x00050e    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00D8   0x000512    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00E0   0x00051a    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00EB   0x000525    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00F7   0x000531    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                    R_END   0x000532    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+              _.code_00FC   0x000536    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\i2c_common.asm
+                  InitLCD   0x000538    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   ClrLCD   0x000556    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   WR_INS   0x000559    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                  WR_DATA   0x000568    program     extern C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+             lcdLongDelay   0x000579    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                 LLD_LOOP   0x00057b    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+              _.code_0046   0x00057e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                  lcd_tmp   0x000071       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   lcd_d1   0x000072       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                   lcd_d2   0x000073       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                      com   0x000074       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+                      dat   0x000075       data     static C:\Users\OWNER\Desktop\PIC Assembly projects\Interface2\lcd.asm
+
+

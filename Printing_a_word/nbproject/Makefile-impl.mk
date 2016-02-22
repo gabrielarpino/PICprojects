@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Trynaprintaword
+PROJECTNAME=Printing_a_word
 
 # Active Configuration
 DEFAULTCONF=default

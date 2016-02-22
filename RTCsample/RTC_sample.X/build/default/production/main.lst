@@ -1,0 +1,899 @@
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001       list p=16f877                 ; list directive to define processor
+                      00002       #include <p16f877.inc>        ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Dec 08 2015
+                      00005 ;  MPASM PIC16F877 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2015 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00541         LIST
+2007   3F72           00003       __CONFIG _CP_OFF & _WDT_OFF & _BODEN_ON & _PWRTE_ON & _HS_OSC & _WRT_ENABLE_ON & _CPD_OFF & _LVP_O
+                            FF
+                      00004       Errorlevel -302               ; switches off message [302] Register in operand not in bank 0
+                      00005       Errorlevel -305
+                      00006 
+                      00007       #include <lcd.inc>                           ;Import LCD control functions from lcd.asm
+  0000                00001         extern  InitLCD,WR_INS,WR_DATA,ClrLCD
+                      00008         #include <rtc_macros.inc>
+                      00001         ;External labels
+  0000                00002         extern  write_rtc,read_rtc,rtc_convert,i2c_common_setup
+                      00003 
+                      00004 ;RTC Macros;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      00005 
+                      00006 rtc_resetAll    macro
+                      00007 ;input:         none
+                      00008 ;output:        none
+                      00009 ;desc:          Resets all the time keeping registers on the RTC to zero
+                      00010         banksel         0x74
+                      00011         clrf            0x74
+                      00012         banksel         0x73
+                      00013         clrf            0x73
+                      00014     call        write_rtc               ;Write 0 to Seconds
+                      00015         banksel         0x73
+                      00016     incf        0x73                    ;Set register address to 1
+                      00017         call            write_rtc
+                      00018         banksel         0x73
+                      00019     incf        0x73                    ;Set register address to 2
+                      00020         call            write_rtc
+                      00021         banksel         0x73
+                      00022     incf        0x73                    ;Set register address to 3
+                      00023         call            write_rtc
+                      00024         banksel         0x73
+                      00025     incf        0x73                    ;Set register address to 4
+                      00026         call            write_rtc
+                      00027         banksel         0x73
+                      00028     incf        0x73                    ;Set register address to 5
+                      00029         call            write_rtc
+                      00030         banksel         0x73
+                      00031     incf        0x73                    ;Set register address to 6
+                      00032         call            write_rtc
+                      00033         endm
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00034 
+                      00035 rtc_set         macro   addliteral,datliteral
+                      00036 ;input:         addliteral: value of address
+                      00037 ;                       datliteral: value of data
+                      00038 ;output:        none
+                      00039 ;desc:          loads the data in datliteral into the 
+                      00040 ;                       address specified by addliteral in the RTC
+                      00041         banksel 0x73
+                      00042         movlw   addliteral
+                      00043         movwf   0x73
+                      00044         banksel 0x74
+                      00045         movlw   datliteral
+                      00046         movwf   0x74    
+                      00047         call    write_rtc
+                      00048         endm
+                      00049 
+                      00050 rtc_read        macro   addliteral
+                      00051 ;input:         addliteral
+                      00052 ;output:        0x75, 0x77, 0x78
+                      00053 ;desc:          From the selected register in the RTC, read the data
+                      00054 ;                       and load it into 0x75. 0x75 is also converted into 
+                      00055 ;                       ASCII characters and the tens digit is placed into
+                      00056 ;                       0x77 and the ones digit is placed in 0x78
+                      00057         movlw   addliteral
+                      00058         banksel 0x73
+                      00059         movwf   0x73
+                      00060         call    read_rtc
+                      00061         banksel 0x75
+                      00062         movf    0x75,w
+                      00063         call    rtc_convert   
+                      00064         endm
+                      00009 
+                      00010         udata_shr
+Warning[207]: Found label after column 1. (COUNTH)
+0000                  00011         COUNTH  res 1           ;const used in delay
+Warning[207]: Found label after column 1. (COUNTM)
+0001                  00012         COUNTM  res     1       ;const used in delay
+Warning[207]: Found label after column 1. (COUNTL)
+0002                  00013         COUNTL  res     1       ;const used in delay
+                      00014         
+                      00015 
+                      00016          ORG       0x0000     ;RESET vector must always be at 0x00
+0000   2???           00017          goto      init       ;Just jump to the main code section.
+                      00018          
+                      00019          ORG       0x100
+                      00020 
+                      00021 ;***************************************
+                      00022 ; Initilization of both LCD and RTC
+                      00023 ;***************************************
+0100                  00024 init
+0100   018B           00025          clrf      INTCON         ; No interrupts
+                      00026 
+0101   1683           00027          bsf       STATUS,RP0     ; select bank 1
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0102   0185           00028          clrf      TRISA          ; All port A is output
+0103   0186           00029          clrf      TRISB            ; All port B is output
+0104   0187           00030          clrf      TRISC          ; All port C is output
+0105   0188           00031          clrf      TRISD          ; All port D is output
+                      00032 
+                      00033          ;Set SDA and SCL to high-Z first as required for I2C
+0106   1607           00034                  bsf       TRISC,4                
+0107   1587           00035                  bsf       TRISC,3
+                      00036 
+0108   1283           00037          bcf       STATUS,RP0     ; select bank 0
+0109   0185           00038          clrf      PORTA
+010A   0186           00039          clrf      PORTB
+010B   0187           00040          clrf      PORTC 
+010C   0188           00041          clrf      PORTD
+                      00042 
+                      00043                  ;Set up I2C for communication
+                      00044                  
+010D   2???           00045                  call      i2c_common_setup
+                      00046 ;*******************************************************************************
+                      00047                  ; UNCOMMENT IF YOU WANT TO CHANGE THE TIME
+                      00048                  ;rtc_resetAll
+                      00049                  ;call set_rtc_time
+                      00050 ;*******************************************************************************
+                      00051                  
+                      00052                  ;Used to set up time in RTC, load to the PIC when RTC is used for the first time
+                      00053                  ;call     set_rtc_time
+                      00054           
+010E   2???           00055          call      InitLCD    ;Initialize the LCD (code in lcd.asm; imported by lcd.inc)
+                      00056 
+010F                  00057 show_RTC
+                      00058                 ;clear LCD screen
+010F   3001           00059                 movlw   b'00000001'
+0110   2???           00060                 call    WR_INS
+                      00061 
+                      00062                 ;Get year
+0111   3032           00063                 movlw   "2"                             ;First line shows 20**/**/**
+0112   2???           00064                 call    WR_DATA
+0113   3030           00065                 movlw   "0"
+0114   2???           00066                 call    WR_DATA
+                      00067                 rtc_read        0x06            ;Read Address 0x06 from DS1307---year
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+0115   3006               M         movlw   0x06
+0116   1283 1303          M         banksel 0x73
+0118   00F3               M         movwf   0x73
+0119   2???               M         call    read_rtc
+011A   1283 1303          M         banksel 0x75
+011C   0875               M         movf    0x75,w
+011D   2???               M         call    rtc_convert   
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+011E   0877           00068                 movfw   0x77
+011F   2???           00069                 call    WR_DATA
+0120   0878           00070                 movfw   0x78
+0121   2???           00071                 call    WR_DATA
+                      00072 
+0122   302F           00073                 movlw   "/"
+0123   2???           00074                 call    WR_DATA
+                      00075 
+                      00076                 ;Get month
+                      00077                 rtc_read        0x05            ;Read Address 0x05 from DS1307---month
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+0124   3005               M         movlw   0x05
+0125   1283 1303          M         banksel 0x73
+0127   00F3               M         movwf   0x73
+0128   2???               M         call    read_rtc
+0129   1283 1303          M         banksel 0x75
+012B   0875               M         movf    0x75,w
+012C   2???               M         call    rtc_convert   
+012D   0877           00078                 movfw   0x77
+012E   2???           00079                 call    WR_DATA
+012F   0878           00080                 movfw   0x78
+0130   2???           00081                 call    WR_DATA
+                      00082 
+0131   302F           00083                 movlw   "/"
+0132   2???           00084                 call    WR_DATA
+                      00085 
+                      00086                 ;Get day
+                      00087                 rtc_read        0x04            ;Read Address 0x04 from DS1307---day
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+0133   3004               M         movlw   0x04
+0134   1283 1303          M         banksel 0x73
+0136   00F3               M         movwf   0x73
+0137   2???               M         call    read_rtc
+0138   1283 1303          M         banksel 0x75
+013A   0875               M         movf    0x75,w
+013B   2???               M         call    rtc_convert   
+013C   0877           00088                 movfw   0x77
+013D   2???           00089                 call    WR_DATA
+013E   0878           00090                 movfw   0x78
+013F   2???           00091                 call    WR_DATA
+                      00092 
+0140   30C0           00093                 movlw   B'11000000'             ;Next line displays (hour):(min):(sec) **:**:**
+0141   2???           00094                 call    WR_INS
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00095 
+                      00096                 ;Get hour
+                      00097                 rtc_read        0x02            ;Read Address 0x02 from DS1307---hour
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+0142   3002               M         movlw   0x02
+0143   1283 1303          M         banksel 0x73
+0145   00F3               M         movwf   0x73
+0146   2???               M         call    read_rtc
+0147   1283 1303          M         banksel 0x75
+0149   0875               M         movf    0x75,w
+014A   2???               M         call    rtc_convert   
+014B   0877           00098                 movfw   0x77
+014C   2???           00099                 call    WR_DATA
+014D   0878           00100                 movfw   0x78
+014E   2???           00101                 call    WR_DATA
+014F   303A           00102                 movlw                   ":"
+0150   2???           00103                 call    WR_DATA
+                      00104 
+                      00105                 ;Get minute             
+                      00106                 rtc_read        0x01            ;Read Address 0x01 from DS1307---min
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+0151   3001               M         movlw   0x01
+0152   1283 1303          M         banksel 0x73
+0154   00F3               M         movwf   0x73
+0155   2???               M         call    read_rtc
+0156   1283 1303          M         banksel 0x75
+0158   0875               M         movf    0x75,w
+0159   2???               M         call    rtc_convert   
+015A   0877           00107                 movfw   0x77
+015B   2???           00108                 call    WR_DATA
+015C   0878           00109                 movfw   0x78
+015D   2???           00110                 call    WR_DATA         
+015E   303A           00111                 movlw                   ":"
+015F   2???           00112                 call    WR_DATA
+                      00113                 
+                      00114                 ;Get seconds
+                      00115                 rtc_read        0x00            ;Read Address 0x00 from DS1307---seconds
+                          M ;input:         addliteral
+                          M ;output:        0x75, 0x77, 0x78
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0160   3000               M         movlw   0x00
+0161   1283 1303          M         banksel 0x73
+0163   00F3               M         movwf   0x73
+0164   2???               M         call    read_rtc
+0165   1283 1303          M         banksel 0x75
+0167   0875               M         movf    0x75,w
+0168   2???               M         call    rtc_convert   
+0169   0877           00116                 movfw   0x77
+016A   2???           00117                 call    WR_DATA
+016B   0878           00118                 movfw   0x78
+016C   2???           00119                 call    WR_DATA
+                      00120                 
+016D   2???           00121                 call    OneS                    ;Delay for exactly one seconds and read DS1307 again
+016E   2???           00122                 goto    show_RTC
+                      00123 
+                      00124 ;***************************************
+                      00125 ; Setup RTC with time defined by user
+                      00126 ;***************************************
+016F                  00127 set_rtc_time
+                      00128 
+                      00129                 rtc_resetAll    ;reset rtc
+                          M ;input:         none
+                          M ;output:        none
+                          M ;desc:          Resets all the time keeping registers on the RTC to zero
+016F   1283 1303          M         banksel         0x74
+0171   01F4               M         clrf            0x74
+0172   1283 1303          M         banksel         0x73
+0174   01F3               M         clrf            0x73
+0175   2???               M     call        write_rtc               ;Write 0 to Seconds
+0176   1283 1303          M         banksel         0x73
+0178   0AF3               M     incf        0x73                    ;Set register address to 1
+0179   2???               M         call            write_rtc
+017A   1283 1303          M         banksel         0x73
+017C   0AF3               M     incf        0x73                    ;Set register address to 2
+017D   2???               M         call            write_rtc
+017E   1283 1303          M         banksel         0x73
+0180   0AF3               M     incf        0x73                    ;Set register address to 3
+0181   2???               M         call            write_rtc
+0182   1283 1303          M         banksel         0x73
+0184   0AF3               M     incf        0x73                    ;Set register address to 4
+0185   2???               M         call            write_rtc
+0186   1283 1303          M         banksel         0x73
+0188   0AF3               M     incf        0x73                    ;Set register address to 5
+0189   2???               M         call            write_rtc
+018A   1283 1303          M         banksel         0x73
+018C   0AF3               M     incf        0x73                    ;Set register address to 6
+018D   2???               M         call            write_rtc
+                      00130 
+                      00131                 rtc_set 0x00,   B'10000000'
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M ;                       address specified by addliteral in the RTC
+018E   1283 1303          M         banksel 0x73
+0190   3000               M         movlw   0x00
+0191   00F3               M         movwf   0x73
+0192   1283 1303          M         banksel 0x74
+0194   3080               M         movlw   B'10000000'
+0195   00F4               M         movwf   0x74    
+0196   2???               M         call    write_rtc
+                      00132 
+                      00133                 ;set time 
+                      00134                 rtc_set 0x06,   B'00010110'             ; Year
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+0197   1283 1303          M         banksel 0x73
+0199   3006               M         movlw   0x06
+019A   00F3               M         movwf   0x73
+019B   1283 1303          M         banksel 0x74
+019D   3016               M         movlw   B'00010110'
+019E   00F4               M         movwf   0x74    
+019F   2???               M         call    write_rtc
+                      00135                 rtc_set 0x05,   B'00000010'             ; Month
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01A0   1283 1303          M         banksel 0x73
+01A2   3005               M         movlw   0x05
+01A3   00F3               M         movwf   0x73
+01A4   1283 1303          M         banksel 0x74
+01A6   3002               M         movlw   B'00000010'
+01A7   00F4               M         movwf   0x74    
+01A8   2???               M         call    write_rtc
+                      00136                 rtc_set 0x04,   B'00010110'             ; Date
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01A9   1283 1303          M         banksel 0x73
+01AB   3004               M         movlw   0x04
+01AC   00F3               M         movwf   0x73
+01AD   1283 1303          M         banksel 0x74
+01AF   3016               M         movlw   B'00010110'
+01B0   00F4               M         movwf   0x74    
+01B1   2???               M         call    write_rtc
+                      00137                 rtc_set 0x03,   B'00000010'             ; Day
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01B2   1283 1303          M         banksel 0x73
+01B4   3003               M         movlw   0x03
+01B5   00F3               M         movwf   0x73
+01B6   1283 1303          M         banksel 0x74
+01B8   3002               M         movlw   B'00000010'
+01B9   00F4               M         movwf   0x74    
+01BA   2???               M         call    write_rtc
+                      00138                 rtc_set 0x02,   B'00010011'             ; Hours
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01BB   1283 1303          M         banksel 0x73
+01BD   3002               M         movlw   0x02
+01BE   00F3               M         movwf   0x73
+01BF   1283 1303          M         banksel 0x74
+01C1   3013               M         movlw   B'00010011'
+01C2   00F4               M         movwf   0x74    
+01C3   2???               M         call    write_rtc
+                      00139                 rtc_set 0x01,   B'01010000'             ; Minutes
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01C4   1283 1303          M         banksel 0x73
+01C6   3001               M         movlw   0x01
+01C7   00F3               M         movwf   0x73
+01C8   1283 1303          M         banksel 0x74
+01CA   3050               M         movlw   B'01010000'
+01CB   00F4               M         movwf   0x74    
+01CC   2???               M         call    write_rtc
+                      00140                 rtc_set 0x00,   B'00000000'             ; Seconds
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+01CD   1283 1303          M         banksel 0x73
+01CF   3000               M         movlw   0x00
+01D0   00F3               M         movwf   0x73
+01D1   1283 1303          M         banksel 0x74
+01D3   3000               M         movlw   B'00000000'
+01D4   00F4               M         movwf   0x74    
+01D5   2???               M         call    write_rtc
+01D6   0008           00141                 return
+                      00142 
+                      00143 
+                      00144 ;***************************************
+                      00145 ; Delay 1s
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00146 ;***************************************
+01D7                  00147 OneS
+  0000                00148                 local   OneS_0
+01D7   3010           00149       movlw 0x10
+01D8   00??           00150       movwf COUNTH
+01D9   307A           00151       movlw 0x7A
+01DA   00??           00152       movwf COUNTM
+01DB   3006           00153       movlw 0x06
+01DC   00??           00154       movwf COUNTL
+                      00155 
+01DD                  00156 OneS_0
+01DD   0B??           00157       decfsz COUNTH, f
+01DE   2???           00158       goto   $+2
+01DF   0B??           00159       decfsz COUNTM, f
+01E0   2???           00160       goto   $+2
+01E1   0B??           00161       decfsz COUNTL, f
+01E2   2???           00162       goto   OneS_0
+                      00163 
+01E3   2???           00164       goto $+1
+01E4   0000           00165       nop
+01E5   0000           00166       nop
+01E6   0008           00167                 return
+                      00168 
+                      00169 
+3F72                  00170           END
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            0000001F
+ADCON1                            0000009F
+ADCS0                             00000006
+ADCS1                             00000007
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+BCLIE                             00000003
+BCLIF                             00000003
+BF                                00000000
+BRGH                              00000002
+C                                 00000000
+CCP1CON                           00000017
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2CON                           0000001D
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCPR1                             00000015
+CCPR1H                            00000016
+CCPR1L                            00000015
+CCPR2                             0000001B
+CCPR2H                            0000001C
+CCPR2L                            0000001B
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CKE                               00000006
+CKP                               00000004
+COUNTH                            00000000
+COUNTL                            00000002
+COUNTM                            00000001
+CREN                              00000004
+CSRC                              00000007
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ClrLCD                            00000000
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+D_A                               00000005
+D_NOT_A                           00000005
+EEADR                             0000010D
+EEADRH                            0000010F
+EECON1                            0000018C
+EECON2                            0000018D
+EEDATA                            0000010C
+EEDATH                            0000010E
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FSR                               00000004
+GCEN                              00000007
+GIE                               00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+InitLCD                           00000000
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BO                            00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OPTION_REG                        00000081
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+OneS                              000001D7
+P                                 00000004
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PEN                               00000002
+PIE1                              0000008C
+PIE2                              0000008D
+PIR1                              0000000C
+PIR2                              0000000D
+PORTA                             00000005
+PORTB                             00000006
+PORTC                             00000007
+PORTD                             00000008
+PORTE                             00000009
+PR2                               00000092
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSPIE                             00000007
+PSPIF                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+RC6                               00000006
+RC7                               00000007
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             0000001A
+RCSTA                             00000018
+RD                                00000000
+RD0                               00000000
+RD1                               00000001
+RD2                               00000002
+RD3                               00000003
+RD4                               00000004
+RD5                               00000005
+RD6                               00000006
+RD7                               00000007
+RE0                               00000000
+RE1                               00000001
+RE2                               00000002
+READ_WRITE                        00000002
+RP0                               00000005
+RP1                               00000006
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SEN                               00000000
+SMP                               00000007
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+SSPADD                            00000093
+SSPBUF                            00000013
+SSPCON                            00000014
+SSPCON2                           00000091
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000094
+STATUS                            00000003
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000012
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TMR2                              00000011
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000085
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISB                             00000086
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000087
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRISD                             00000088
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISD0                            00000000
+TRISD1                            00000001
+TRISD2                            00000002
+TRISD3                            00000003
+TRISD4                            00000004
+TRISD5                            00000005
+TRISD6                            00000006
+TRISD7                            00000007
+TRISE                             00000089
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             00000019
+TXSTA                             00000098
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+WR_DATA                           00000000
+WR_INS                            00000000
+Z                                 00000002
+_.org_1_01DE                      000001DE
+_.org_1_01E0                      000001E0
+_.org_1_01E3                      000001E3
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
+_CP_OFF                           00003FFF
+_CP_UPPER_256                     00002FEF
+_DEBUG_OFF                        00003FFF
+_DEBUG_ON                         000037FF
+_DEVID1                           00002006
+_FOSC_EXTRC                       00003FFF
+_FOSC_HS                          00003FFE
+_FOSC_LP                          00003FFC
+_FOSC_XT                          00003FFD
+_HS_OSC                           00003FFE
+MPASM 5.65  /USERS/ANDREJ/DESKTOP/RTC/RTC_SA   2-16-2016  13:54:44         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_LP_OSC                           00003FFC
+_LVP_OFF                          00003F7F
+_LVP_ON                           00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDTE_OFF                         00003FFB
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_WRT_OFF                          00003DFF
+_WRT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F877                          00000001
+i2c_common_setup                  00000000
+init                              00000100
+read_rtc                          00000000
+rtc_convert                       00000000
+rtc_read                          
+rtc_resetAll                      
+rtc_set                           
+set_rtc_time                      0000016F
+show_RTC                          0000010F
+write_rtc                         00000000
+
+Errors   :     0
+Warnings :     3 reported,     0 suppressed
+Messages :     0 reported,    12 suppressed
+
+

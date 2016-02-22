@@ -1,0 +1,48 @@
+MPASM 5.65                          MAIN.ASM   2-5-2016  16:35:33         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001         list P=PIC16F877,   F=INHX8M,   C=160,  N=80,   ST=OFF, MM=OFF, R=DEC
+                      00002         #include        <p16f877.inc>
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Dec 08 2015
+                      00005 ;  MPASM PIC16F877 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2015 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00541         LIST
+2007   3F32           00003         __config _CP_OFF & _WDT_OFF & _BODEN_OFF & _PWRTE_ON & _HS_OSC & _WRT_ENABLE_ON & _LVP_OFF & _DEBUG_OFF & _CPD_OFF 
+                      00004         errorlevel-302
+                      00005 
+                      00006     ORG         0
+0000   2???           00007     GOTO        INIT
+0001   1683           00008 INIT    BSF     STATUS, RP0 ;select bank 1
+0002   138B           00009         BCF     INTCON, GIE ;disable global interrupt
+0003   130B           00010         BCF     INTCON, PEIE
+0004   3001           00011         MOVLW   B'00000001' ;configure PR2
+0005   0092           00012         MOVWF   PR2
+0006   1283           00013         BCF     STATUS, RP0 ;select bank 0
+0007   3004           00014         MOVLW   B'00000100' ;configure CCPR1L
+0008   0095           00015         MOVWF   CCPR1L  
+0009   301C           00016         MOVLW   B'00011100' ; only works if 3rd bit is set to 1 for some reason
+000A   0097           00017         MOVWF   CCP1CON
+000B   1683           00018         BSF     STATUS,RP0  ;select bank 1
+000C   0187           00019         CLRF    TRISC       ;configure PORTC as output
+000D   1283           00020         BCF     STATUS,RP0  ;select bank 0
+000E   3004           00021         MOVLW   B'00000100' ;configure T2CON
+000F   0092           00022         MOVWF   T2CON
+                      00023         
+0010   2???           00024 ENDLP   GOTO ENDLP          ;endless looop
+                      00025         
+3F32                  00026         END
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     2 suppressed
+
+
