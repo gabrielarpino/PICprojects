@@ -278,7 +278,7 @@ PrintNumber macro	number
 Main	
 
 ; WAIT FOR INITIAL INPUT
-    goto    KeypadandLCD     ;calls initial form of keypad and LCD, where  robot is waiting for input to begin 
+    goto    KeypadandLCD     ;calls initial form of keypad and LCD, where  robot is waiting for input to begin 
 	
     
     movlw   b'0000'
@@ -341,7 +341,7 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		movwf		temp
 		Key	0x00, OperationDisplay
 		;Key	0x00, goback
-		Key	0x01, StickerDisplay
+		Key	0x01, LCDConversion
 		Rotation	0x03
 		Key	0x04, BinsDisplay
 	    	Key	0x05, StickerDisplay
@@ -371,12 +371,7 @@ LCDConversion
 	movwf	NumH
 	movf	ADRESL, W
 	movwf	NumL
-	
-	;shivs code thing
-	movlw	0x3
-	movwf	TenK
-	
-	
+		
 	call		bin16_BCD
 	call		ClrLCD
 	PrintNumber	TenK
@@ -387,7 +382,7 @@ LCDConversion
 	call		HalfS
 	call		HalfS
 	bcf	PORTC,2		; gives RC2 5 volts
-	return
+	goto	LCDConversion
 
 ;****************************
 ;	Choose IR1

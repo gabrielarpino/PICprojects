@@ -1,4 +1,4 @@
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  1
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00024         banksel         0x73
                       00025     incf        0x73                    ;Set register address to 4
                       00026         call            write_rtc
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  2
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
   00000036            00028                 lcd_d2
   00000037            00029                 com     
   00000038            00030                 dat
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  3
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00081         endm
                       00082 
                       00083 ;***************************************
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  4
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0006   3EE2           00134         addlw   0xE2 
 0007   00C1           00135         movwf   Hund 
 0008   3E32           00136         addlw   0x32 
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  5
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0031   2???           00187         goto            Lb4 
                       00188 
 0032   3400           00189         retlw   0
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  6
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00240         
                       00241         
 0049   1683           00242         bsf     STATUS,RP0      ;Select bank 1
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  7
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,14 +411,14 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 005D                  00278 Main    
                       00279 
                       00280 ; WAIT FOR INITIAL INPUT
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  8
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-005D   2???           00281     goto    KeypadandLCD     ;calls initial form of keypad and LCD, where  robot is waiting for input to
-                             begin 
+005D   2???           00281     goto    KeypadandLCD     ;calls initial form of keypad and LCD, where  robot is waiting for input to
+                             begin 
                       00282         
                       00283     
 005E   3000           00284     movlw   b'0000'
@@ -470,7 +470,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                                     
                       00329 
                       00330 ;*************************************
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE  9
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -494,12 +494,12 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 006A   1903               M          btfsc          STATUS, Z
 006B   2???               M          call           OperationDisplay
                       00343                 ;Key    0x00, goback
-                      00344                 Key     0x01, StickerDisplay
+                      00344                 Key     0x01, LCDConversion
 006C   0E06               M          swapf          PORTB,W     ;Read PortB<7:4> into W<3:0>
 006D   390F               M          andlw          0x0F
 006E   3A01               M          xorlw          0x01
 006F   1903               M          btfsc          STATUS, Z
-0070   2???               M          call           StickerDisplay
+0070   2???               M          call           LCDConversion
                       00345                 Rotation        0x03
 0071   0E06               M          swapf          PORTB,W     ;Read PortB<7:4> into W<3:0>
 0072   390F               M          andlw          0x0F
@@ -529,7 +529,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0086   390F               M          andlw          0x0F
 0087   3A08               M          xorlw          0x08
 0088   1903               M          btfsc          STATUS, Z
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 10
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -565,525 +565,520 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0098   00BD           00371         movwf   NumH
 0099   081E           00372         movf    ADRESL, W
 009A   00BE           00373         movwf   NumL
-                      00374         
-                      00375         ;shivs code thing
-009B   3003           00376         movlw   0x3
-009C   00BF           00377         movwf   TenK
-                      00378         
-                      00379         
-009D   2???           00380         call            bin16_BCD
-009E   2???           00381         call            ClrLCD
-                      00382         PrintNumber     TenK
+                      00374                 
+009B   2???           00375         call            bin16_BCD
+009C   2???           00376         call            ClrLCD
+                      00377         PrintNumber     TenK
                           M         ;movf       number ,W
-009F   083F               M         movfw       TenK
-00A0   2???               M         call        DectoChar
-00A1   2???               M         call        WR_DATA
-                      00383         PrintNumber     Thou
+009D   083F               M         movfw       TenK
+009E   2???               M         call        DectoChar
+009F   2???               M         call        WR_DATA
+                      00378         PrintNumber     Thou
                           M         ;movf       number ,W
-00A2   0840               M         movfw       Thou
-00A3   2???               M         call        DectoChar
-00A4   2???               M         call        WR_DATA
-                      00384         PrintNumber     Hund
+00A0   0840               M         movfw       Thou
+00A1   2???               M         call        DectoChar
+00A2   2???               M         call        WR_DATA
+                      00379         PrintNumber     Hund
                           M         ;movf       number ,W
-00A5   0841               M         movfw       Hund
-00A6   2???               M         call        DectoChar
-00A7   2???               M         call        WR_DATA
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 11
+00A3   0841               M         movfw       Hund
+00A4   2???               M         call        DectoChar
+00A5   2???               M         call        WR_DATA
+                      00380         PrintNumber     Tens
+                          M         ;movf       number ,W
+00A6   0842               M         movfw       Tens
+00A7   2???               M         call        DectoChar
+00A8   2???               M         call        WR_DATA
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00385         PrintNumber     Tens
+                      00381         PrintNumber     Ones
                           M         ;movf       number ,W
-00A8   0842               M         movfw       Tens
-00A9   2???               M         call        DectoChar
-00AA   2???               M         call        WR_DATA
-                      00386         PrintNumber     Ones
-                          M         ;movf       number ,W
-00AB   0843               M         movfw       Ones
-00AC   2???               M         call        DectoChar
-00AD   2???               M         call        WR_DATA
-00AE   2???           00387         call            HalfS
-00AF   2???           00388         call            HalfS
-00B0   1107           00389         bcf     PORTC,2         ; gives RC2 5 volts
-00B1   0008           00390         return
-                      00391 
-                      00392 ;****************************
-                      00393 ;       Choose IR1
-                      00394 ;****************************
-                      00395         
-00B2                  00396 ChooseIR1
-                      00397         
-00B2   1405           00398         bsf     IR1             ;makes RA0 an input
-00B3   30C5           00399         movlw   b'11000101'     ;movlw  b'11000101' selects the clock and ra0 as the reader pin
-00B4   009F           00400         movwf   ADCON0
-                      00401         
-00B5   0008           00402         return
-                      00403         
-                      00404 ;****************************
-                      00405 ;       Choose IR2
-                      00406 ;****************************
-                      00407         
-00B6                  00408 ChooseIR2
-                      00409         
-00B6   1485           00410         bsf     IR2             ;makes RA0 an input
-00B7   30CD           00411         movlw   b'11001101'     ;movlw  b'11000101' selects the clock and ra0 as the reader pin
-00B8   009F           00412         movwf   ADCON0
-                      00413         
-00B9   0008           00414         return
+00A9   0843               M         movfw       Ones
+00AA   2???               M         call        DectoChar
+00AB   2???               M         call        WR_DATA
+00AC   2???           00382         call            HalfS
+00AD   2???           00383         call            HalfS
+00AE   1107           00384         bcf     PORTC,2         ; gives RC2 5 volts
+00AF   2???           00385         goto    LCDConversion
+                      00386 
+                      00387 ;****************************
+                      00388 ;       Choose IR1
+                      00389 ;****************************
+                      00390         
+00B0                  00391 ChooseIR1
+                      00392         
+00B0   1405           00393         bsf     IR1             ;makes RA0 an input
+00B1   30C5           00394         movlw   b'11000101'     ;movlw  b'11000101' selects the clock and ra0 as the reader pin
+00B2   009F           00395         movwf   ADCON0
+                      00396         
+00B3   0008           00397         return
+                      00398         
+                      00399 ;****************************
+                      00400 ;       Choose IR2
+                      00401 ;****************************
+                      00402         
+00B4                  00403 ChooseIR2
+                      00404         
+00B4   1485           00405         bsf     IR2             ;makes RA0 an input
+00B5   30CD           00406         movlw   b'11001101'     ;movlw  b'11000101' selects the clock and ra0 as the reader pin
+00B6   009F           00407         movwf   ADCON0
+                      00408         
+00B7   0008           00409         return
+                      00410         
+                      00411         
+                      00412 ;****************************************************
+                      00413 ;   ScanFrontContainer
+                      00414 ;****************************************************
                       00415         
-                      00416         
-                      00417 ;****************************************************
-                      00418 ;   ScanFrontContainer
-                      00419 ;****************************************************
-                      00420         
-00BA                  00421 ScanFrontContainer
-                      00422         ; A to d conversion
-                      00423         
-00BA   151F           00424         bsf     ADCON0,2                ;start conversion and wait for it to complete
-00BB   191F           00425         btfsc   ADCON0,2                ;LCD CONVERSION MODULE
-00BC   2???           00426         goto    $-1
+00B8                  00416 ScanFrontContainer
+                      00417         ; A to d conversion
+                      00418         
+00B8   151F           00419         bsf     ADCON0,2                ;start conversion and wait for it to complete
+00B9   191F           00420         btfsc   ADCON0,2                ;LCD CONVERSION MODULE
+00BA   2???           00421         goto    $-1
+                      00422         
+00BB   081E           00423         movf    ADRESH, W
+00BC   00BD           00424         movwf   NumH
+00BD   081E           00425         movf    ADRESL, W
+00BE   00BE           00426         movwf   NumL
                       00427         
-00BD   081E           00428         movf    ADRESH, W
-00BE   00BD           00429         movwf   NumH
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 12
+                      00428 ;       btfss   ADRESH,2                ;test bit 2 of ADRESH, the bit that we believe will distinguish 
+                            black and white (need to experiment)
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00BF   081E           00430         movf    ADRESL, W
-00C0   00BE           00431         movwf   NumL
+                      00429 ;       bsf     frontstickerValues,frontbinCounter              ;if is set, means that colour is white
+                      00430 ;       btfsc   ADRESH,2
+                      00431 ;       bcf     frontstickerValues,frontbinCounter    ; modifies the bits in the stickervalues
                       00432         
-                      00433 ;       btfss   ADRESH,2                ;test bit 2 of ADRESH, the bit that we believe will distinguish 
-                            black and white (need to experiment)
-                      00434 ;       bsf     frontstickerValues,frontbinCounter              ;if is set, means that colour is white
-                      00435 ;       btfsc   ADRESH,2
-                      00436 ;       bcf     frontstickerValues,frontbinCounter    ; modifies the bits in the stickervalues
-                      00437         
-                      00438         ;display on screen for troubleshooting purposes
-                      00439         
-                      00440 ;       call            bin16_BCD
-                      00441 ;       call            ClrLCD
-                      00442 ;       PrintNumber     TenK
-                      00443 ;       PrintNumber     Thou
-                      00444 ;       PrintNumber     Hund
-                      00445 ;       PrintNumber     Tens
-                      00446 ;       PrintNumber     Ones    
-00C1   2???           00447         call            HalfS
-00C2   2???           00448         call            HalfS
-                      00449         
-00C3   0008           00450         return
-                      00451         
-                      00452 ;****************************************************
-                      00453 ;   ScanBackContainer
-                      00454 ;****************************************************
-                      00455         
-00C4                  00456 ScanBackContainer
-                      00457         ; A to d conversion
-                      00458         
-00C4   151F           00459         bsf     ADCON0,2                ;start conversion and wait for it to complete
-00C5   191F           00460         btfsc   ADCON0,2                ;LCD CONVERSION MODULE
-00C6   2???           00461         goto    $-1
+                      00433         ;display on screen for troubleshooting purposes
+                      00434         
+                      00435 ;       call            bin16_BCD
+                      00436 ;       call            ClrLCD
+                      00437 ;       PrintNumber     TenK
+                      00438 ;       PrintNumber     Thou
+                      00439 ;       PrintNumber     Hund
+                      00440 ;       PrintNumber     Tens
+                      00441 ;       PrintNumber     Ones    
+00BF   2???           00442         call            HalfS
+00C0   2???           00443         call            HalfS
+                      00444         
+00C1   0008           00445         return
+                      00446         
+                      00447 ;****************************************************
+                      00448 ;   ScanBackContainer
+                      00449 ;****************************************************
+                      00450         
+00C2                  00451 ScanBackContainer
+                      00452         ; A to d conversion
+                      00453         
+00C2   151F           00454         bsf     ADCON0,2                ;start conversion and wait for it to complete
+00C3   191F           00455         btfsc   ADCON0,2                ;LCD CONVERSION MODULE
+00C4   2???           00456         goto    $-1
+                      00457         
+00C5   081E           00458         movf    ADRESH, W
+00C6   00BD           00459         movwf   NumH
+00C7   081E           00460         movf    ADRESL, W
+00C8   00BE           00461         movwf   NumL
                       00462         
-00C7   081E           00463         movf    ADRESH, W
-00C8   00BD           00464         movwf   NumH
-00C9   081E           00465         movf    ADRESL, W
-00CA   00BE           00466         movwf   NumL
-                      00467         
-                      00468 ;       btfss   ADRESH,2                ;test bit 2 of ADRESH, the bit that we believe will distinguish 
+                      00463 ;       btfss   ADRESH,2                ;test bit 2 of ADRESH, the bit that we believe will distinguish 
                             black and white (need to experiment)
-                      00469 ;       bsf     backstickerValues,backbinCounter                ;if is set, means that colour is white
-                      00470 ;       btfsc   ADRESH,2
+                      00464 ;       bsf     backstickerValues,backbinCounter                ;if is set, means that colour is white
+                      00465 ;       btfsc   ADRESH,2
 Warning[202]: Argument out of range.  Least significant bits used.
-00CB   10C7           00471         bcf     backstickerValues,backbinCounter    ; modifies the bits in the stickervalues
-                      00472         
-                      00473         ;display on screen for troubleshooting purposes
-                      00474         
-                      00475 ;       call            bin16_BCD
-                      00476 ;       call            ClrLCD
-                      00477 ;       PrintNumber     TenK
-                      00478 ;       PrintNumber     Thou
-                      00479 ;       PrintNumber     Hund
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 13
+00C9   10C7           00466         bcf     backstickerValues,backbinCounter    ; modifies the bits in the stickervalues
+                      00467         
+                      00468         ;display on screen for troubleshooting purposes
+                      00469         
+                      00470 ;       call            bin16_BCD
+                      00471 ;       call            ClrLCD
+                      00472 ;       PrintNumber     TenK
+                      00473 ;       PrintNumber     Thou
+                      00474 ;       PrintNumber     Hund
+                      00475 ;       PrintNumber     Tens
+                      00476 ;       PrintNumber     Ones    
+00CA   2???           00477         call            HalfS
+00CB   2???           00478         call            HalfS
+                      00479         
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00480 ;       PrintNumber     Tens
-                      00481 ;       PrintNumber     Ones    
-00CC   2???           00482         call            HalfS
-00CD   2???           00483         call            HalfS
-                      00484         
-00CE   0008           00485         return
+00CC   0008           00480         return
+                      00481 
+                      00482 ;*********************************************
+                      00483 ; Keypad Modules
+                      00484 ;*******************************************
+                      00485          
                       00486 
-                      00487 ;*********************************************
-                      00488 ; Keypad Modules
-                      00489 ;*******************************************
-                      00490          
-                      00491 
-00CF                  00492 OperationDisplay
-00CF   2???           00493         call        Clear_Display
-                      00494         
-                      00495         
-                      00496         
-00D0   2???           00497         call        ScanFrontContainer
-00D1   2???           00498         call        ScanBackContainer
-00D2   2???           00499         call        ScanFrontContainer
-00D3   2???           00500         call        ScanBackContainer
-00D4   2???           00501         call        ScanFrontContainer
-00D5   2???           00502         call        ScanBackContainer
-00D6   2???           00503         call        ScanFrontContainer
-00D7   2???           00504         call        ScanBackContainer
+00CD                  00487 OperationDisplay
+00CD   2???           00488         call        Clear_Display
+                      00489         
+                      00490         
+                      00491         
+00CE   2???           00492         call        ScanFrontContainer
+00CF   2???           00493         call        ScanBackContainer
+00D0   2???           00494         call        ScanFrontContainer
+00D1   2???           00495         call        ScanBackContainer
+00D2   2???           00496         call        ScanFrontContainer
+00D3   2???           00497         call        ScanBackContainer
+00D4   2???           00498         call        ScanFrontContainer
+00D5   2???           00499         call        ScanBackContainer
+                      00500         
+00D6   2???           00501         call        Clear_Display
+                      00502         Display     WantResults
+  0000                    M                 local   loop_
+  0000                    M                 local   end_
+00D7   01B3               M                 clrf    Table_Counter
+00D8   0103               M                 clrw            
+00D9   0833               M loop_   movf    Table_Counter,W
+00DA   2???               M                 call    WantResults
+00DB   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+00DC   1903               M                 btfsc   STATUS,Z
+00DD   2???               M                         goto    end_
+00DE   2???               M                 call    WR_DATA
+00DF   0AB3               M                 incf    Table_Counter,F
+00E0   2???               M                 goto    loop_
+00E1                      M end_
+00E1   2???           00503         call        Switch_Lines
+                      00504         Display     WantRotate
+  0000                    M                 local   loop_
+  0000                    M                 local   end_
+00E2   01B3               M                 clrf    Table_Counter
+00E3   0103               M                 clrw            
+00E4   0833               M loop_   movf    Table_Counter,W
+00E5   2???               M                 call    WantRotate
+00E6   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+00E7   1903               M                 btfsc   STATUS,Z
+00E8   2???               M                         goto    end_
+00E9   2???               M                 call    WR_DATA
+00EA   0AB3               M                 incf    Table_Counter,F
+00EB   2???               M                 goto    loop_
+00EC                      M end_
                       00505         
-00D8   2???           00506         call        Clear_Display
-                      00507         Display     WantResults
-  0000                    M                 local   loop_
-  0000                    M                 local   end_
-00D9   01B3               M                 clrf    Table_Counter
-00DA   0103               M                 clrw            
-00DB   0833               M loop_   movf    Table_Counter,W
-00DC   2???               M                 call    WantResults
-00DD   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-00DE   1903               M                 btfsc   STATUS,Z
-00DF   2???               M                         goto    end_
-00E0   2???               M                 call    WR_DATA
-00E1   0AB3               M                 incf    Table_Counter,F
-00E2   2???               M                 goto    loop_
-00E3                      M end_
-00E3   2???           00508         call        Switch_Lines
-                      00509         Display     WantRotate
-  0000                    M                 local   loop_
-  0000                    M                 local   end_
-00E4   01B3               M                 clrf    Table_Counter
-00E5   0103               M                 clrw            
-00E6   0833               M loop_   movf    Table_Counter,W
-00E7   2???               M                 call    WantRotate
-00E8   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-00E9   1903               M                 btfsc   STATUS,Z
-00EA   2???               M                         goto    end_
-00EB   2???               M                 call    WR_DATA
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 14
+00EC   0008           00506         return
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00EC   0AB3               M                 incf    Table_Counter,F
-00ED   2???               M                 goto    loop_
-00EE                      M end_
-                      00510         
-00EE   0008           00511         return
-                      00512         
-00EF                  00513 ListDisplay
-00EF   2???           00514         call        Clear_Display
-                      00515         Display     Results1
+                      00507         
+00ED                  00508 ListDisplay
+00ED   2???           00509         call        Clear_Display
+                      00510         Display     Results1
   0000                    M                 local   loop_
   0000                    M                 local   end_
-00F0   01B3               M                 clrf    Table_Counter
-00F1   0103               M                 clrw            
-00F2   0833               M loop_   movf    Table_Counter,W
-00F3   2???               M                 call    Results1
-00F4   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-00F5   1903               M                 btfsc   STATUS,Z
-00F6   2???               M                         goto    end_
-00F7   2???               M                 call    WR_DATA
-00F8   0AB3               M                 incf    Table_Counter,F
-00F9   2???               M                 goto    loop_
-00FA                      M end_
-00FA   2???           00516         call        Switch_Lines
-                      00517         Display     Results2
+00EE   01B3               M                 clrf    Table_Counter
+00EF   0103               M                 clrw            
+00F0   0833               M loop_   movf    Table_Counter,W
+00F1   2???               M                 call    Results1
+00F2   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+00F3   1903               M                 btfsc   STATUS,Z
+00F4   2???               M                         goto    end_
+00F5   2???               M                 call    WR_DATA
+00F6   0AB3               M                 incf    Table_Counter,F
+00F7   2???               M                 goto    loop_
+00F8                      M end_
+00F8   2???           00511         call        Switch_Lines
+                      00512         Display     Results2
   0000                    M                 local   loop_
   0000                    M                 local   end_
-00FB   01B3               M                 clrf    Table_Counter
-00FC   0103               M                 clrw            
-00FD   0833               M loop_   movf    Table_Counter,W
-00FE   2???               M                 call    Results2
-00FF   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-0100   1903               M                 btfsc   STATUS,Z
-0101   2???               M                         goto    end_
-0102   2???               M                 call    WR_DATA
-0103   0AB3               M                 incf    Table_Counter,F
-0104   2???               M                 goto    loop_
-0105                      M end_
-                      00518         
-0105   0008           00519         return
-                      00520                 
-0106                  00521 BinsDisplay
-0106   2???           00522         call        Clear_Display
-                      00523         Display     Bins
+00F9   01B3               M                 clrf    Table_Counter
+00FA   0103               M                 clrw            
+00FB   0833               M loop_   movf    Table_Counter,W
+00FC   2???               M                 call    Results2
+00FD   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+00FE   1903               M                 btfsc   STATUS,Z
+00FF   2???               M                         goto    end_
+0100   2???               M                 call    WR_DATA
+0101   0AB3               M                 incf    Table_Counter,F
+0102   2???               M                 goto    loop_
+0103                      M end_
+                      00513         
+0103   0008           00514         return
+                      00515                 
+0104                  00516 BinsDisplay
+0104   2???           00517         call        Clear_Display
+                      00518         Display     Bins
   0000                    M                 local   loop_
   0000                    M                 local   end_
-0107   01B3               M                 clrf    Table_Counter
-0108   0103               M                 clrw            
-0109   0833               M loop_   movf    Table_Counter,W
-010A   2???               M                 call    Bins
-010B   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-010C   1903               M                 btfsc   STATUS,Z
-010D   2???               M                         goto    end_
-010E   2???               M                 call    WR_DATA
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 15
+0105   01B3               M                 clrf    Table_Counter
+0106   0103               M                 clrw            
+0107   0833               M loop_   movf    Table_Counter,W
+0108   2???               M                 call    Bins
+0109   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+010A   1903               M                 btfsc   STATUS,Z
+010B   2???               M                         goto    end_
+010C   2???               M                 call    WR_DATA
+010D   0AB3               M                 incf    Table_Counter,F
+010E   2???               M                 goto    loop_
+010F                      M end_
+                      00519                 
+010F   0008           00520         return
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 15
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-010F   0AB3               M                 incf    Table_Counter,F
-0110   2???               M                 goto    loop_
-0111                      M end_
-                      00524                 
-0111   0008           00525         return
-                      00526         
-0112                  00527 StickerDisplay
-0112   2???           00528         call        Clear_Display
-                      00529 
-                      00530 ;       movlw       b'0000000'
-                      00531 ;       movwf       stickerValues
-                      00532 ;       movlw       b'1111111'
-                      00533 ;       movwf       backstickerValues
-                      00534         
-0113   3000           00535         movlw   b'0000'
-0114   00C8           00536         movwf   frontbinCounter     ;testing with value of 5 bins
-0115   00C9           00537         movwf   backbinCounter 
-                      00538         
-0116   2???           00539         call        ScanFrontContainer
-0117   1C46           00540         btfss       frontstickerValues,0        ; check the ith bucket value and if it is clear,
-0118   2???           00541         call        PrintBlackSticker   ; print a black sticker on the thing
-0119   1846           00542         btfsc       frontstickerValues,0
-011A   2???           00543         call        PrintWhiteSticker
-                      00544         ;call       Switch_Lines
-011B   2???           00545         call        ScanBackContainer
-011C   1C47           00546         btfss       backstickerValues,0 ; check the ith bucket value and if it is clear,
-011D   2???           00547         call        PrintBlackSticker   ; print a black sticker on the thing
-011E   1847           00548         btfsc       backstickerValues,0
-011F   2???           00549         call        PrintWhiteSticker
-                      00550         ;call       Switch_Lines
-                      00551         
-                      00552 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00553 ;       goto        $+2
-                      00554 ;       return
+                      00521         
+0110                  00522 StickerDisplay
+0110   2???           00523         call        Clear_Display
+                      00524 
+                      00525 ;       movlw       b'0000000'
+                      00526 ;       movwf       stickerValues
+                      00527 ;       movlw       b'1111111'
+                      00528 ;       movwf       backstickerValues
+                      00529         
+0111   3000           00530         movlw   b'0000'
+0112   00C8           00531         movwf   frontbinCounter     ;testing with value of 5 bins
+0113   00C9           00532         movwf   backbinCounter 
+                      00533         
+0114   2???           00534         call        ScanFrontContainer
+0115   1C46           00535         btfss       frontstickerValues,0        ; check the ith bucket value and if it is clear,
+0116   2???           00536         call        PrintBlackSticker   ; print a black sticker on the thing
+0117   1846           00537         btfsc       frontstickerValues,0
+0118   2???           00538         call        PrintWhiteSticker
+                      00539         ;call       Switch_Lines
+0119   2???           00540         call        ScanBackContainer
+011A   1C47           00541         btfss       backstickerValues,0 ; check the ith bucket value and if it is clear,
+011B   2???           00542         call        PrintBlackSticker   ; print a black sticker on the thing
+011C   1847           00543         btfsc       backstickerValues,0
+011D   2???           00544         call        PrintWhiteSticker
+                      00545         ;call       Switch_Lines
+                      00546         
+                      00547 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00548 ;       goto        $+2
+                      00549 ;       return
+                      00550         
+011E   3001           00551         movlw   b'0001'
+011F   00C8           00552         movwf   frontbinCounter     ;testing with value of 5 bins
+0120   00C9           00553         movwf   backbinCounter
+                      00554         
                       00555         
-0120   3001           00556         movlw   b'0001'
-0121   00C8           00557         movwf   frontbinCounter     ;testing with value of 5 bins
-0122   00C9           00558         movwf   backbinCounter
-                      00559         
-                      00560         
-                      00561         
-0123   2???           00562         call        ScanFrontContainer
-0124   1CC6           00563         btfss       frontstickerValues,1        ; check the ith bucket value and if it is clear,
-0125   2???           00564         call        PrintBlackSticker   ; print a black sticker on the thing
-0126   18C6           00565         btfsc       frontstickerValues,1
-0127   2???           00566         call        PrintWhiteSticker
-                      00567         ;call       Switch_Lines
-0128   2???           00568         call        ScanBackContainer
-0129   1CC7           00569         btfss       backstickerValues,1 ; check the ith bucket value and if it is clear,
-012A   2???           00570         call        PrintBlackSticker   ; print a black sticker on the thing
-012B   18C7           00571         btfsc       backstickerValues,1
-012C   2???           00572         call        PrintWhiteSticker
-                      00573         ;call       Switch_Lines
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 16
+                      00556         
+0121   2???           00557         call        ScanFrontContainer
+0122   1CC6           00558         btfss       frontstickerValues,1        ; check the ith bucket value and if it is clear,
+0123   2???           00559         call        PrintBlackSticker   ; print a black sticker on the thing
+0124   18C6           00560         btfsc       frontstickerValues,1
+0125   2???           00561         call        PrintWhiteSticker
+                      00562         ;call       Switch_Lines
+0126   2???           00563         call        ScanBackContainer
+0127   1CC7           00564         btfss       backstickerValues,1 ; check the ith bucket value and if it is clear,
+0128   2???           00565         call        PrintBlackSticker   ; print a black sticker on the thing
+0129   18C7           00566         btfsc       backstickerValues,1
+012A   2???           00567         call        PrintWhiteSticker
+                      00568         ;call       Switch_Lines
+                      00569         
+                      00570 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00571 ;       goto        $+2
+                      00572 ;       return
+                      00573         
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 16
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00574         
-                      00575 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00576 ;       goto        $+2
-                      00577 ;       return
+012B   3002           00574         movlw   b'0010'
+012C   00C8           00575         movwf   frontbinCounter     ;testing with value of 5 bins
+012D   00C9           00576         movwf   backbinCounter
+                      00577         
                       00578         
-012D   3002           00579         movlw   b'0010'
-012E   00C8           00580         movwf   frontbinCounter     ;testing with value of 5 bins
-012F   00C9           00581         movwf   backbinCounter
-                      00582         
-                      00583         
-0130   2???           00584         call        ScanFrontContainer
-0131   1D46           00585         btfss       frontstickerValues,2        ; check the ith bucket value and if it is clear,
-0132   2???           00586         call        PrintBlackSticker   ; print a black sticker on the thing
-0133   1946           00587         btfsc       frontstickerValues,2
-0134   2???           00588         call        PrintWhiteSticker
-                      00589         ;call       Switch_Lines
-0135   2???           00590         call        ScanBackContainer
-0136   1D47           00591         btfss       backstickerValues,2 ; check the ith bucket value and if it is clear,
-0137   2???           00592         call        PrintBlackSticker   ; print a black sticker on the thing
-0138   1947           00593         btfsc       backstickerValues,2
-0139   2???           00594         call        PrintWhiteSticker
-                      00595         ;call       Switch_Lines
-                      00596         
-                      00597 ;       movlw   b'0011'
-                      00598 ;       movwf   frontbinCounter     ;testing with value of 5 bins
-                      00599 ;       movwf   backbinCounter
-                      00600 ;       
-                      00601 ;;      decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00602 ;;      goto        $+2
-                      00603 ;;      return
-                      00604 ;;      
-                      00605 ;       call        ScanFrontContainer
-                      00606 ;       btfss       frontstickerValues,3        ; check the ith bucket value and if it is clear,
-                      00607 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00608 ;       btfsc       frontstickerValues,3
-                      00609 ;       call        PrintWhiteSticker
-                      00610 ;       ;call       Switch_Lines
-                      00611 ;       call        ScanBackContainer
-                      00612 ;       btfss       backstickerValues,3 ; check the ith bucket value and if it is clear,
-                      00613 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00614 ;       btfsc       backstickerValues,3
-                      00615 ;       call        PrintWhiteSticker
-                      00616 ;       ;call       Switch_Lines
-                      00617 ;               
-                      00618 ;       movlw   b'0100'
-                      00619 ;       movwf   frontbinCounter     ;testing with value of 5 bins
-                      00620 ;       movwf   backbinCounter
-                      00621 ;       
-                      00622 ;;      
-                      00623 ;;      decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00624 ;;      goto        $+2
-                      00625 ;;      return
-                      00626 ;;      
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 17
+012E   2???           00579         call        ScanFrontContainer
+012F   1D46           00580         btfss       frontstickerValues,2        ; check the ith bucket value and if it is clear,
+0130   2???           00581         call        PrintBlackSticker   ; print a black sticker on the thing
+0131   1946           00582         btfsc       frontstickerValues,2
+0132   2???           00583         call        PrintWhiteSticker
+                      00584         ;call       Switch_Lines
+0133   2???           00585         call        ScanBackContainer
+0134   1D47           00586         btfss       backstickerValues,2 ; check the ith bucket value and if it is clear,
+0135   2???           00587         call        PrintBlackSticker   ; print a black sticker on the thing
+0136   1947           00588         btfsc       backstickerValues,2
+0137   2???           00589         call        PrintWhiteSticker
+                      00590         ;call       Switch_Lines
+                      00591         
+                      00592 ;       movlw   b'0011'
+                      00593 ;       movwf   frontbinCounter     ;testing with value of 5 bins
+                      00594 ;       movwf   backbinCounter
+                      00595 ;       
+                      00596 ;;      decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00597 ;;      goto        $+2
+                      00598 ;;      return
+                      00599 ;;      
+                      00600 ;       call        ScanFrontContainer
+                      00601 ;       btfss       frontstickerValues,3        ; check the ith bucket value and if it is clear,
+                      00602 ;       call        PrintBlackSticker   ; print a black sticker on the thing
+                      00603 ;       btfsc       frontstickerValues,3
+                      00604 ;       call        PrintWhiteSticker
+                      00605 ;       ;call       Switch_Lines
+                      00606 ;       call        ScanBackContainer
+                      00607 ;       btfss       backstickerValues,3 ; check the ith bucket value and if it is clear,
+                      00608 ;       call        PrintBlackSticker   ; print a black sticker on the thing
+                      00609 ;       btfsc       backstickerValues,3
+                      00610 ;       call        PrintWhiteSticker
+                      00611 ;       ;call       Switch_Lines
+                      00612 ;               
+                      00613 ;       movlw   b'0100'
+                      00614 ;       movwf   frontbinCounter     ;testing with value of 5 bins
+                      00615 ;       movwf   backbinCounter
+                      00616 ;       
+                      00617 ;;      
+                      00618 ;;      decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00619 ;;      goto        $+2
+                      00620 ;;      return
+                      00621 ;;      
+                      00622 ;       btfss       frontstickerValues,4        ; check the ith bucket value and if it is clear,
+                      00623 ;       call        PrintBlackSticker   ; print a black sticker on the thing
+                      00624 ;       btfsc       frontstickerValues,4
+                      00625 ;       call        PrintWhiteSticker
+                      00626 ;       ;call       Switch_Lines
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 17
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00627 ;       btfss       frontstickerValues,4        ; check the ith bucket value and if it is clear,
+                      00627 ;       btfss       backstickerValues,4 ; check the ith bucket value and if it is clear,
                       00628 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00629 ;       btfsc       frontstickerValues,4
+                      00629 ;       btfsc       backstickerValues,4
                       00630 ;       call        PrintWhiteSticker
                       00631 ;       ;call       Switch_Lines
-                      00632 ;       btfss       backstickerValues,4 ; check the ith bucket value and if it is clear,
-                      00633 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00634 ;       btfsc       backstickerValues,4
-                      00635 ;       call        PrintWhiteSticker
-                      00636 ;       ;call       Switch_Lines
-                      00637 
-                      00638         
-                      00639 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00640 ;       goto        $+2
-                      00641 ;       return
-                      00642 ;       
-                      00643 ;       btfss       frontstickerValues,5        ; check the ith bucket value and if it is clear,
+                      00632 
+                      00633         
+                      00634 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00635 ;       goto        $+2
+                      00636 ;       return
+                      00637 ;       
+                      00638 ;       btfss       frontstickerValues,5        ; check the ith bucket value and if it is clear,
+                      00639 ;       call        PrintBlackSticker   ; print a black sticker on the thing
+                      00640 ;       btfsc       frontstickerValues,5
+                      00641 ;       call        PrintWhiteSticker
+                      00642 ;       ;call       Switch_Lines
+                      00643 ;       btfss       backstickerValues,5 ; check the ith bucket value and if it is clear,
                       00644 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00645 ;       btfsc       frontstickerValues,5
+                      00645 ;       btfsc       backstickerValues,5
                       00646 ;       call        PrintWhiteSticker
                       00647 ;       ;call       Switch_Lines
-                      00648 ;       btfss       backstickerValues,5 ; check the ith bucket value and if it is clear,
-                      00649 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00650 ;       btfsc       backstickerValues,5
-                      00651 ;       call        PrintWhiteSticker
-                      00652 ;       ;call       Switch_Lines
-                      00653 ;       
-                      00654 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00655 ;       goto        $+2
-                      00656 ;       return
-                      00657 ;       
-                      00658 ;       btfss       frontstickerValues,6        ; check the ith bucket value and if it is clear,
+                      00648 ;       
+                      00649 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00650 ;       goto        $+2
+                      00651 ;       return
+                      00652 ;       
+                      00653 ;       btfss       frontstickerValues,6        ; check the ith bucket value and if it is clear,
+                      00654 ;       call        PrintBlackSticker   ; print a black sticker on the thing
+                      00655 ;       btfsc       frontstickerValues,6
+                      00656 ;       call        PrintWhiteSticker
+                      00657 ;       ;call       Switch_Lines
+                      00658 ;       btfss       backstickerValues,6 ; check the ith bucket value and if it is clear,
                       00659 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00660 ;       btfsc       frontstickerValues,6
+                      00660 ;       btfsc       backstickerValues,6
                       00661 ;       call        PrintWhiteSticker
                       00662 ;       ;call       Switch_Lines
-                      00663 ;       btfss       backstickerValues,6 ; check the ith bucket value and if it is clear,
-                      00664 ;       call        PrintBlackSticker   ; print a black sticker on the thing
-                      00665 ;       btfsc       backstickerValues,6
-                      00666 ;       call        PrintWhiteSticker
-                      00667 ;       ;call       Switch_Lines
-                      00668 ;       
-                      00669 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
-                      00670 ;       goto        $+2
-                      00671 ;       return
-                      00672         
-013A   0008           00673         return
-                      00674         
-013B                  00675 BinLocationsDisplay
-013B   2???           00676         call        Clear_Display
-                      00677         Display     BinLocations
+                      00663 ;       
+                      00664 ;       decfsz      frontbinCounter             ;decrements bin counter to know how much to print
+                      00665 ;       goto        $+2
+                      00666 ;       return
+                      00667         
+0138   0008           00668         return
+                      00669         
+0139                  00670 BinLocationsDisplay
+0139   2???           00671         call        Clear_Display
+                      00672         Display     BinLocations
   0000                    M                 local   loop_
   0000                    M                 local   end_
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 18
+013A   01B3               M                 clrf    Table_Counter
+013B   0103               M                 clrw            
+013C   0833               M loop_   movf    Table_Counter,W
+013D   2???               M                 call    BinLocations
+013E   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 18
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-013C   01B3               M                 clrf    Table_Counter
-013D   0103               M                 clrw            
-013E   0833               M loop_   movf    Table_Counter,W
-013F   2???               M                 call    BinLocations
-0140   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-0141   1903               M                 btfsc   STATUS,Z
-0142   2???               M                         goto    end_
-0143   2???               M                 call    WR_DATA
-0144   0AB3               M                 incf    Table_Counter,F
-0145   2???               M                 goto    loop_
-0146                      M end_
-                      00678                 
-0146   0008           00679         return
-                      00680 
-0147                  00681 OperationTimeDisplay
-0147   2???           00682         call        Clear_Display
-                      00683         Display     OperationTime
+013F   1903               M                 btfsc   STATUS,Z
+0140   2???               M                         goto    end_
+0141   2???               M                 call    WR_DATA
+0142   0AB3               M                 incf    Table_Counter,F
+0143   2???               M                 goto    loop_
+0144                      M end_
+                      00673                 
+0144   0008           00674         return
+                      00675 
+0145                  00676 OperationTimeDisplay
+0145   2???           00677         call        Clear_Display
+                      00678         Display     OperationTime
   0000                    M                 local   loop_
   0000                    M                 local   end_
-0148   01B3               M                 clrf    Table_Counter
-0149   0103               M                 clrw            
-014A   0833               M loop_   movf    Table_Counter,W
-014B   2???               M                 call    OperationTime
-014C   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
-014D   1903               M                 btfsc   STATUS,Z
-014E   2???               M                         goto    end_
-014F   2???               M                 call    WR_DATA
-0150   0AB3               M                 incf    Table_Counter,F
-0151   2???               M                 goto    loop_
-0152                      M end_
-                      00684                 
-0152   0008           00685         return
-                      00686         
-0153                  00687 ShiftLeft
-0153   3018           00688         movlw           b'00011000'             ;Move to the left
-0154   2???           00689         call            WR_INS
-0155   0008           00690         return
-                      00691 
-0156   2???           00692         goto Main
-                      00693         
-0157                  00694 RTCDisplay
-0157   2???           00695         call    show_RTC
-                      00696         
-0158   1886           00697         btfsc           PORTB,1     ;Wait until data is available from the keypad
-0159   0008           00698         return
-015A   1886           00699         btfsc           PORTB,1     ;Wait until data is available from the keypad
-015B   0008           00700         return
-015C   1886           00701         btfsc           PORTB,1     ;Wait until data is available from the keypad
-015D   0008           00702         return
-015E   1886           00703         btfsc           PORTB,1     ;Wait until data is available from the keypad
-015F   0008           00704         return
-0160   2???           00705         goto        RTCDisplay
-                      00706         
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 19
+0146   01B3               M                 clrf    Table_Counter
+0147   0103               M                 clrw            
+0148   0833               M loop_   movf    Table_Counter,W
+0149   2???               M                 call    OperationTime
+014A   3A00               M                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
+014B   1903               M                 btfsc   STATUS,Z
+014C   2???               M                         goto    end_
+014D   2???               M                 call    WR_DATA
+014E   0AB3               M                 incf    Table_Counter,F
+014F   2???               M                 goto    loop_
+0150                      M end_
+                      00679                 
+0150   0008           00680         return
+                      00681         
+0151                  00682 ShiftLeft
+0151   3018           00683         movlw           b'00011000'             ;Move to the left
+0152   2???           00684         call            WR_INS
+0153   0008           00685         return
+                      00686 
+0154   2???           00687         goto Main
+                      00688         
+0155                  00689 RTCDisplay
+0155   2???           00690         call    show_RTC
+                      00691         
+0156   1886           00692         btfsc           PORTB,1     ;Wait until data is available from the keypad
+0157   0008           00693         return
+0158   1886           00694         btfsc           PORTB,1     ;Wait until data is available from the keypad
+0159   0008           00695         return
+015A   1886           00696         btfsc           PORTB,1     ;Wait until data is available from the keypad
+015B   0008           00697         return
+015C   1886           00698         btfsc           PORTB,1     ;Wait until data is available from the keypad
+015D   0008           00699         return
+015E   2???           00700         goto        RTCDisplay
+                      00701         
+                      00702 ;***************************************
+                      00703 ; Look up table
+                      00704 ;***************************************
+                      00705     
+015F                  00706 Welcome_Msg
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 19
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00707 ;***************************************
-                      00708 ; Look up table
-                      00709 ;***************************************
-                      00710     
-0161                  00711 Welcome_Msg
-                      00712         
-                      00713         ;Change Page
-0161   00BA           00714         movwf   Temp
-0162   30??           00715         movlw   HIGH Welcome_MsgEntries
-0163   008A           00716         movwf   PCLATH
-0164   083A           00717         movf    Temp,w
-0165   3E??           00718         addlw   LOW Welcome_MsgEntries
-0166   1803           00719         btfsc   STATUS,C
-0167   0A8A           00720             incf    PCLATH,f
-0168   0082           00721         movwf   PCL     
-0169   0782           00722         addwf    PCL,F
-016A                  00723 Welcome_MsgEntries
-016A   3450 3472 3465 00724         dt        "Press 1 to start robot", 0
+                      00707         
+                      00708         ;Change Page
+015F   00BA           00709         movwf   Temp
+0160   30??           00710         movlw   HIGH Welcome_MsgEntries
+0161   008A           00711         movwf   PCLATH
+0162   083A           00712         movf    Temp,w
+0163   3E??           00713         addlw   LOW Welcome_MsgEntries
+0164   1803           00714         btfsc   STATUS,C
+0165   0A8A           00715             incf    PCLATH,f
+0166   0082           00716         movwf   PCL     
+0167   0782           00717         addwf    PCL,F
+0168                  00718 Welcome_MsgEntries
+0168   3450 3472 3465 00719         dt        "Press 1 to start robot", 0
        3473 3473 3420 
        3431 3420 3474 
        346F 3420 3473 
@@ -1091,46 +1086,46 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        3474 3420 3472 
        346F 3462 346F 
        3474 3400 
-                      00725         
-0181                  00726 Operation
-                      00727         
-                      00728         ;Change Page
-0181   00BA           00729         movwf    Temp
-0182   30??           00730         movlw   HIGH OperationEntries
-0183   008A           00731         movwf   PCLATH
-0184   083A           00732         movf    Temp,w
-0185   3E??           00733         addlw   LOW OperationEntries
-0186   1803           00734         btfsc   STATUS,C
-0187   0A8A           00735             incf    PCLATH,f
-0188   0082           00736         movwf   PCL
-0189   0782           00737         addwf    PCL,F
-018A                  00738 OperationEntries
-018A   344F 3470 3465 00739         dt        "Operating...",0
+                      00720         
+017F                  00721 Operation
+                      00722         
+                      00723         ;Change Page
+017F   00BA           00724         movwf    Temp
+0180   30??           00725         movlw   HIGH OperationEntries
+0181   008A           00726         movwf   PCLATH
+0182   083A           00727         movf    Temp,w
+0183   3E??           00728         addlw   LOW OperationEntries
+0184   1803           00729         btfsc   STATUS,C
+0185   0A8A           00730             incf    PCLATH,f
+0186   0082           00731         movwf   PCL
+0187   0782           00732         addwf    PCL,F
+0188                  00733 OperationEntries
+0188   344F 3470 3465 00734         dt        "Operating...",0
        3472 3461 3474 
        3469 346E 3467 
        342E 342E 342E 
        3400 
-                      00740 
-0197                  00741 WantResults
-                      00742         
-                      00743         ;Change Page
-0197   00BA           00744         movwf    Temp
-0198   30??           00745         movlw   HIGH WantResultsEntries
-0199   008A           00746         movwf   PCLATH
-019A   083A           00747         movf    Temp,w
-019B   3E??           00748         addlw   LOW WantResultsEntries
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 20
+                      00735 
+0195                  00736 WantResults
+                      00737         
+                      00738         ;Change Page
+0195   00BA           00739         movwf    Temp
+0196   30??           00740         movlw   HIGH WantResultsEntries
+0197   008A           00741         movwf   PCLATH
+0198   083A           00742         movf    Temp,w
+0199   3E??           00743         addlw   LOW WantResultsEntries
+019A   1803           00744         btfsc   STATUS,C
+019B   0A8A           00745             incf    PCLATH,f
+019C   0082           00746         movwf   PCL
+019D   0782           00747         addwf    PCL,F
+019E                  00748 WantResultsEntries
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 20
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-019C   1803           00749         btfsc   STATUS,C
-019D   0A8A           00750             incf    PCLATH,f
-019E   0082           00751         movwf   PCL
-019F   0782           00752         addwf    PCL,F
-01A0                  00753 WantResultsEntries
-01A0   3450 3472 3465 00754         dt        "Press 2 to display results",0
+019E   3450 3472 3465 00749         dt        "Press 2 to display results",0
        3473 3473 3420 
        3432 3420 3474 
        346F 3420 3464 
@@ -1139,22 +1134,22 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        3420 3472 3465 
        3473 3475 346C 
        3474 3473 3400 
-                      00755 
-                      00756 
-01BB                  00757 WantRotate
-                      00758                 
-                      00759         ;Change Page
-01BB   00BA           00760         movwf    Temp
-01BC   30??           00761         movlw   HIGH WantRotateEntries
-01BD   008A           00762         movwf   PCLATH
-01BE   083A           00763         movf    Temp,w
-01BF   3E??           00764         addlw   LOW WantRotateEntries
-01C0   1803           00765         btfsc   STATUS,C
-01C1   0A8A           00766             incf    PCLATH,f
-01C2   0082           00767         movwf   PCL
-01C3   0782           00768         addwf    PCL,F
-01C4                  00769 WantRotateEntries
-01C4   3450 3472 3465 00770         dt        "Press A to rotate screen",0
+                      00750 
+                      00751 
+01B9                  00752 WantRotate
+                      00753                 
+                      00754         ;Change Page
+01B9   00BA           00755         movwf    Temp
+01BA   30??           00756         movlw   HIGH WantRotateEntries
+01BB   008A           00757         movwf   PCLATH
+01BC   083A           00758         movf    Temp,w
+01BD   3E??           00759         addlw   LOW WantRotateEntries
+01BE   1803           00760         btfsc   STATUS,C
+01BF   0A8A           00761             incf    PCLATH,f
+01C0   0082           00762         movwf   PCL
+01C1   0782           00763         addwf    PCL,F
+01C2                  00764 WantRotateEntries
+01C2   3450 3472 3465 00765         dt        "Press A to rotate screen",0
        3473 3473 3420 
        3441 3420 3474 
        346F 3420 3472 
@@ -1163,32 +1158,32 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        3473 3463 3472 
        3465 3465 346E 
        3400 
-                      00771         
-01DD                  00772 Results1 
-                      00773                 
-                      00774         ;Change Page
-01DD   00BA           00775         movwf    Temp
-01DE   30??           00776         movlw   HIGH Results1Entries
-01DF   008A           00777         movwf   PCLATH
-01E0   083A           00778         movf    Temp,w
-01E1   3E??           00779         addlw   LOW Results1Entries
-01E2   1803           00780         btfsc   STATUS,C
-01E3   0A8A           00781             incf    PCLATH,f
-01E4   0082           00782         movwf   PCL
-01E5   0782           00783         addwf    PCL,F
-01E6                  00784 Results1Entries 
-01E6   3434 343A 3420 00785         dt        "4: number of bins, 5: sticker status",0
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 21
-
-
-LOC  OBJECT CODE     LINE SOURCE TEXT
-  VALUE
-
+                      00766         
+01DB                  00767 Results1 
+                      00768                 
+                      00769         ;Change Page
+01DB   00BA           00770         movwf    Temp
+01DC   30??           00771         movlw   HIGH Results1Entries
+01DD   008A           00772         movwf   PCLATH
+01DE   083A           00773         movf    Temp,w
+01DF   3E??           00774         addlw   LOW Results1Entries
+01E0   1803           00775         btfsc   STATUS,C
+01E1   0A8A           00776             incf    PCLATH,f
+01E2   0082           00777         movwf   PCL
+01E3   0782           00778         addwf    PCL,F
+01E4                  00779 Results1Entries 
+01E4   3434 343A 3420 00780         dt        "4: number of bins, 5: sticker status",0
        346E 3475 346D 
        3462 3465 3472 
        3420 346F 3466 
        3420 3462 3469 
        346E 3473 342C 
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 21
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
        3420 3435 343A 
        3420 3473 3474 
        3469 3463 346B 
@@ -1196,21 +1191,21 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        3473 3474 3461 
        3474 3475 3473 
        3400 
-                      00786         
-020B                  00787 Results2
-                      00788         
-                      00789         ;Change Page
-020B   00BA           00790         movwf    Temp
-020C   30??           00791         movlw   HIGH Results2Entries
-020D   008A           00792         movwf   PCLATH
-020E   083A           00793         movf    Temp,w
-020F   3E??           00794         addlw   LOW Results2Entries
-0210   1803           00795         btfsc   STATUS,C
-0211   0A8A           00796             incf    PCLATH,f
-0212   0082           00797         movwf   PCL     
-0213   0782           00798         addwf    PCL,F
-0214                  00799 Results2Entries 
-0214   3436 343A 3420 00800         dt        "6: bin locations, 7: operation time",0
+                      00781         
+0209                  00782 Results2
+                      00783         
+                      00784         ;Change Page
+0209   00BA           00785         movwf    Temp
+020A   30??           00786         movlw   HIGH Results2Entries
+020B   008A           00787         movwf   PCLATH
+020C   083A           00788         movf    Temp,w
+020D   3E??           00789         addlw   LOW Results2Entries
+020E   1803           00790         btfsc   STATUS,C
+020F   0A8A           00791             incf    PCLATH,f
+0210   0082           00792         movwf   PCL     
+0211   0782           00793         addwf    PCL,F
+0212                  00794 Results2Entries 
+0212   3436 343A 3420 00795         dt        "6: bin locations, 7: operation time",0
        3462 3469 346E 
        3420 346C 346F 
        3463 3461 3474 
@@ -1222,62 +1217,62 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        3469 346F 346E 
        3420 3474 3469 
        346D 3465 3400 
-                      00801         
-0238                  00802 Bins
-                      00803         ;Change Page
-0238   00BA           00804         movwf    Temp
-0239   30??           00805         movlw   HIGH BinsEntries
-023A   008A           00806         movwf   PCLATH
-023B   083A           00807         movf    Temp,w
-023C   3E??           00808         addlw   LOW BinsEntries
-023D   1803           00809         btfsc   STATUS,C
-023E   0A8A           00810             incf    PCLATH,f
-023F   0082           00811         movwf   PCL     
-0240   0782           00812         addwf    PCL,F
-0241                  00813 BinsEntries
-0241   3434 3420 3462 00814         dt        "4 bins in total",0
+                      00796         
+0236                  00797 Bins
+                      00798         ;Change Page
+0236   00BA           00799         movwf    Temp
+0237   30??           00800         movlw   HIGH BinsEntries
+0238   008A           00801         movwf   PCLATH
+0239   083A           00802         movf    Temp,w
+023A   3E??           00803         addlw   LOW BinsEntries
+023B   1803           00804         btfsc   STATUS,C
+023C   0A8A           00805             incf    PCLATH,f
+023D   0082           00806         movwf   PCL     
+023E   0782           00807         addwf    PCL,F
+023F                  00808 BinsEntries
+023F   3434 3420 3462 00809         dt        "4 bins in total",0
        3469 346E 3473 
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 22
+       3420 3469 346E 
+       3420 3474 346F 
+       3474 3461 346C 
+       3400 
+                      00810         
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 22
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-       3420 3469 346E 
-       3420 3474 346F 
-       3474 3461 346C 
-       3400 
-                      00815         
-0251                  00816 StickerStatus
-                      00817         
-                      00818         ;Change Page
-0251   00BA           00819         movwf    Temp
-0252   30??           00820         movlw   HIGH StickerStatusEntries
-0253   008A           00821         movwf   PCLATH
-0254   083A           00822         movf    Temp,w
-0255   3E??           00823         addlw   LOW StickerStatusEntries
-0256   1803           00824         btfsc   STATUS,C
-0257   0A8A           00825             incf    PCLATH,f
-0258   0082           00826         movwf   PCL     
-0259   0782           00827         addwf    PCL,F
-025A                  00828 StickerStatusEntries
-025A   3442 3442 3457 00829         dt        "BBWBWWWB",0
+024F                  00811 StickerStatus
+                      00812         
+                      00813         ;Change Page
+024F   00BA           00814         movwf    Temp
+0250   30??           00815         movlw   HIGH StickerStatusEntries
+0251   008A           00816         movwf   PCLATH
+0252   083A           00817         movf    Temp,w
+0253   3E??           00818         addlw   LOW StickerStatusEntries
+0254   1803           00819         btfsc   STATUS,C
+0255   0A8A           00820             incf    PCLATH,f
+0256   0082           00821         movwf   PCL     
+0257   0782           00822         addwf    PCL,F
+0258                  00823 StickerStatusEntries
+0258   3442 3442 3457 00824         dt        "BBWBWWWB",0
        3442 3457 3457 
        3457 3442 3400 
-                      00830         
-0263                  00831 BinLocations
-                      00832         ;Change Page
-0263   00BA           00833         movwf    Temp
-0264   30??           00834         movlw   HIGH BinLocationsEntries
-0265   008A           00835         movwf   PCLATH
-0266   083A           00836         movf    Temp,w
-0267   3E??           00837         addlw   LOW BinLocationsEntries
-0268   1803           00838         btfsc   STATUS,C
-0269   0A8A           00839             incf    PCLATH,f
-026A   0082           00840         movwf   PCL     
-026B   0782           00841         addwf    PCL,F
-026C                  00842 BinLocationsEntries
-026C   344E 346F 3474 00843         dt        "Not receiving anything",0
+                      00825         
+0261                  00826 BinLocations
+                      00827         ;Change Page
+0261   00BA           00828         movwf    Temp
+0262   30??           00829         movlw   HIGH BinLocationsEntries
+0263   008A           00830         movwf   PCLATH
+0264   083A           00831         movf    Temp,w
+0265   3E??           00832         addlw   LOW BinLocationsEntries
+0266   1803           00833         btfsc   STATUS,C
+0267   0A8A           00834             incf    PCLATH,f
+0268   0082           00835         movwf   PCL     
+0269   0782           00836         addwf    PCL,F
+026A                  00837 BinLocationsEntries
+026A   344E 346F 3474 00838         dt        "Not receiving anything",0
        3420 3472 3465 
        3463 3465 3469 
        3476 3469 346E 
@@ -1285,537 +1280,537 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
        346E 3479 3474 
        3468 3469 346E 
        3467 3400 
-                      00844         
-0283                  00845 OperationTime
-                      00846         ;Change Page
-0283   00BA           00847         movwf    Temp
-0284   30??           00848         movlw   HIGH OperationTimeEntries
-0285   008A           00849         movwf   PCLATH
-0286   083A           00850         movf    Temp,w
-0287   3E??           00851         addlw   LOW OperationTimeEntries
-0288   1803           00852         btfsc   STATUS,C
-0289   0A8A           00853             incf    PCLATH,f
-028A   0082           00854         movwf   PCL     
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 23
+                      00839         
+0281                  00840 OperationTime
+                      00841         ;Change Page
+0281   00BA           00842         movwf    Temp
+0282   30??           00843         movlw   HIGH OperationTimeEntries
+0283   008A           00844         movwf   PCLATH
+0284   083A           00845         movf    Temp,w
+0285   3E??           00846         addlw   LOW OperationTimeEntries
+0286   1803           00847         btfsc   STATUS,C
+0287   0A8A           00848             incf    PCLATH,f
+0288   0082           00849         movwf   PCL     
+0289   0782           00850         addwf    PCL,F
+028A                  00851 OperationTimeEntries
+028A   3454 3441 344B 00852         dt        "TAKING IN 5 VOLTS",0
+       3449 344E 3447 
+       3420 3449 344E 
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 23
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-028B   0782           00855         addwf    PCL,F
-028C                  00856 OperationTimeEntries
-028C   3454 3441 344B 00857         dt        "TAKING IN 5 VOLTS",0
-       3449 344E 3447 
-       3420 3449 344E 
        3420 3435 3420 
        3456 344F 344C 
        3454 3453 3400 
-                      00858         
-029E                  00859 ReceivedInput
-                      00860         ;Change Page
-029E   00BA           00861         movwf    Temp
-029F   30??           00862         movlw   HIGH ReceivedInputEntries
-02A0   008A           00863         movwf   PCLATH
-02A1   083A           00864         movf    Temp,w
-02A2   3E??           00865         addlw   LOW ReceivedInputEntries
-02A3   1803           00866         btfsc   STATUS,C
-02A4   0A8A           00867             incf    PCLATH,f
-02A5   0082           00868         movwf   PCL     
-02A6   0782           00869         addwf    PCL,F
-02A7                  00870 ReceivedInputEntries
-02A7   3474 3461 346B 00871         dt        "takin in large value",0
+                      00853         
+029C                  00854 ReceivedInput
+                      00855         ;Change Page
+029C   00BA           00856         movwf    Temp
+029D   30??           00857         movlw   HIGH ReceivedInputEntries
+029E   008A           00858         movwf   PCLATH
+029F   083A           00859         movf    Temp,w
+02A0   3E??           00860         addlw   LOW ReceivedInputEntries
+02A1   1803           00861         btfsc   STATUS,C
+02A2   0A8A           00862             incf    PCLATH,f
+02A3   0082           00863         movwf   PCL     
+02A4   0782           00864         addwf    PCL,F
+02A5                  00865 ReceivedInputEntries
+02A5   3474 3461 346B 00866         dt        "takin in large value",0
        3469 346E 3420 
        3469 346E 3420 
        346C 3461 3472 
        3467 3465 3420 
        3476 3461 346C 
        3475 3465 3400 
-                      00872         
-02BC                  00873 SmallValueInput
-                      00874         ;Change Page
-02BC   00BA           00875         movwf    Temp
-02BD   30??           00876         movlw   HIGH SmallValueInputEntries
-02BE   008A           00877         movwf   PCLATH
-02BF   083A           00878         movf    Temp,w
-02C0   3E??           00879         addlw   LOW SmallValueInputEntries
-02C1   1803           00880         btfsc   STATUS,C
-02C2   0A8A           00881             incf    PCLATH,f
-02C3   0082           00882         movwf   PCL     
-02C4   0782           00883         addwf    PCL,F
-02C5                  00884 SmallValueInputEntries
-02C5   3473 346D 3461 00885         dt        "small value",0
+                      00867         
+02BA                  00868 SmallValueInput
+                      00869         ;Change Page
+02BA   00BA           00870         movwf    Temp
+02BB   30??           00871         movlw   HIGH SmallValueInputEntries
+02BC   008A           00872         movwf   PCLATH
+02BD   083A           00873         movf    Temp,w
+02BE   3E??           00874         addlw   LOW SmallValueInputEntries
+02BF   1803           00875         btfsc   STATUS,C
+02C0   0A8A           00876             incf    PCLATH,f
+02C1   0082           00877         movwf   PCL     
+02C2   0782           00878         addwf    PCL,F
+02C3                  00879 SmallValueInputEntries
+02C3   3473 346D 3461 00880         dt        "small value",0
        346C 346C 3420 
        3476 3461 346C 
        3475 3465 3400 
-                      00886         
-02D1                  00887 DectoChar
-                      00888         
-                      00889         ;Change Page
-02D1   00BA           00890         movwf   Temp
-02D2   30??           00891         movlw   HIGH DectoCharEntries
-02D3   008A           00892         movwf   PCLATH
-02D4   083A           00893         movf    Temp,w
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 24
+                      00881         
+02CF                  00882 DectoChar
+                      00883         
+                      00884         ;Change Page
+02CF   00BA           00885         movwf   Temp
+02D0   30??           00886         movlw   HIGH DectoCharEntries
+02D1   008A           00887         movwf   PCLATH
+02D2   083A           00888         movf    Temp,w
+02D3   3E??           00889         addlw   LOW DectoCharEntries
+02D4   1803           00890         btfsc   STATUS,C
+02D5   0A8A           00891             incf    PCLATH,f
+02D6   0082           00892         movwf   PCL     
+02D7   0782           00893         addwf    PCL,F
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 24
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-02D5   3E??           00894         addlw   LOW DectoCharEntries
-02D6   1803           00895         btfsc   STATUS,C
-02D7   0A8A           00896             incf    PCLATH,f
-02D8   0082           00897         movwf   PCL     
-02D9   0782           00898         addwf    PCL,F
-02DA                  00899 DectoCharEntries
-02DA   3430 3431 3432 00900         dt        "0123456789",  0
+02D8                  00894 DectoCharEntries
+02D8   3430 3431 3432 00895         dt        "0123456789",  0
        3433 3434 3435 
        3436 3437 3438 
        3439 3400 
-                      00901         
-02E5                  00902 StickerColours
-                      00903         
-                      00904         ;Change Page
-02E5   00BA           00905         movwf   Temp
-02E6   30??           00906         movlw   HIGH StickerColoursEntries
-02E7   008A           00907         movwf   PCLATH
-02E8   083A           00908         movf    Temp,w
-02E9   3E??           00909         addlw   LOW StickerColoursEntries
-02EA   1803           00910         btfsc   STATUS,C
-02EB   0A8A           00911             incf    PCLATH,f
-02EC   0082           00912         movwf   PCL     
-02ED   0782           00913         addwf    PCL,F
-02EE                  00914 StickerColoursEntries
-02EE   3442 3457 3400 00915         dt        "BW",  0
-                      00916         
-                      00917 
-                      00918 ;***************************************
-                      00919 ; LCD control
-                      00920 ;***************************************
-02F1                  00921 Switch_Lines
-02F1   30C0           00922                 movlw   B'11000000'
-02F2   2???           00923                 call    WR_INS
-02F3   0008           00924                 return
+                      00896         
+02E3                  00897 StickerColours
+                      00898         
+                      00899         ;Change Page
+02E3   00BA           00900         movwf   Temp
+02E4   30??           00901         movlw   HIGH StickerColoursEntries
+02E5   008A           00902         movwf   PCLATH
+02E6   083A           00903         movf    Temp,w
+02E7   3E??           00904         addlw   LOW StickerColoursEntries
+02E8   1803           00905         btfsc   STATUS,C
+02E9   0A8A           00906             incf    PCLATH,f
+02EA   0082           00907         movwf   PCL     
+02EB   0782           00908         addwf    PCL,F
+02EC                  00909 StickerColoursEntries
+02EC   3442 3457 3400 00910         dt        "BW",  0
+                      00911         
+                      00912 
+                      00913 ;***************************************
+                      00914 ; LCD control
+                      00915 ;***************************************
+02EF                  00916 Switch_Lines
+02EF   30C0           00917                 movlw   B'11000000'
+02F0   2???           00918                 call    WR_INS
+02F1   0008           00919                 return
+                      00920 
+02F2                  00921 Clear_Display
+02F2   3001           00922                 movlw   B'00000001'
+02F3   2???           00923                 call    WR_INS
+02F4   0008           00924                 return
                       00925 
-02F4                  00926 Clear_Display
-02F4   3001           00927                 movlw   B'00000001'
-02F5   2???           00928                 call    WR_INS
-02F6   0008           00929                 return
-                      00930 
-                      00931 ;***************************************
-                      00932 ; Delay 0.5s
-                      00933 ;***************************************
-02F7                  00934 HalfS   
-  0000                00935         local   HalfS_0
-02F7   3088           00936       movlw 0x88
-02F8   00B0           00937       movwf COUNTH
-02F9   30BD           00938       movlw 0xBD
-02FA   00B1           00939       movwf COUNTM
-02FB   3003           00940       movlw 0x03
-02FC   00B2           00941       movwf COUNTL
-                      00942 
-02FD                  00943 HalfS_0
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 25
+                      00926 ;***************************************
+                      00927 ; Delay 0.5s
+                      00928 ;***************************************
+02F5                  00929 HalfS   
+  0000                00930         local   HalfS_0
+02F5   3088           00931       movlw 0x88
+02F6   00B0           00932       movwf COUNTH
+02F7   30BD           00933       movlw 0xBD
+02F8   00B1           00934       movwf COUNTM
+02F9   3003           00935       movlw 0x03
+02FA   00B2           00936       movwf COUNTL
+                      00937 
+02FB                  00938 HalfS_0
+02FB   0BB0           00939       decfsz COUNTH, f
+02FC   2???           00940       goto   $+2
+02FD   0BB1           00941       decfsz COUNTM, f
+02FE   2???           00942       goto   $+2
+02FF   0BB2           00943       decfsz COUNTL, f
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 25
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-02FD   0BB0           00944       decfsz COUNTH, f
-02FE   2???           00945       goto   $+2
-02FF   0BB1           00946       decfsz COUNTM, f
-0300   2???           00947       goto   $+2
-0301   0BB2           00948       decfsz COUNTL, f
-0302   2???           00949       goto   HalfS_0
+0300   2???           00944       goto   HalfS_0
+                      00945 
+0301   2???           00946       goto $+1
+0302   0000           00947       nop
+0303   0000           00948       nop
+0304   0008           00949                 return
                       00950 
-0303   2???           00951       goto $+1
-0304   0000           00952       nop
-0305   0000           00953       nop
-0306   0008           00954                 return
-                      00955 
-                      00956     
-                      00957 ;************************************
-                      00958 ; RTC Sublabels
-                      00959 ;************************************
-                      00960     
-0307                  00961 show_RTC
-                      00962                 ;clear LCD screen
-0307   3001           00963                 movlw   b'00000001'
-0308   2???           00964                 call    WR_INS
-                      00965 
-                      00966                 ;Get year
-0309   3032           00967                 movlw   "2"                             ;First line shows 20**/**/**
-030A   2???           00968                 call    WR_DATA
-030B   3030           00969                 movlw   "0"
-030C   2???           00970                 call    WR_DATA
-                      00971                 rtc_read        0x06            ;Read Address 0x06 from DS1307---year
+                      00951     
+                      00952 ;************************************
+                      00953 ; RTC Sublabels
+                      00954 ;************************************
+                      00955     
+0305                  00956 show_RTC
+                      00957                 ;clear LCD screen
+0305   3001           00958                 movlw   b'00000001'
+0306   2???           00959                 call    WR_INS
+                      00960 
+                      00961                 ;Get year
+0307   3032           00962                 movlw   "2"                             ;First line shows 20**/**/**
+0308   2???           00963                 call    WR_DATA
+0309   3030           00964                 movlw   "0"
+030A   2???           00965                 call    WR_DATA
+                      00966                 rtc_read        0x06            ;Read Address 0x06 from DS1307---year
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
                           M ;desc:          From the selected register in the RTC, read the data
                           M ;                       and load it into 0x75. 0x75 is also converted into 
                           M ;                       ASCII characters and the tens digit is placed into
                           M ;                       0x77 and the ones digit is placed in 0x78
-030D   3006               M         movlw   0x06
-030E   1283 1303          M         banksel 0x73
-0310   00F3               M         movwf   0x73
-0311   2???               M         call    read_rtc
-0312   1283 1303          M         banksel 0x75
-0314   0875               M         movf    0x75,w
-0315   2???               M         call    rtc_convert   
-0316   0877           00972                 movfw   0x77
-0317   2???           00973                 call    WR_DATA
-0318   0878           00974                 movfw   0x78
-0319   2???           00975                 call    WR_DATA
-                      00976 
-031A   302F           00977                 movlw   "/"
-031B   2???           00978                 call    WR_DATA
-                      00979 
-                      00980                 ;Get month
-                      00981                 rtc_read        0x05            ;Read Address 0x05 from DS1307---month
+030B   3006               M         movlw   0x06
+030C   1283 1303          M         banksel 0x73
+030E   00F3               M         movwf   0x73
+030F   2???               M         call    read_rtc
+0310   1283 1303          M         banksel 0x75
+0312   0875               M         movf    0x75,w
+0313   2???               M         call    rtc_convert   
+0314   0877           00967                 movfw   0x77
+0315   2???           00968                 call    WR_DATA
+0316   0878           00969                 movfw   0x78
+0317   2???           00970                 call    WR_DATA
+                      00971 
+0318   302F           00972                 movlw   "/"
+0319   2???           00973                 call    WR_DATA
+                      00974 
+                      00975                 ;Get month
+                      00976                 rtc_read        0x05            ;Read Address 0x05 from DS1307---month
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 26
+                          M ;desc:          From the selected register in the RTC, read the data
+                          M ;                       and load it into 0x75. 0x75 is also converted into 
+                          M ;                       ASCII characters and the tens digit is placed into
+                          M ;                       0x77 and the ones digit is placed in 0x78
+031A   3005               M         movlw   0x05
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 26
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                          M ;desc:          From the selected register in the RTC, read the data
-                          M ;                       and load it into 0x75. 0x75 is also converted into 
-                          M ;                       ASCII characters and the tens digit is placed into
-                          M ;                       0x77 and the ones digit is placed in 0x78
-031C   3005               M         movlw   0x05
-031D   1283 1303          M         banksel 0x73
-031F   00F3               M         movwf   0x73
-0320   2???               M         call    read_rtc
-0321   1283 1303          M         banksel 0x75
-0323   0875               M         movf    0x75,w
-0324   2???               M         call    rtc_convert   
-0325   0877           00982                 movfw   0x77
-0326   2???           00983                 call    WR_DATA
-0327   0878           00984                 movfw   0x78
-0328   2???           00985                 call    WR_DATA
-                      00986 
-0329   302F           00987                 movlw   "/"
-032A   2???           00988                 call    WR_DATA
-                      00989 
-                      00990                 ;Get day
-                      00991                 rtc_read        0x04            ;Read Address 0x04 from DS1307---day
+031B   1283 1303          M         banksel 0x73
+031D   00F3               M         movwf   0x73
+031E   2???               M         call    read_rtc
+031F   1283 1303          M         banksel 0x75
+0321   0875               M         movf    0x75,w
+0322   2???               M         call    rtc_convert   
+0323   0877           00977                 movfw   0x77
+0324   2???           00978                 call    WR_DATA
+0325   0878           00979                 movfw   0x78
+0326   2???           00980                 call    WR_DATA
+                      00981 
+0327   302F           00982                 movlw   "/"
+0328   2???           00983                 call    WR_DATA
+                      00984 
+                      00985                 ;Get day
+                      00986                 rtc_read        0x04            ;Read Address 0x04 from DS1307---day
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
                           M ;desc:          From the selected register in the RTC, read the data
                           M ;                       and load it into 0x75. 0x75 is also converted into 
                           M ;                       ASCII characters and the tens digit is placed into
                           M ;                       0x77 and the ones digit is placed in 0x78
-032B   3004               M         movlw   0x04
-032C   1283 1303          M         banksel 0x73
-032E   00F3               M         movwf   0x73
-032F   2???               M         call    read_rtc
-0330   1283 1303          M         banksel 0x75
-0332   0875               M         movf    0x75,w
-0333   2???               M         call    rtc_convert   
-0334   0877           00992                 movfw   0x77
-0335   2???           00993                 call    WR_DATA
-0336   0878           00994                 movfw   0x78
-0337   2???           00995                 call    WR_DATA
-                      00996 
-0338   30C0           00997                 movlw   B'11000000'             ;Next line displays (hour):(min):(sec) **:**:**
-0339   2???           00998                 call    WR_INS
-                      00999 
-                      01000                 ;Get hour
-                      01001                 rtc_read        0x02            ;Read Address 0x02 from DS1307---hour
+0329   3004               M         movlw   0x04
+032A   1283 1303          M         banksel 0x73
+032C   00F3               M         movwf   0x73
+032D   2???               M         call    read_rtc
+032E   1283 1303          M         banksel 0x75
+0330   0875               M         movf    0x75,w
+0331   2???               M         call    rtc_convert   
+0332   0877           00987                 movfw   0x77
+0333   2???           00988                 call    WR_DATA
+0334   0878           00989                 movfw   0x78
+0335   2???           00990                 call    WR_DATA
+                      00991 
+0336   30C0           00992                 movlw   B'11000000'             ;Next line displays (hour):(min):(sec) **:**:**
+0337   2???           00993                 call    WR_INS
+                      00994 
+                      00995                 ;Get hour
+                      00996                 rtc_read        0x02            ;Read Address 0x02 from DS1307---hour
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
                           M ;desc:          From the selected register in the RTC, read the data
                           M ;                       and load it into 0x75. 0x75 is also converted into 
                           M ;                       ASCII characters and the tens digit is placed into
                           M ;                       0x77 and the ones digit is placed in 0x78
-033A   3002               M         movlw   0x02
-033B   1283 1303          M         banksel 0x73
-033D   00F3               M         movwf   0x73
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 27
+0338   3002               M         movlw   0x02
+0339   1283 1303          M         banksel 0x73
+033B   00F3               M         movwf   0x73
+033C   2???               M         call    read_rtc
+033D   1283 1303          M         banksel 0x75
+033F   0875               M         movf    0x75,w
+0340   2???               M         call    rtc_convert   
+0341   0877           00997                 movfw   0x77
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 27
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-033E   2???               M         call    read_rtc
-033F   1283 1303          M         banksel 0x75
-0341   0875               M         movf    0x75,w
-0342   2???               M         call    rtc_convert   
-0343   0877           01002                 movfw   0x77
-0344   2???           01003                 call    WR_DATA
-0345   0878           01004                 movfw   0x78
-0346   2???           01005                 call    WR_DATA
-0347   303A           01006                 movlw                   ":"
-0348   2???           01007                 call    WR_DATA
-                      01008 
-                      01009                 ;Get minute             
-                      01010                 rtc_read        0x01            ;Read Address 0x01 from DS1307---min
+0342   2???           00998                 call    WR_DATA
+0343   0878           00999                 movfw   0x78
+0344   2???           01000                 call    WR_DATA
+0345   303A           01001                 movlw                   ":"
+0346   2???           01002                 call    WR_DATA
+                      01003 
+                      01004                 ;Get minute             
+                      01005                 rtc_read        0x01            ;Read Address 0x01 from DS1307---min
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
                           M ;desc:          From the selected register in the RTC, read the data
                           M ;                       and load it into 0x75. 0x75 is also converted into 
                           M ;                       ASCII characters and the tens digit is placed into
                           M ;                       0x77 and the ones digit is placed in 0x78
-0349   3001               M         movlw   0x01
-034A   1283 1303          M         banksel 0x73
-034C   00F3               M         movwf   0x73
-034D   2???               M         call    read_rtc
-034E   1283 1303          M         banksel 0x75
-0350   0875               M         movf    0x75,w
-0351   2???               M         call    rtc_convert   
-0352   0877           01011                 movfw   0x77
-0353   2???           01012                 call    WR_DATA
-0354   0878           01013                 movfw   0x78
-0355   2???           01014                 call    WR_DATA         
-0356   303A           01015                 movlw                   ":"
-0357   2???           01016                 call    WR_DATA
-                      01017                 
-                      01018                 ;Get seconds
-                      01019                 rtc_read        0x00            ;Read Address 0x00 from DS1307---seconds
+0347   3001               M         movlw   0x01
+0348   1283 1303          M         banksel 0x73
+034A   00F3               M         movwf   0x73
+034B   2???               M         call    read_rtc
+034C   1283 1303          M         banksel 0x75
+034E   0875               M         movf    0x75,w
+034F   2???               M         call    rtc_convert   
+0350   0877           01006                 movfw   0x77
+0351   2???           01007                 call    WR_DATA
+0352   0878           01008                 movfw   0x78
+0353   2???           01009                 call    WR_DATA         
+0354   303A           01010                 movlw                   ":"
+0355   2???           01011                 call    WR_DATA
+                      01012                 
+                      01013                 ;Get seconds
+                      01014                 rtc_read        0x00            ;Read Address 0x00 from DS1307---seconds
                           M ;input:         addliteral
                           M ;output:        0x75, 0x77, 0x78
                           M ;desc:          From the selected register in the RTC, read the data
                           M ;                       and load it into 0x75. 0x75 is also converted into 
                           M ;                       ASCII characters and the tens digit is placed into
                           M ;                       0x77 and the ones digit is placed in 0x78
-0358   3000               M         movlw   0x00
-0359   1283 1303          M         banksel 0x73
-035B   00F3               M         movwf   0x73
-035C   2???               M         call    read_rtc
-035D   1283 1303          M         banksel 0x75
-035F   0875               M         movf    0x75,w
-0360   2???               M         call    rtc_convert   
-0361   0877           01020                 movfw   0x77
-0362   2???           01021                 call    WR_DATA
-0363   0878           01022                 movfw   0x78
-0364   2???           01023                 call    WR_DATA
-                      01024                 
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 28
+0356   3000               M         movlw   0x00
+0357   1283 1303          M         banksel 0x73
+0359   00F3               M         movwf   0x73
+035A   2???               M         call    read_rtc
+035B   1283 1303          M         banksel 0x75
+035D   0875               M         movf    0x75,w
+035E   2???               M         call    rtc_convert   
+035F   0877           01015                 movfw   0x77
+0360   2???           01016                 call    WR_DATA
+0361   0878           01017                 movfw   0x78
+0362   2???           01018                 call    WR_DATA
+                      01019                 
+0363   2???           01020                 call    OneS                    ;Delay for exactly one seconds and read DS1307 again
+                      01021                 ;goto   show_RTC                ;use return instead to check for key press
+0364   0008           01022                 return
+                      01023 
+                      01024 ;***************************************
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 28
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0365   2???           01025                 call    OneS                    ;Delay for exactly one seconds and read DS1307 again
-                      01026                 ;goto   show_RTC                ;use return instead to check for key press
-0366   0008           01027                 return
+                      01025 ; Setup RTC with time defined by user
+                      01026 ;***************************************
+0365                  01027 set_rtc_time
                       01028 
-                      01029 ;***************************************
-                      01030 ; Setup RTC with time defined by user
-                      01031 ;***************************************
-0367                  01032 set_rtc_time
-                      01033 
-                      01034                 rtc_resetAll    ;reset rtc
+                      01029                 rtc_resetAll    ;reset rtc
                           M ;input:         none
                           M ;output:        none
                           M ;desc:          Resets all the time keeping registers on the RTC to zero
-0367   1283 1303          M         banksel         0x74
-0369   01F4               M         clrf            0x74
-036A   1283 1303          M         banksel         0x73
-036C   01F3               M         clrf            0x73
-036D   2???               M     call        write_rtc               ;Write 0 to Seconds
-036E   1283 1303          M         banksel         0x73
-0370   0AF3               M     incf        0x73                    ;Set register address to 1
-0371   2???               M         call            write_rtc
-0372   1283 1303          M         banksel         0x73
-0374   0AF3               M     incf        0x73                    ;Set register address to 2
-0375   2???               M         call            write_rtc
-0376   1283 1303          M         banksel         0x73
-0378   0AF3               M     incf        0x73                    ;Set register address to 3
-0379   2???               M         call            write_rtc
-037A   1283 1303          M         banksel         0x73
-037C   0AF3               M     incf        0x73                    ;Set register address to 4
-037D   2???               M         call            write_rtc
-037E   1283 1303          M         banksel         0x73
-0380   0AF3               M     incf        0x73                    ;Set register address to 5
-0381   2???               M         call            write_rtc
-0382   1283 1303          M         banksel         0x73
-0384   0AF3               M     incf        0x73                    ;Set register address to 6
-0385   2???               M         call            write_rtc
-                      01035 
-                      01036                 rtc_set 0x00,   B'10000000'
+0365   1283 1303          M         banksel         0x74
+0367   01F4               M         clrf            0x74
+0368   1283 1303          M         banksel         0x73
+036A   01F3               M         clrf            0x73
+036B   2???               M     call        write_rtc               ;Write 0 to Seconds
+036C   1283 1303          M         banksel         0x73
+036E   0AF3               M     incf        0x73                    ;Set register address to 1
+036F   2???               M         call            write_rtc
+0370   1283 1303          M         banksel         0x73
+0372   0AF3               M     incf        0x73                    ;Set register address to 2
+0373   2???               M         call            write_rtc
+0374   1283 1303          M         banksel         0x73
+0376   0AF3               M     incf        0x73                    ;Set register address to 3
+0377   2???               M         call            write_rtc
+0378   1283 1303          M         banksel         0x73
+037A   0AF3               M     incf        0x73                    ;Set register address to 4
+037B   2???               M         call            write_rtc
+037C   1283 1303          M         banksel         0x73
+037E   0AF3               M     incf        0x73                    ;Set register address to 5
+037F   2???               M         call            write_rtc
+0380   1283 1303          M         banksel         0x73
+0382   0AF3               M     incf        0x73                    ;Set register address to 6
+0383   2???               M         call            write_rtc
+                      01030 
+                      01031                 rtc_set 0x00,   B'10000000'
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-0386   1283 1303          M         banksel 0x73
-0388   3000               M         movlw   0x00
-0389   00F3               M         movwf   0x73
-038A   1283 1303          M         banksel 0x74
-038C   3080               M         movlw   B'10000000'
-038D   00F4               M         movwf   0x74    
-038E   2???               M         call    write_rtc
-                      01037 
-                      01038                 ;set time 
-                      01039                 rtc_set 0x06,   B'00010110'             ; Year
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 29
+0384   1283 1303          M         banksel 0x73
+0386   3000               M         movlw   0x00
+0387   00F3               M         movwf   0x73
+0388   1283 1303          M         banksel 0x74
+038A   3080               M         movlw   B'10000000'
+038B   00F4               M         movwf   0x74    
+038C   2???               M         call    write_rtc
+                      01032 
+                      01033                 ;set time 
+                      01034                 rtc_set 0x06,   B'00010110'             ; Year
+                          M ;input:         addliteral: value of address
+                          M ;                       datliteral: value of data
+                          M ;output:        none
+                          M ;desc:          loads the data in datliteral into the 
+                          M ;                       address specified by addliteral in the RTC
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 29
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
+038D   1283 1303          M         banksel 0x73
+038F   3006               M         movlw   0x06
+0390   00F3               M         movwf   0x73
+0391   1283 1303          M         banksel 0x74
+0393   3016               M         movlw   B'00010110'
+0394   00F4               M         movwf   0x74    
+0395   2???               M         call    write_rtc
+                      01035                 rtc_set 0x05,   B'00000010'             ; Month
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-038F   1283 1303          M         banksel 0x73
-0391   3006               M         movlw   0x06
-0392   00F3               M         movwf   0x73
-0393   1283 1303          M         banksel 0x74
-0395   3016               M         movlw   B'00010110'
-0396   00F4               M         movwf   0x74    
-0397   2???               M         call    write_rtc
-                      01040                 rtc_set 0x05,   B'00000010'             ; Month
+0396   1283 1303          M         banksel 0x73
+0398   3005               M         movlw   0x05
+0399   00F3               M         movwf   0x73
+039A   1283 1303          M         banksel 0x74
+039C   3002               M         movlw   B'00000010'
+039D   00F4               M         movwf   0x74    
+039E   2???               M         call    write_rtc
+                      01036                 rtc_set 0x04,   B'00010110'             ; Date
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-0398   1283 1303          M         banksel 0x73
-039A   3005               M         movlw   0x05
-039B   00F3               M         movwf   0x73
-039C   1283 1303          M         banksel 0x74
-039E   3002               M         movlw   B'00000010'
-039F   00F4               M         movwf   0x74    
-03A0   2???               M         call    write_rtc
-                      01041                 rtc_set 0x04,   B'00010110'             ; Date
+039F   1283 1303          M         banksel 0x73
+03A1   3004               M         movlw   0x04
+03A2   00F3               M         movwf   0x73
+03A3   1283 1303          M         banksel 0x74
+03A5   3016               M         movlw   B'00010110'
+03A6   00F4               M         movwf   0x74    
+03A7   2???               M         call    write_rtc
+                      01037                 rtc_set 0x03,   B'00100001'             ; Day
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-03A1   1283 1303          M         banksel 0x73
-03A3   3004               M         movlw   0x04
-03A4   00F3               M         movwf   0x73
-03A5   1283 1303          M         banksel 0x74
-03A7   3016               M         movlw   B'00010110'
-03A8   00F4               M         movwf   0x74    
-03A9   2???               M         call    write_rtc
-                      01042                 rtc_set 0x03,   B'00100001'             ; Day
+03A8   1283 1303          M         banksel 0x73
+03AA   3003               M         movlw   0x03
+03AB   00F3               M         movwf   0x73
+03AC   1283 1303          M         banksel 0x74
+03AE   3021               M         movlw   B'00100001'
+03AF   00F4               M         movwf   0x74    
+03B0   2???               M         call    write_rtc
+                      01038                 rtc_set 0x02,   B'00000001'             ; Hours
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-03AA   1283 1303          M         banksel 0x73
-03AC   3003               M         movlw   0x03
-03AD   00F3               M         movwf   0x73
-03AE   1283 1303          M         banksel 0x74
-03B0   3021               M         movlw   B'00100001'
-03B1   00F4               M         movwf   0x74    
-03B2   2???               M         call    write_rtc
-                      01043                 rtc_set 0x02,   B'00000001'             ; Hours
-                          M ;input:         addliteral: value of address
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 30
+03B1   1283 1303          M         banksel 0x73
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 30
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                          M ;                       datliteral: value of data
-                          M ;output:        none
-                          M ;desc:          loads the data in datliteral into the 
-                          M ;                       address specified by addliteral in the RTC
-03B3   1283 1303          M         banksel 0x73
-03B5   3002               M         movlw   0x02
-03B6   00F3               M         movwf   0x73
-03B7   1283 1303          M         banksel 0x74
-03B9   3001               M         movlw   B'00000001'
-03BA   00F4               M         movwf   0x74    
-03BB   2???               M         call    write_rtc
-                      01044                 rtc_set 0x01,   B'00110101'             ; Minutes
+03B3   3002               M         movlw   0x02
+03B4   00F3               M         movwf   0x73
+03B5   1283 1303          M         banksel 0x74
+03B7   3001               M         movlw   B'00000001'
+03B8   00F4               M         movwf   0x74    
+03B9   2???               M         call    write_rtc
+                      01039                 rtc_set 0x01,   B'00110101'             ; Minutes
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-03BC   1283 1303          M         banksel 0x73
-03BE   3001               M         movlw   0x01
-03BF   00F3               M         movwf   0x73
-03C0   1283 1303          M         banksel 0x74
-03C2   3035               M         movlw   B'00110101'
-03C3   00F4               M         movwf   0x74    
-03C4   2???               M         call    write_rtc
-                      01045                 rtc_set 0x00,   B'01010000'             ; Seconds
+03BA   1283 1303          M         banksel 0x73
+03BC   3001               M         movlw   0x01
+03BD   00F3               M         movwf   0x73
+03BE   1283 1303          M         banksel 0x74
+03C0   3035               M         movlw   B'00110101'
+03C1   00F4               M         movwf   0x74    
+03C2   2???               M         call    write_rtc
+                      01040                 rtc_set 0x00,   B'01010000'             ; Seconds
                           M ;input:         addliteral: value of address
                           M ;                       datliteral: value of data
                           M ;output:        none
                           M ;desc:          loads the data in datliteral into the 
                           M ;                       address specified by addliteral in the RTC
-03C5   1283 1303          M         banksel 0x73
-03C7   3000               M         movlw   0x00
-03C8   00F3               M         movwf   0x73
-03C9   1283 1303          M         banksel 0x74
-03CB   3050               M         movlw   B'01010000'
-03CC   00F4               M         movwf   0x74    
-03CD   2???               M         call    write_rtc
-03CE   0008           01046                 return
-                      01047 
-                      01048 
-                      01049 ;***************************************
-                      01050 ; Delay 1s
-                      01051 ;***************************************
-03CF                  01052 OneS
-  0000                01053                 local   OneS_0
-03CF   3010           01054       movlw 0x10
-03D0   00B0           01055       movwf COUNTH
-03D1   307A           01056       movlw 0x7A
-03D2   00B1           01057       movwf COUNTM
-03D3   3006           01058       movlw 0x06
-03D4   00B2           01059       movwf COUNTL
-                      01060 
-03D5                  01061 OneS_0
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 31
+03C3   1283 1303          M         banksel 0x73
+03C5   3000               M         movlw   0x00
+03C6   00F3               M         movwf   0x73
+03C7   1283 1303          M         banksel 0x74
+03C9   3050               M         movlw   B'01010000'
+03CA   00F4               M         movwf   0x74    
+03CB   2???               M         call    write_rtc
+03CC   0008           01041                 return
+                      01042 
+                      01043 
+                      01044 ;***************************************
+                      01045 ; Delay 1s
+                      01046 ;***************************************
+03CD                  01047 OneS
+  0000                01048                 local   OneS_0
+03CD   3010           01049       movlw 0x10
+03CE   00B0           01050       movwf COUNTH
+03CF   307A           01051       movlw 0x7A
+03D0   00B1           01052       movwf COUNTM
+03D1   3006           01053       movlw 0x06
+03D2   00B2           01054       movwf COUNTL
+                      01055 
+03D3                  01056 OneS_0
+03D3   0BB0           01057       decfsz COUNTH, f
+03D4   2???           01058       goto   $+2
+03D5   0BB1           01059       decfsz COUNTM, f
+03D6   2???           01060       goto   $+2
+03D7   0BB2           01061       decfsz COUNTL, f
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 31
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-03D5   0BB0           01062       decfsz COUNTH, f
-03D6   2???           01063       goto   $+2
-03D7   0BB1           01064       decfsz COUNTM, f
-03D8   2???           01065       goto   $+2
-03D9   0BB2           01066       decfsz COUNTL, f
-03DA   2???           01067       goto   OneS_0
+03D8   2???           01062       goto   OneS_0
+                      01063 
+03D9   2???           01064       goto $+1
+03DA   0000           01065       nop
+03DB   0000           01066       nop
+03DC   0008           01067                 return
                       01068 
-03DB   2???           01069       goto $+1
-03DC   0000           01070       nop
-03DD   0000           01071       nop
-03DE   0008           01072                 return
-                      01073 
-                      01074 ;***************************************
-                      01075 ; Print sticker values
-                      01076 ;***************************************
-03DF                  01077 PrintBlackSticker
-03DF   3000           01078         movlw       b'0'
-03E0   2???           01079         call        StickerColours
-03E1   2???           01080         call        WR_DATA
-03E2   0008           01081         return
-                      01082 
-03E3                  01083 PrintWhiteSticker
-03E3   3001           01084         movlw       b'1'
-03E4   2???           01085         call        StickerColours
-03E5   2???           01086         call        WR_DATA
-03E6   0008           01087         return
-                      01088         
-                      01089 ;***************************************
-                      01090 ; Number to Colour
-                      01091 ;***************************************
-                      01092 PrintCol macro  number
-                      01093         movlw       0x80
-                      01094         call        WR_INS
-                      01095         call        lcdLongDelay
-                      01096         movf        number ,W
-                      01097         call        BinCol
-                      01098         call        WR_DATA
-                      01099         endm            
-                      01100 
-                      01101     
-3F72                  01102         END
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 32
+                      01069 ;***************************************
+                      01070 ; Print sticker values
+                      01071 ;***************************************
+03DD                  01072 PrintBlackSticker
+03DD   3000           01073         movlw       b'0'
+03DE   2???           01074         call        StickerColours
+03DF   2???           01075         call        WR_DATA
+03E0   0008           01076         return
+                      01077 
+03E1                  01078 PrintWhiteSticker
+03E1   3001           01079         movlw       b'1'
+03E2   2???           01080         call        StickerColours
+03E3   2???           01081         call        WR_DATA
+03E4   0008           01082         return
+                      01083         
+                      01084 ;***************************************
+                      01085 ; Number to Colour
+                      01086 ;***************************************
+                      01087 PrintCol macro  number
+                      01088         movlw       0x80
+                      01089         call        WR_INS
+                      01090         call        lcdLongDelay
+                      01091         movf        number ,W
+                      01092         call        BinCol
+                      01093         call        WR_DATA
+                      01094         endm            
+                      01095 
+                      01096     
+3F72                  01097         END
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 32
 
 
 SYMBOL TABLE
@@ -1839,12 +1834,12 @@ BCLIE                             00000003
 BCLIF                             00000003
 BF                                00000000
 BRGH                              00000002
-BinLocations                      00000263
-BinLocationsDisplay               0000013B
-BinLocationsEntries               0000026C
-Bins                              00000238
-BinsDisplay                       00000106
-BinsEntries                       00000241
+BinLocations                      00000261
+BinLocationsDisplay               00000139
+BinLocationsEntries               0000026A
+Bins                              00000236
+BinsDisplay                       00000104
+BinsEntries                       0000023F
 C                                 00000000
 CCP1CON                           00000017
 CCP1IE                            00000002
@@ -1874,7 +1869,7 @@ CHS0                              00000003
 CHS1                              00000004
 CHS2                              00000005
 CKE                               00000006
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 33
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 33
 
 
 SYMBOL TABLE
@@ -1886,9 +1881,9 @@ COUNTL                            00000032
 COUNTM                            00000031
 CREN                              00000004
 CSRC                              00000007
-ChooseIR1                         000000B2
-ChooseIR2                         000000B6
-Clear_Display                     000002F4
+ChooseIR1                         000000B0
+ChooseIR2                         000000B4
+Clear_Display                     000002F2
 ClrLCD                            00000000
 D                                 00000005
 DATA_ADDRESS                      00000005
@@ -1896,8 +1891,8 @@ DC                                00000001
 DCMotor                           PORTA,3
 D_A                               00000005
 D_NOT_A                           00000005
-DectoChar                         000002D1
-DectoCharEntries                  000002DA
+DectoChar                         000002CF
+DectoCharEntries                  000002D8
 Display                           
 E                                 PORTD,3
 EEADR                             0000010D
@@ -1917,7 +1912,7 @@ GIE                               00000007
 GO                                00000002
 GO_DONE                           00000002
 GO_NOT_DONE                       00000002
-HalfS                             000002F7
+HalfS                             000002F5
 Hund                              00000041
 I2C_DATA                          00000005
 I2C_READ                          00000002
@@ -1933,7 +1928,7 @@ INTF                              00000001
 IR1                               PORTA,0
 IR2                               PORTA,1
 IRP                               00000007
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 34
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 34
 
 
 SYMBOL TABLE
@@ -1948,7 +1943,7 @@ Lb1                               00000022
 Lb2                               00000026
 Lb3                               0000002A
 Lb4                               0000002E
-ListDisplay                       000000EF
+ListDisplay                       000000ED
 Location1                         0000003B
 Location2                         0000003C
 Main                              0000005D
@@ -1971,14 +1966,14 @@ NumL                              0000003E
 OBF                               00000006
 OERR                              00000001
 OPTION_REG                        00000081
-OneS                              000003CF
+OneS                              000003CD
 Ones                              00000043
-Operation                         00000181
-OperationDisplay                  000000CF
-OperationEntries                  0000018A
-OperationTime                     00000283
-OperationTimeDisplay              00000147
-OperationTimeEntries              0000028C
+Operation                         0000017F
+OperationDisplay                  000000CD
+OperationEntries                  00000188
+OperationTime                     00000281
+OperationTimeDisplay              00000145
+OperationTimeEntries              0000028A
 P                                 00000004
 PCFG0                             00000000
 PCFG1                             00000001
@@ -1992,7 +1987,7 @@ PEN                               00000002
 PIE1                              0000008C
 PIE2                              0000008D
 PIR1                              0000000C
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 35
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 35
 
 
 SYMBOL TABLE
@@ -2012,10 +2007,10 @@ PSA                               00000003
 PSPIE                             00000007
 PSPIF                             00000007
 PSPMODE                           00000004
-PrintBlackSticker                 000003DF
+PrintBlackSticker                 000003DD
 PrintCol                          
 PrintNumber                       
-PrintWhiteSticker                 000003E3
+PrintWhiteSticker                 000003E1
 R                                 00000002
 RA0                               00000000
 RA1                               00000001
@@ -2051,7 +2046,7 @@ RCREG                             0000001A
 RCSTA                             00000018
 RD                                00000000
 RD0                               00000000
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 36
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 36
 
 
 SYMBOL TABLE
@@ -2072,17 +2067,17 @@ RP0                               00000005
 RP1                               00000006
 RS                                PORTD,2
 RSEN                              00000001
-RTCDisplay                        00000157
+RTCDisplay                        00000155
 RX9                               00000006
 RX9D                              00000000
 R_NOT_W                           00000002
 R_W                               00000002
-ReceivedInput                     0000029E
-ReceivedInputEntries              000002A7
-Results1                          000001DD
-Results1Entries                   000001E6
-Results2                          0000020B
-Results2Entries                   00000214
+ReceivedInput                     0000029C
+ReceivedInputEntries              000002A5
+Results1                          000001DB
+Results1Entries                   000001E4
+Results2                          00000209
+Results2Entries                   00000212
 Rotation                          
 S                                 00000003
 SEN                               00000000
@@ -2105,23 +2100,23 @@ SSPOV                             00000006
 SSPSTAT                           00000094
 STATUS                            00000003
 SYNC                              00000004
-ScanBackContainer                 000000C4
-ScanFrontContainer                000000BA
-ShiftLeft                         00000153
-SmallValueInput                   000002BC
-SmallValueInputEntries            000002C5
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 37
+ScanBackContainer                 000000C2
+ScanFrontContainer                000000B8
+ShiftLeft                         00000151
+SmallValueInput                   000002BA
+SmallValueInputEntries            000002C3
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 37
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-StickerColours                    000002E5
-StickerColoursEntries             000002EE
-StickerDisplay                    00000112
-StickerStatus                     00000251
-StickerStatusEntries              0000025A
-Switch_Lines                      000002F1
+StickerColours                    000002E3
+StickerColoursEntries             000002EC
+StickerDisplay                    00000110
+StickerStatus                     0000024F
+StickerStatusEntries              00000258
+Switch_Lines                      000002EF
 T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
@@ -2169,7 +2164,7 @@ TRISB4                            00000004
 TRISB5                            00000005
 TRISB6                            00000006
 TRISB7                            00000007
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 38
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 38
 
 
 SYMBOL TABLE
@@ -2221,14 +2216,14 @@ WREN                              00000002
 WRERR                             00000003
 WR_DATA                           00000000
 WR_INS                            00000000
-WantResults                       00000197
-WantResultsEntries                000001A0
-WantRotate                        000001BB
-WantRotateEntries                 000001C4
-Welcome_Msg                       00000161
-Welcome_MsgEntries                0000016A
+WantResults                       00000195
+WantResultsEntries                0000019E
+WantRotate                        000001B9
+WantRotateEntries                 000001C2
+Welcome_Msg                       0000015F
+Welcome_MsgEntries                00000168
 Z                                 00000002
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 39
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 39
 
 
 SYMBOL TABLE
@@ -2237,14 +2232,14 @@ SYMBOL TABLE
 _.org_0_0063                      00000063
 _.org_0_0090                      00000090
 _.org_0_0096                      00000096
-_.org_0_00BC                      000000BC
-_.org_0_00C6                      000000C6
+_.org_0_00BA                      000000BA
+_.org_0_00C4                      000000C4
+_.org_0_02FC                      000002FC
 _.org_0_02FE                      000002FE
-_.org_0_0300                      00000300
-_.org_0_0303                      00000303
+_.org_0_0301                      00000301
+_.org_0_03D4                      000003D4
 _.org_0_03D6                      000003D6
-_.org_0_03D8                      000003D8
-_.org_0_03DB                      000003DB
+_.org_0_03D9                      000003D9
 _BODEN_OFF                        00003FBF
 _BODEN_ON                         00003FFF
 _BOREN_OFF                        00003FBF
@@ -2287,7 +2282,7 @@ __16F877                          00000001
 backbinCounter                    00000049
 backstickerValues                 00000047
 bin16_BCD                         00000001
-MPASM 5.65                          MAIN.ASM   2-21-2016  21:54:19         PAGE 40
+MPASM 5.65                          MAIN.ASM   2-23-2016  15:44:17         PAGE 40
 
 
 SYMBOL TABLE
@@ -2311,8 +2306,8 @@ rtc_convert                       00000000
 rtc_read                          
 rtc_resetAll                      
 rtc_set                           
-set_rtc_time                      00000367
-show_RTC                          00000307
+set_rtc_time                      00000365
+show_RTC                          00000305
 temp                              00000039
 write_rtc                         00000000
 

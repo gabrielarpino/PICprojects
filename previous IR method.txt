@@ -1,0 +1,216 @@
+;****************************************************
+;   ScanFrontContainer
+;****************************************************
+	
+ScanFrontContainer
+	; A to d conversion
+	
+	bsf	ADCON0,2		;start conversion and wait for it to complete
+	btfsc	ADCON0,2		;LCD CONVERSION MODULE
+	goto	$-1
+	
+	movf	ADRESH, W
+	movwf	NumH
+	movf	ADRESL, W
+	movwf	NumL
+	
+;	btfss	ADRESH,2		;test bit 2 of ADRESH, the bit that we believe will distinguish black and white (need to experiment)
+;	bsf	frontstickerValues,frontbinCounter		;if is set, means that colour is white
+;	btfsc	ADRESH,2
+;	bcf	frontstickerValues,frontbinCounter    ; modifies the bits in the stickervalues
+	
+	;display on screen for troubleshooting purposes
+	
+;	call		bin16_BCD
+;	call		ClrLCD
+;	PrintNumber	TenK
+;	PrintNumber	Thou
+;	PrintNumber	Hund
+;	PrintNumber     Tens
+;	PrintNumber     Ones	
+	call		HalfS
+	call		HalfS
+	
+	return
+	
+;****************************************************
+;   ScanBackContainer
+;****************************************************
+	
+ScanBackContainer
+	; A to d conversion
+	
+	bsf	ADCON0,2		;start conversion and wait for it to complete
+	btfsc	ADCON0,2		;LCD CONVERSION MODULE
+	goto	$-1
+	
+	movf	ADRESH, W
+	movwf	NumH
+	movf	ADRESL, W
+	movwf	NumL
+	
+;	btfss	ADRESH,2		;test bit 2 of ADRESH, the bit that we believe will distinguish black and white (need to experiment)
+;	bsf	backstickerValues,backbinCounter		;if is set, means that colour is white
+;	btfsc	ADRESH,2
+	bcf	backstickerValues,backbinCounter    ; modifies the bits in the stickervalues
+	
+	;display on screen for troubleshooting purposes
+	
+;	call		bin16_BCD
+;	call		ClrLCD
+;	PrintNumber	TenK
+;	PrintNumber	Thou
+;	PrintNumber	Hund
+;	PrintNumber     Tens
+;	PrintNumber     Ones	
+	call		HalfS
+	call		HalfS
+	
+	return
+
+
+
+
+
+;	movlw	    b'0000000'
+;	movwf	    stickerValues
+;	movlw	    b'1111111'
+;	movwf	    backstickerValues
+	
+	movlw   b'0000'
+	movwf   frontbinCounter	    ;testing with value of 5 bins
+	movwf   backbinCounter 
+	
+	call	    ScanFrontContainer
+	btfss	    frontstickerValues,0	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    frontstickerValues,0
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	call	    ScanBackContainer
+	btfss	    backstickerValues,0	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    backstickerValues,0
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	
+;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;	goto	    $+2
+;	return
+	
+	movlw   b'0001'
+	movwf   frontbinCounter	    ;testing with value of 5 bins
+	movwf   backbinCounter
+	
+	
+	
+	call	    ScanFrontContainer
+	btfss	    frontstickerValues,1	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    frontstickerValues,1
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	call	    ScanBackContainer
+	btfss	    backstickerValues,1	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    backstickerValues,1
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	
+;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;	goto	    $+2
+;	return
+	
+	movlw   b'0010'
+	movwf   frontbinCounter	    ;testing with value of 5 bins
+	movwf   backbinCounter
+	
+	
+	call	    ScanFrontContainer
+	btfss	    frontstickerValues,2	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    frontstickerValues,2
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	call	    ScanBackContainer
+	btfss	    backstickerValues,2	; check the ith bucket value and if it is clear,
+	call	    PrintBlackSticker	; print a black sticker on the thing
+	btfsc	    backstickerValues,2
+	call	    PrintWhiteSticker
+	;call	    Switch_Lines
+	
+;	movlw   b'0011'
+;	movwf   frontbinCounter	    ;testing with value of 5 bins
+;	movwf   backbinCounter
+;	
+;;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;;	goto	    $+2
+;;	return
+;;	
+;	call	    ScanFrontContainer
+;	btfss	    frontstickerValues,3	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    frontstickerValues,3
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	call	    ScanBackContainer
+;	btfss	    backstickerValues,3	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    backstickerValues,3
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;		
+;	movlw   b'0100'
+;	movwf   frontbinCounter	    ;testing with value of 5 bins
+;	movwf   backbinCounter
+;	
+;;	
+;;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;;	goto	    $+2
+;;	return
+;;	
+;	btfss	    frontstickerValues,4	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    frontstickerValues,4
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	btfss	    backstickerValues,4	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    backstickerValues,4
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+
+	
+;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;	goto	    $+2
+;	return
+;	
+;	btfss	    frontstickerValues,5	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    frontstickerValues,5
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	btfss	    backstickerValues,5	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    backstickerValues,5
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	
+;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;	goto	    $+2
+;	return
+;	
+;	btfss	    frontstickerValues,6	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    frontstickerValues,6
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	btfss	    backstickerValues,6	; check the ith bucket value and if it is clear,
+;	call	    PrintBlackSticker	; print a black sticker on the thing
+;	btfsc	    backstickerValues,6
+;	call	    PrintWhiteSticker
+;	;call	    Switch_Lines
+;	
+;	decfsz	    frontbinCounter		;decrements bin counter to know how much to print
+;	goto	    $+2
+;	return
