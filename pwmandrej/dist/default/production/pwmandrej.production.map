@@ -1,0 +1,44 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Fri Mar 04 17:44:50 2016
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000090
+                   .cinit    romdata   0x000048    program   0x000004
+.config_2007_BUILD/DEFAULT/PRODUCTION/MAIN.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000049      
+                            0x002007    0x002007      
+            75 out of 8454 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    Delay   0x000037    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                  Delay_0   0x00003d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                     Main   0x000001    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                     STOP   0x000047    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+             _.org_0_003E   0x00003e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+             _.org_0_0040   0x000040    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     Main   0x000001    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                    Delay   0x000037    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                  Delay_0   0x00003d    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+             _.org_0_003E   0x00003e    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+             _.org_0_0040   0x000040    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+                     STOP   0x000047    program     static C:\Users\OWNER\Desktop\PIC Assembly projects\pwmandrej\main.asm
+
+
