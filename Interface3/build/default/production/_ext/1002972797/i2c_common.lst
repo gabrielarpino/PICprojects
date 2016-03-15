@@ -1,21 +1,20 @@
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  1
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00001     include <p16f877A.inc>
+                      00001     include <p16f877.inc>
                       00001         LIST
                       00002 
                       00003 ;==========================================================================
                       00004 ; Build date : Dec 08 2015
-                      00005 ;  MPASM PIC16F877A processor include
+                      00005 ;  MPASM PIC16F877 processor include
                       00006 ; 
                       00007 ;  (c) Copyright 1999-2015 Microchip Technology, All rights reserved
                       00008 ;==========================================================================
                       00009 
-Message[301]: MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
-                      00567         LIST
+                      00541         LIST
                       00002         errorlevel      -302
                       00003         errorlevel      -305
                       00004 
@@ -57,13 +56,13 @@ Message[301]: MESSAGE: (Processor-header file mismatch.  Verify selected process
                       00040 ;input:         none
                       00041 ;output:        none
                       00042 ;desc:          initiate stop condition on the bus
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  2
+                      00043         banksel     SSPCON2
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00043         banksel     SSPCON2
                       00044     bsf         SSPCON2,PEN
                       00045     btfsc       SSPCON2,PEN
                       00046     goto        $-1
@@ -116,13 +115,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00093    endm
                       00094 
                       00095 i2c_common_read macro
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  3
+                      00096 ;input:         none
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00096 ;input:         none
                       00097 ;output:        W
                       00098 ;desc:          reads data from slave and saves it in W.
                       00099    banksel     SSPCON2
@@ -175,13 +174,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0014   1411               M     bsf         SSPCON2,SEN
 0015   1811               M     btfsc       SSPCON2,SEN
 0016   2???               M     goto        $-1
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  4
+0017   30D0           00135         movlw       0xD0        ;DS1307 address | WRITE bit
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0017   30D0           00135         movlw       0xD0        ;DS1307 address | WRITE bit
                       00136         i2c_common_write
                           M ;input:         W
                           M ;output:        to slave device
@@ -234,13 +233,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00149         i2c_common_check_ack   WR_ERR
 0041   1683 1303          M         banksel         SSPCON2
 0043   1B11               M     btfsc       SSPCON2,ACKSTAT
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  5
+0044   2???               M     goto        WR_ERR
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0044   2???               M     goto        WR_ERR
 0045   2???           00150         goto        WR_END
 0046                  00151 WR_ERR
 0046   0000           00152         nop
@@ -293,13 +292,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                           M ;input:         W
                           M ;output:        to slave device
                           M ;desc:          writes W to SSPBUF and send to slave device. Make sure
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  6
+                          M ;                       transmit is finished before continuing
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                          M ;                       transmit is finished before continuing
 0063   1283 1303          M    banksel     SSPBUF
 0065   0093               M    movwf       SSPBUF
 0066   1683 1303          M    banksel     SSPSTAT
@@ -352,13 +351,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 008B   1283 1303      00182                 banksel         0x75
 008D   00F5           00183         movwf       0x75
                       00184         i2c_common_nack      ;Send acknowledgement of data reception
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  7
+                          M ;input:         none
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                          M ;input:         none
                           M ;output:        none
                           M ;desc:          send an not acknowledge to slave device
 008E   1683 1303          M    banksel     SSPCON2
@@ -411,13 +410,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00220         ;Select the DS1307 on the bus, in WRITE mode
                       00221         i2c_common_start
                           M ;input:         none
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  8
+                          M ;output:        none
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                          M ;output:        none
                           M ;desc:          initiate start conditionon the bus
 00AA   1683 1303          M         banksel     SSPCON2
 00AC   1411               M     bsf         SSPCON2,SEN
@@ -470,13 +469,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00D3   0008           00233         return
                       00234 
                       00235 
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE  9
+00D4                  00236 p2p_read
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00D4                  00236 p2p_read
                       00237         ;Select the DS1307 on the bus, in WRITE mode
                       00238         i2c_common_start
                           M ;input:         none
@@ -529,13 +528,13 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                           M ;input:         none
                           M ;output:        none
                           M ;desc:          initiate stop condition on the bus
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 10
+00F8   1683 1303          M         banksel     SSPCON2
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-00F8   1683 1303          M         banksel     SSPCON2
 00FA   1511               M     bsf         SSPCON2,PEN
 00FB   1911               M     btfsc       SSPCON2,PEN
 00FC   2???               M     goto        $-1
@@ -543,7 +542,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00250 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
                       00251 
                       00252         end
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 11
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 11
 
 
 SYMBOL TABLE
@@ -556,7 +555,6 @@ ADCON0                            0000001F
 ADCON1                            0000009F
 ADCS0                             00000006
 ADCS1                             00000007
-ADCS2                             00000006
 ADD                               00000073
 ADDEN                             00000003
 ADFM                              00000007
@@ -571,10 +569,6 @@ BCLIF                             00000003
 BF                                00000000
 BRGH                              00000002
 C                                 00000000
-C1INV                             00000004
-C1OUT                             00000006
-C2INV                             00000005
-C2OUT                             00000007
 CCP1CON                           00000017
 CCP1IE                            00000002
 CCP1IF                            00000002
@@ -602,32 +596,17 @@ CCPR2L                            0000001B
 CHS0                              00000003
 CHS1                              00000004
 CHS2                              00000005
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 12
+CKE                               00000006
+CKP                               00000004
+CREN                              00000004
+CSRC                              00000007
+D                                 00000005
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 12
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-CIS                               00000003
-CKE                               00000006
-CKP                               00000004
-CM0                               00000000
-CM1                               00000001
-CM2                               00000002
-CMCON                             0000009C
-CMIE                              00000006
-CMIF                              00000006
-CREN                              00000004
-CSRC                              00000007
-CVR0                              00000000
-CVR1                              00000001
-CVR2                              00000002
-CVR3                              00000003
-CVRCON                            0000009D
-CVREN                             00000007
-CVROE                             00000006
-CVRR                              00000005
-D                                 00000005
 DAT                               00000074
 DATA_ADDRESS                      00000005
 DC                                00000001
@@ -661,12 +640,6 @@ INDF                              00000000
 INTCON                            0000000B
 INTE                              00000004
 INTEDG                            00000006
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 13
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 INTF                              00000001
 IRP                               00000007
 NOT_A                             00000005
@@ -687,6 +660,12 @@ OBF                               00000006
 OERR                              00000001
 OPTION_REG                        00000081
 P                                 00000004
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 PCFG0                             00000000
 PCFG1                             00000001
 PCFG2                             00000002
@@ -720,12 +699,6 @@ RA2                               00000002
 RA3                               00000003
 RA4                               00000004
 RA5                               00000005
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 14
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 RB0                               00000000
 RB1                               00000001
 RB2                               00000002
@@ -746,6 +719,12 @@ RC6                               00000006
 RC7                               00000007
 RC8_9                             00000006
 RC9                               00000006
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 RCD8                              00000000
 RCEN                              00000003
 RCIE                              00000005
@@ -779,12 +758,6 @@ S                                 00000003
 SEN                               00000000
 SMP                               00000007
 SPBRG                             00000099
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 15
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 SPEN                              00000007
 SREN                              00000005
 SSPADD                            00000093
@@ -805,6 +778,12 @@ SYNC                              00000004
 T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 T0SE                              00000004
 T1CKPS0                           00000004
 T1CKPS1                           00000005
@@ -838,12 +817,6 @@ TRISA0                            00000000
 TRISA1                            00000001
 TRISA2                            00000002
 TRISA3                            00000003
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 16
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 TRISA4                            00000004
 TRISA5                            00000005
 TRISB                             00000086
@@ -864,6 +837,12 @@ TRISC4                            00000004
 TRISC5                            00000005
 TRISC6                            00000006
 TRISC7                            00000007
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 TRISD                             00000088
 TRISD0                            00000000
 TRISD1                            00000001
@@ -897,12 +876,6 @@ WR_END                            00000047
 WR_ERR                            00000046
 W_END                             000000CE
 Z                                 00000002
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 17
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _.code_0010                       00000010
 _.code_0016                       00000016
 _.code_001E                       0000001E
@@ -923,6 +896,12 @@ _.code_00C6                       000000C6
 _.code_00D2                       000000D2
 _.code_00D8                       000000D8
 _.code_00E0                       000000E0
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 _.code_00EB                       000000EB
 _.code_00F7                       000000F7
 _.code_00FC                       000000FC
@@ -933,9 +912,10 @@ _BOREN_ON                         00003FFF
 _CONFIG                           00002007
 _CPD_OFF                          00003FFF
 _CPD_ON                           00003EFF
-_CP_ALL                           00001FFF
+_CP_ALL                           00000FCF
+_CP_HALF                          00001FDF
 _CP_OFF                           00003FFF
-_CP_ON                            00001FFF
+_CP_UPPER_256                     00002FEF
 _DEBUG_OFF                        00003FFF
 _DEBUG_ON                         000037FF
 _DEVID1                           00002006
@@ -956,18 +936,12 @@ _PWRTE_ON                         00003FF7
 _RC_OSC                           00003FFF
 _WDTE_OFF                         00003FFB
 _WDTE_ON                          00003FFF
-MPASM 5.65                    I2C_COMMON.ASM   3-5-2016  20:28:11         PAGE 18
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _WDT_OFF                          00003FFB
 _WDT_ON                           00003FFF
-_WRT_1FOURTH                      00003BFF
-_WRT_256                          00003DFF
-_WRT_HALF                         000039FF
-_WRT_OFF                          00003FFF
+_WRT_ENABLE_OFF                   00003DFF
+_WRT_ENABLE_ON                    00003FFF
+_WRT_OFF                          00003DFF
+_WRT_ON                           00003FFF
 _XT_OSC                           00003FFD
 __16F877                          00000001
 dig1                              00000078
@@ -981,6 +955,12 @@ i2c_common_read
 i2c_common_repeatedstart          
 i2c_common_setup                  00000000
 i2c_common_start                  
+MPASM 5.65                    I2C_COMMON.ASM   3-11-2016  15:32:25         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 i2c_common_stop                   
 i2c_common_write                  
 p2p_read                          000000D4
@@ -991,6 +971,6 @@ write_rtc                         00000012
 
 Errors   :     0
 Warnings :     0 reported,     0 suppressed
-Messages :     1 reported,    50 suppressed
+Messages :     0 reported,    50 suppressed
 
 

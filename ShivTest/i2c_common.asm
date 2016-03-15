@@ -1,4 +1,4 @@
-    include <p16f877A.inc>
+    include <p16f877.inc>
 	errorlevel	-302
 	errorlevel	-305
 

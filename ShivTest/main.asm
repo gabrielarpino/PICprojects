@@ -5,7 +5,7 @@
 ; Written By : Kevin Lam
 ;*******************************************************************
 
-      list p=16f877                ; list directive to define processor
+      list p=16f877               ; list directive to define processor
       #include <p16f877.inc>        ; processor specific variable definitions
       __CONFIG _CP_OFF & _WDT_OFF & _BODEN_ON & _PWRTE_ON & _HS_OSC & _WRT_ENABLE_ON & _CPD_OFF & _LVP_OFF
       Errorlevel -302		    ; switches off message [302] Register in operand not in bank 0
@@ -30,16 +30,13 @@
 		dat
 		temp
 		Temp
-		pr2temp
 		Location1
-		Location2 
-		NumH
-		NumL
-		TenK
-		Thou
-		Hund
-		Tens
-		Ones
+		Location2
+		Location3
+		Location4
+		Location5
+		Location6
+		Location7
 		Front1		;51 PC
 		Front2
 		Front3
@@ -54,6 +51,14 @@
 		Back5
 		Back6
 		Back7
+		pr2temp 
+		NumH
+		NumL
+		TenK
+		Thou
+		Hund
+		Tens
+		Ones
 		distanceMoved
 		isColumnThere
 		isBinThere
@@ -62,7 +67,13 @@
 		binCounter
 		countdown
 		counter
+		NumOfBins
 		delay3
+		LEDcounter0
+		LEDcounter1
+		LEDcounter2
+		LEDcounter3
+		LEDcounter4
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -70,14 +81,18 @@
 		#define	E 	PORTD,3
 		#define	IR1	PORTA,0
 		#define	IR2	PORTA,1
-		#define	US	PORTA,2
 		#define backwardsDCMotor	PORTC,5
 		#define	DCMotor	PORTC,6
 		#define	ColMotor PORTC,7
-		#define	UST1	PORTC,2
-		#define	US1E1	PORTA,4
-		#define	UST2	PORTC,3
-		#define	US1E2	PORTA,5
+		#define	UST1	PORTD,0
+		#define	US1E1	PORTA,2
+		#define	UST2	PORTD,1
+		#define	US1E2	PORTA,3
+		#define	LED	PORTB,0
+		#define	Arm1	PORTC,5
+		#define	Arm2	PORTC,6
+		#define	Arm1Backwards	PORTB,2
+		#define	Arm2Backwards	PORTB,3
 		
 		
 ;distanceMoved	equ	b'0'
@@ -313,7 +328,8 @@ init
          clrf      INTCON         ; No interrupts
 
          bsf       STATUS,RP0     ; select bank 1
-         clrf      TRISA          ; All port A is output
+	 movlw	    0xFF	    ; need to make A input for US sensors
+         movwf      TRISA          ; All port A is input
          movlw     b'11110010'    ; Set required keypad inputs
          movwf     TRISB
          clrf      TRISC          ; All port C is output
@@ -370,7 +386,21 @@ init
 	Display		Welcome_Msg
 	call		Switch_Lines
 	Display		Welcome_Msg2
-			bsf	    PORTD,0
+	bsf		PORTD,0
+	movlw		0X00
+	movwf		NumOfBins   ;shivs bin counter init
+	clrf		LEDcounter0
+	bsf		LEDcounter1,0
+	bsf		LEDcounter2,0
+	bsf		LEDcounter3,0		    ;RC2
+	bsf		LEDcounter4,0		    ;RC1
+	bsf		PORTC,5
+	bcf		PORTC,6		;give it a voltage so that the negative h bridge turns the motor off initially
+	bcf		Arm1Backwards		; don't move arm 1 backwards yet (PORTB2)
+	bsf		PORTC,2		    ;positive one
+	bsf		PORTC,1		    ;negative one
+	
+	
 
 
 ;*************************************
@@ -386,17 +416,22 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		andlw		0x0F
 		movwf		temp
 		;Key	0x00, OperationDisplay
-		Key	0x00, Start
-		Key	0x01, pollColumnSensor
-		Key	0x02, DisplayBlackWhite
+		Key	0x00, StartMove
+		Key	0x01, pollColumnSensor		;B/W
+		Key	0x02, DisplayBlackWhiteIR1
 		Rotation	0x03
-		Key	0x04, DisplayUSSensor
-	    	Key	0x05, StickerDisplay
-		Key	0x06, DisplayBlackWhite
-		Key	0x08, pollColumnSensor
-		Key	0x09, PWMSTOP
-		Key	0x0E, PWMSTART
-		Key	0x0F, PWMSTOP
+		Key	0x04, DisplayBlackWhiteIR2
+	    	Key	0x05, LEDControlON
+		Key	0x06, DisplayUSSensor1
+		Key	0x07, AddBin
+		Key	0x08, Stickers
+		Key	0x09, LCDConversionFront
+		Key	0x0A, ArmRotation2Backwards
+		Key	0x0B, ShaftIR
+		Key	0x0C, ArmRotation1
+		Key	0x0D, ArmRotation2
+		Key	0x0E, PWMSTART1
+		Key	0x0F, PWMSTART2
 		btfsc		PORTB,1     ;Wait until key is released
 	        goto		$-1
 		goto		KeypadandLCD
@@ -408,28 +443,30 @@ goback
 ;**************************************************************************************************************************************************
 ;								  MAIN CODE
 ;----------------------------------------------------------------------------------------------------------------------------------------------
-Start
+StartInit
 		
 ; WAIT FOR INITIAL INPUT
 	movlw	b'00'
 	movwf	binCounter	;initialize bincounter with 0
 	movwf	distanceMoved	;initialize distance moved with 0
+	movlw		0X00
+	movwf		NumOfBins   ;shivs bin counter init
 
 ;    goto    getTimeRTC	    ; gets time from RTC clock
-;	
+
+StartMove
 ;   MOTOR ON
     
-    bsf	    DCMotor
-    movlw   b'1'
-    addwf   distanceMoved,f
+    call    PWMSTART1
+    ADDL    distanceMoved, distanceMoved, b'1'	    ;increase distance moved
     
-;    movlw		0x4
-;    subwf		distanceMoved
-;    movlw		0x0
-;    btfsc		STATUS,C
-;    movlw		0x1
-;   btfsc		W,0
-    btfsc		distanceMoved,3		;count seven
+    movlw		0x4			;checking whether distance moved is 4
+    subwf		distanceMoved
+    movlw		0x0
+    btfsc		STATUS,C
+    movlw		0x1
+    btfsc		W,0
+;    btfsc		distanceMoved,3		;count seven
     call		MoveBackwards
 
 ;    bsf	    DCMotor		    ; begin forward movement, set appropriate bit to 1
@@ -442,19 +479,19 @@ Start
 ;;   CHECK COLUMN
 
     ;call    ChooseIR1		;selects IR1 for data conversion
-    call    pollColumnSensor	;checks to see if column present
-    btfss   isColumnThere,0
-    goto    Start
-    bcf	    DCMotor		;stops motor from moving forward
+    call    DisplayBlackWhiteIR1	;checks to see if column present
+    btfss   Front1,0
+    goto    StartMove
+    call    PWMSTART1		;stops motor from moving forward
     call    HalfS
-    bsf	    ColMotor		;starts motor to move arm
-    call    HalfS
+    call    PWMSTART2		;starts motor to move arm
     call    Clear_Display
     Display OperationTime
     call    HalfS
+    call    HalfS
     call    HalfS		;emulates arm movement
-    bcf	    ColMotor		;turns off motor to move arm
-    goto    Start
+    call    PWMSTART2		;turns off motor to move arm
+    goto    StartMove
     
 ;   CHECK IF AT THE END OF BUCKET Line
     
@@ -480,25 +517,22 @@ Start
     
 MoveBackwards
     
-    bcf	    DCMotor
-    bsf	    backwardsDCMotor
+    call    PWMSTOP
     
-    goto    Finalize
-    
-    
-    
-
-
-		
+    goto    Finalize		
 ;-----------------------------------------------------------------------------------------------------		
 
 ;*********************************************************
 ; A to D conversion with LCD display for IR sensor
 ;*********************************************************
-
-LCDConversion
-	;bsf	PORTC,2		; gives RC2 5 volts	
-		
+	
+;*** Shiv lcdconvfront ***
+	
+LCDConversionFront
+	bcf	STATUS,RP0
+	movlw	b'00010101'             ;RA0
+	
+	movwf	ADCON0			;RA1
 	bsf	ADCON0,2		;start conversion and wait for it to complete
 	btfsc	ADCON0,2		;LCD CONVERSION MODULE
 	goto	$-1
@@ -507,58 +541,26 @@ LCDConversion
 	movwf	NumH
 	movf	ADRESL, W
 	movwf	NumL
-	
-	call		bin16_BCD
-	call		ClrLCD
-	bcf		STATUS, IRP
-	movlw		0x43
-	movfw		FSR
-	movlw		0x0
-	decfsz		binCounter, W
-	goto	$+2
-	return
-	
-	addwf		FSR,F
-	movlw		0x3
-	subwf		TenK
-	movlw		0x0
-	btfsc		STATUS,C
-	movlw		0x1
-	movwf		INDF
-	
+	call	Clear_Display
+	Call	bin16_BCD
 	PrintNumber	TenK
 	PrintNumber	Thou
 	PrintNumber	Hund
 	PrintNumber     Tens
 	PrintNumber     Ones
-	call		HalfS
-	call		HalfS
-	;bcf	PORTC,2		; gives RC2 5 volts
-	return
-
-;****************************
-;	Choose IR1
-;****************************
-	
-ChooseIR1
-	
-	bsf	IR1		;makes RA0 an input
-	movlw	b'11000101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
-	movwf	ADCON0
-	
-	return
-	
-;****************************
-;	Choose IR2
-;****************************
-	
-ChooseIR2
-	
-	bsf	IR2		;makes RA0 an input
-	movlw	b'11001101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
-	movwf	ADCON0
-	
-	return
+	BCF     STATUS, IRP
+	movlw	0x42
+	movwf	FSR
+	movlw	0X0
+	decf	NumOfBins,W
+	addwf	FSR,F
+	movlw	0X3
+	subwf	TenK
+	movlw	0x0
+	btfsc	STATUS, C
+	movlw	0x1
+	movwf	INDF
+	return	
 	
 ;******************************************
 ;	Sticker Print Modules
@@ -609,9 +611,7 @@ ReadStickers
 	goto	    ReadStickers
 	
 ReadBW
-	
-	bsf	PORTC,2		; gives RC2 5 volts
-		
+			
 	bsf	ADCON0,2		;start conversion and wait for it to complete
 	btfsc	ADCON0,2		;LCD CONVERSION MODULE
 	goto	$-1
@@ -680,11 +680,23 @@ ReadColumn			; not using anymore cus apparently column is ultrasonic
 	
 	return
 	
+ShaftIR
+	
+	
+    movfw	TMR0
+    sublw	0x5		; Skip if 
+    btfsc	STATUS, Z	; WREG is zero
+    bsf		PORTE,0		; set random pin to check if done
+    call	ShaftIR
+	
+	
+	
+	
 ;***************************************************
-;	US Sensor Modules
+;	US Sensor Modules			    [TESTED]
 ;***************************************************
 	
-Read1_US
+Read1_US		    
 	 
 	call		Read1_US1 
 	 
@@ -713,10 +725,11 @@ Read1_US
 	btfsc		STATUS,C
 	movlw		0x0
 	
-	
+
 	return
 	
 Read1_US1
+		
 		clrf	TMR1H
 		clrf	TMR1L
 		
@@ -853,14 +866,6 @@ RTCDisplay
 	return
 	goto	    RTCDisplay
 	
-AddBin
-	call		Clear_Display
-	
-	incf		binCounter
-	PrintNumber	binCounter
-	
-	return
-	
 StickerDisplay
 	
 	;movlw	    0x1
@@ -880,19 +885,69 @@ StickerDisplay
 	PrintNumber	TenK
 	call	    ReadStickers
 	
-FrontLoop
-	INCF	    FSR,1
-	incf	    counter
-	PrintNumber counter
-	call	    HalfS
-	movfw	    INDF
-
-	PrintCol    W
-	decfsz	    countdown,F
-	goto	    FrontLoop
+AddBin
+	Call Clear_Display
+	incf	NumOfBins,F
+	PrintNumber	NumOfBins
+	Call	    HalfS
+	movlw	0X7			;checks if max of 7 bins has been reached
+	subwf	NumOfBins,W		
+	btfsc	STATUS,Z
+	goto	Finalize
 	return
 	
-DisplayBlackWhite
+Stickers
+	call 		Clear_Display
+	movlw		0X0
+	movwf		counter
+	BCF             STATUS, IRP
+	movlw		0x41
+	movwf		FSR
+	movfw		NumOfBins
+	movwf		countdown
+FrontLoop	
+		INCF		FSR,1
+		incf		counter	
+		PrintNumber	counter
+		call		HalfS
+		movfw		INDF
+		PrintCol	W
+		decfsz		countdown,F
+		goto		FrontLoop
+Next		return
+		
+LEDControlON
+	
+	btfsc	    LEDcounter0,0
+	goto	    $+4
+	bsf	    LED
+	bsf	    LEDcounter0,0
+	return
+	
+	
+	bcf	    LED
+	bcf	    LEDcounter0,0
+	return
+	
+	
+DisplayBlackWhiteIR1
+	
+	movlw	b'11000101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
+	movwf	ADCON0	
+		
+	call		ReadBW	
+	movwf		Front1
+	PrintCol    	Front1
+	call		HalfS
+	call		HalfS
+	
+	goto		DisplayBlackWhiteIR1
+	
+DisplayBlackWhiteIR2
+	
+	movlw	b'11001101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
+	movwf	ADCON0	
+	
 	call		ReadBW	
 	movwf		Front1
 	PrintCol    	Front1
@@ -911,8 +966,9 @@ pollColumnSensor	;checks to see if column present
 	
 	return
 	
-DisplayUSSensor
+DisplayUSSensor1
 	
+	call		ClrLCD
 	call		Read1_US
 	call		ClrLCD
 	movwf		isBinThere		    ;sets the bin bit 1 or 0
@@ -922,10 +978,68 @@ DisplayUSSensor
 	
 	return
 	
+DisplayUSSensor2
 	
-PWMSTART	
+	call		Read2_US
+	call		ClrLCD
+	movwf		isColumnThere		    ;sets the bin bit 1 or 0
+	PrintYN		isColumnThere
+	call		HalfS
+	call		HalfS
 	
-	;************ FIRST PWM ******************************		    To stop it, clear CCP1RL and/or CCPR2L 
+	return
+	
+ArmRotation1
+	
+	btfsc	    LEDcounter1,0
+	goto	    $+4
+	bcf		Arm1
+	bsf	    LEDcounter1,0
+	return
+	
+	bsf		Arm1
+	bcf	    LEDcounter1,0
+	return
+	
+ArmRotation2
+	
+	btfsc	    LEDcounter2,0
+	goto	    $+4
+	bsf		Arm2
+	bsf	    LEDcounter2,0
+	return
+	
+	
+	bcf		Arm2
+	bcf	    LEDcounter2,0
+	return
+	
+ArmRotation2Backwards
+	
+	btfsc	    LEDcounter1,0
+	goto	    $+4
+	bsf		Arm2Backwards
+	bsf	    LEDcounter1,0
+	return
+	
+	bcf		Arm2Backwards
+	bcf	    LEDcounter1,0
+	return
+	
+	
+PWMSTART1	
+	
+    ;************ FIRST PWM - Negative one******************************		    To stop it, clear CCP1RL and/or CCPR2L 
+    
+    ;save   pr2 value so that you can zero it after
+    
+ 
+    
+    btfsc	    LEDcounter3,0
+    goto	    $+4
+    clrf	    CCP1CON
+    bsf		    LEDcounter3,0
+    return
     
     BANKSEL TRISC
     BCF	    TRISC, 2		;set CCP1 as output		;CCP1 is RC2 and CCP2 is RC1
@@ -934,9 +1048,7 @@ PWMSTART
     ANDLW    0xF0
     IORLW    0x0C
     MOVWF    CCP1CON
-    
-    ;save   pr2 value so that you can zero it after
-    
+
     movfw   PR2
     movwf   pr2temp
     
@@ -959,13 +1071,28 @@ PWMSTART
     ;01001110
     BSF	    CCP1CON, 5				; change 1s here to 2 to get two pwm bro
     BSF	    CCP1CON, 4
-    MOVLF   B'01101', CCPR1L	
+    MOVLF   B'01100001', CCPR1L			; previous was 01101
     BSF	    CCP1CON, 3
     BSF	    CCP1CON, 2
     
     BSF     T2CON, TMR2ON	;and start the timer running
     
-;************ SECOND PWM ****************************** 
+    bcf		    LEDcounter3,0
+    
+    return
+    
+PWMSTART2
+    
+    ;************ SECOND PWM - Positive one ******************************
+    
+    btfss	    LEDcounter4,0
+    goto	    $+4
+    clrf	    CCP2CON
+    ;bcf		    PORTC,1
+    bcf		    LEDcounter4,0
+    return
+    
+ 
     
     BANKSEL TRISC
     BCF	    TRISC, 1		;set CCP2 as output		;CCP1 is RC2 and CCP2 is RC1
@@ -1002,12 +1129,16 @@ PWMSTART
     BSF     T2CON, TMR2ON	;and start the timer running
     BCF	    STATUS,RP0
     
+    ;bsf		    PORTC,1
+    
+    bsf		    LEDcounter4,0
+    
     return
     
 PWMSTOP
     
-    clrf   CCPR1L
-    clrf  CCPR2L
+    clrf   CCP1CON
+    clrf   CCP2CON
     movfw   pr2temp
     movwf   PR2
     
@@ -1082,6 +1213,27 @@ Delay10usLoop
     goto	Delay10usLoop
     return
 
+;***************************************
+;Init_TMR0
+;   Input:  RA4
+;   Output: TMR0 register
+;   desc:   Counts the clock pulses for the
+;	    rotary encoder
+;****************************************
+Init_TMR0			    ; INITIALIZE TIMER 0   
+    BANKSEL OPTION_REG
+    MOVLF   B'00101000', OPTION_REG
+    ;	    B'0xxxxxxx'	    RBPU - Set pull ups (0-enabled, 1-disabled)
+    ;	    B'x1xxxxxx'	    INTEDG - Interupt on rising edge
+    ;	    B'xx1xxxxx'	    T0CS - External clock on Pin RA4
+    ;	    B'xxx0xxxx'	    T0SE - 0-Increment on low-to-high transition on T0CKI pin
+    ;	    B'xxxx1xxx'	    PSA - Prescaler assigned to WDT
+    ;	    B'xxxxx0xx'	    PS2 - Prescaler of 1:1
+    ;	    B'xxxxxx0x'	    PS1 - Prescaler of 1:1
+    ;	    B'xxxxxxx0'	    PS0 - Prescaler of 1:1
+    BANKSEL TMR0
+    CLRF   TMR0			    ; Clear timer 0
+    return  
     
 ;************************************
 ; RTC Sublabels
@@ -1232,7 +1384,7 @@ Welcome_Msg
 	movwf	PCL	
         addwf    PCL,F
 Welcome_MsgEntries
-        dt        "1: Start | #/D: PWM | 2: Col Test", 0
+        dt        "1:Start|#/D:PWM|2:Col|3:B/W", 0
 	
 Welcome_Msg2
 	
@@ -1247,7 +1399,7 @@ Welcome_Msg2
 	movwf	PCL	
         addwf    PCL,F
 Welcome_Msg2Entries
-        dt        "3: B/W test | A: Rotate | 4: US test", 0
+        dt        "5:AddBin|6:Stickers|7:B/Wstore", 0
         
 Operation
 	

@@ -1,6 +1,8 @@
       list p=16f877                 ; list directive to define processor
       #include <p16f877.inc>        ; processor specific variable definitions
       __CONFIG _CP_OFF & _WDT_OFF & _BODEN_ON & _PWRTE_ON & _HS_OSC & _WRT_ENABLE_ON & _CPD_OFF & _LVP_OFF
+      
+      ; WORKINGGGGGGGGGGGGGGGG
 
 
 	cblock	0x70
@@ -23,11 +25,11 @@
 		Temp
 		delay3
 	endc	
-
 	;Declare constants for pin assignments (LCD on PORTD)
 		#define	RS 	PORTD,2
 		#define	E 	PORTD,3
-		#define	UST	PORTC,2
+
+		#define	UST	PORTC,3
 		#define	US1E	PORTA,4
 
          ORG       0x0000     ;RESET vector must always be at 0x00
@@ -138,7 +140,7 @@ Main	Display		Welcome_Msg
 	 
 Main2
 	 
-	;Display		Alphabet
+	Display		Alphabet
 	 
 	call		Read_US1 
 	

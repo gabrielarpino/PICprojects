@@ -1,4 +1,4 @@
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  1
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Message[301]: MESSAGE: (Processor-header file mismatch.  Verify selected process
 0006   2???           00039         call    WR_INS
 0007   2???           00040         call lcdLongDelay
 0008   2???           00041         call lcdLongDelay
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  2
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 002A   0088           00092         movwf   PORTD                   ;send 4 bits LSB
 002B   1588           00093         bsf             E                               ;
 002C   2???           00094         call    lcdLongDelay    ;__    __
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  3
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -162,7 +162,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0049   0008           00128     return
                       00129     
                       00130     end
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  4
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  4
 
 
 SYMBOL TABLE
@@ -221,7 +221,7 @@ CHS1                              00000004
 CHS2                              00000005
 CIS                               00000003
 CKE                               00000006
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  5
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  5
 
 
 SYMBOL TABLE
@@ -280,7 +280,7 @@ INTE                              00000004
 INTEDG                            00000006
 INTF                              00000001
 IRP                               00000007
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  6
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  6
 
 
 SYMBOL TABLE
@@ -339,7 +339,7 @@ RA1                               00000001
 RA2                               00000002
 RA3                               00000003
 RA4                               00000004
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  7
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  7
 
 
 SYMBOL TABLE
@@ -398,7 +398,7 @@ SEN                               00000000
 SMP                               00000007
 SPBRG                             00000099
 SPEN                              00000007
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  8
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  8
 
 
 SYMBOL TABLE
@@ -457,7 +457,7 @@ TRISA1                            00000001
 TRISA2                            00000002
 TRISA3                            00000003
 TRISA4                            00000004
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE  9
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE  9
 
 
 SYMBOL TABLE
@@ -516,7 +516,7 @@ WR_INS                            00000021
 Z                                 00000002
 _.code_0046                       00000046
 _BODEN_OFF                        00003FBF
-MPASM 5.65                           LCD.ASM   3-5-2016  20:28:11         PAGE 10
+MPASM 5.65                           LCD.ASM   3-11-2016  15:25:54         PAGE 10
 
 
 SYMBOL TABLE
