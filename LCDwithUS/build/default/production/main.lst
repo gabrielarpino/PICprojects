@@ -1,4 +1,4 @@
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  1
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00040 ; Delay: ~160us macro
                       00041 ;***************************************
                       00042 LCD_DELAY macro
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  2
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
                       00091                 xorlw   B'00000000' ;check WORK reg to see if 0 is returned
                       00092                 btfsc   STATUS,Z
                       00093                         goto    end_
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  3
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
   0000                    M                 local   loop_
   0000                    M                 local   end_
 001E   01F3               M                 clrf    Table_Counter
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  4
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 003E   2???               M         call        WR_DATA
                       00160         PrintNumber     Hund
                           M         ;movf       number ,W
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  5
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 004C   018F           00200                 clrf    TMR1H
 004D   018E           00201                 clrf    TMR1L
                       00202                 
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  6
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0068   3EE9           00253         addlw   0xE9 
 0069   00FE           00254         movwf   Tens 
 006A   07FE           00255         addwf   Tens, F 
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  7
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,7 +411,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00306 ;***************************************
                       00307 
 008D                  00308 Welcome_Msg     
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  8
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -470,7 +470,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
 00D0   0008           00342                 return
                       00343 
                       00344 ;***************************************
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE  9
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -529,7 +529,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00EE   3028           00395         movlw   b'00101000'
 00EF   2???           00396         call    WR_INS
 00F0   2???           00397         call lcdLongDelay
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 10
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -588,7 +588,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00448     ;****************************************
 0111                  00449 WR_DATA
 0111   1508           00450         bsf             RS                              
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 11
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -626,7 +626,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00476     
                       00477     
 3F72                  00478         END
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 12
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 12
 
 
 SYMBOL TABLE
@@ -685,7 +685,7 @@ COUNTH                            00000070
 COUNTL                            00000072
 COUNTM                            00000071
 CREN                              00000004
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 13
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 13
 
 
 SYMBOL TABLE
@@ -744,7 +744,7 @@ Lb1                               0000007B
 Lb2                               0000007F
 Lb3                               00000083
 Lb4                               00000087
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 14
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 14
 
 
 SYMBOL TABLE
@@ -803,7 +803,7 @@ PrintNumber
 R                                 00000002
 RA0                               00000000
 RA1                               00000001
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 15
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 15
 
 
 SYMBOL TABLE
@@ -862,7 +862,7 @@ R_NOT_W                           00000002
 R_W                               00000002
 Read_US1                          0000004C
 S                                 00000003
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 16
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 16
 
 
 SYMBOL TABLE
@@ -921,7 +921,7 @@ TOUTPS1                           00000004
 TOUTPS2                           00000005
 TOUTPS3                           00000006
 TRISA                             00000085
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 17
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 17
 
 
 SYMBOL TABLE
@@ -980,7 +980,7 @@ TenK                              0000007B
 Tens                              0000007E
 Thou                              0000007C
 UA                                00000001
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 18
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 18
 
 
 SYMBOL TABLE
@@ -1039,7 +1039,7 @@ _WDTE_OFF                         00003FFB
 _WDTE_ON                          00003FFF
 _WDT_OFF                          00003FFB
 _WDT_ON                           00003FFF
-MPASM 5.65                          MAIN.ASM   3-11-2016  15:18:03         PAGE 19
+MPASM 5.65                          MAIN.ASM   3-15-2016  16:26:03         PAGE 19
 
 
 SYMBOL TABLE

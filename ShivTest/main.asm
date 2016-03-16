@@ -74,6 +74,10 @@
 		LEDcounter2
 		LEDcounter3
 		LEDcounter4
+		LEDcounter5
+		LEDcounter6
+		LEDcounter7
+		LEDcounter8
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -89,10 +93,13 @@
 		#define	UST2	PORTD,1
 		#define	US1E2	PORTA,3
 		#define	LED	PORTB,0
-		#define	Arm1	PORTC,5
-		#define	Arm2	PORTC,6
-		#define	Arm1Backwards	PORTB,2
-		#define	Arm2Backwards	PORTB,3
+		#define	Std1	PORTC,5		    ;std stands for standard motor (not pwm)
+		#define	Std2	PORTC,6		    ;Std1 is the negative one
+		#define	Std3	PORTC,7
+		#define	Std1Backwards	PORTB,2
+		#define	Std2Backwards	PORTB,3
+		#define	Std3Backwards	PORTC,0
+		;SHAFTIR is PORTA,4
 		
 		
 ;distanceMoved	equ	b'0'
@@ -334,6 +341,7 @@ init
          movwf     TRISB
          clrf      TRISC          ; All port C is output
          clrf      TRISD          ; All port D is output
+	 clrf	   TRISE
 	 
 	          ;Set SDA and SCL to high-Z first as required for I2C
 		 bsf	   TRISC,4		  
@@ -344,6 +352,7 @@ init
          clrf      PORTB
          clrf      PORTC
          clrf      PORTD
+	 clrf	    PORTE
 	 
 	;Set up I2C for communication
 		 
@@ -389,25 +398,28 @@ init
 	bsf		PORTD,0
 	movlw		0X00
 	movwf		NumOfBins   ;shivs bin counter init
-	clrf		LEDcounter0
-	bsf		LEDcounter1,0
+	bsf		LEDcounter0,0		    ;counter for LED
+	bsf		LEDcounter1,0		    ;forward motor counters
 	bsf		LEDcounter2,0
-	bsf		LEDcounter3,0		    ;RC2
-	bsf		LEDcounter4,0		    ;RC1
-	bsf		PORTC,5
-	bcf		PORTC,6		;give it a voltage so that the negative h bridge turns the motor off initially
-	bcf		Arm1Backwards		; don't move arm 1 backwards yet (PORTB2)
-	bsf		PORTC,2		    ;positive one
-	bsf		PORTC,1		    ;negative one
+	bsf		LEDcounter3,0		    
+	bsf		LEDcounter4,0		    ;backward motor counters
+	bsf		LEDcounter5,0
+	bsf		LEDcounter6,0		    
+	bsf		LEDcounter7,0		    ;pwm counters
+	bsf		LEDcounter8,0		    
 	
-	
-
+	bcf		Std1			;std motor 1 is the positive one
+	bsf		Std2
+	bsf		Std3
+	bcf		Std1Backwards
+	bsf		Std2Backwards
+	bsf		Std3Backwards
+	bsf		PORTC,2		    
+	bsf		PORTC,1		    
 
 ;*************************************
 ;	Keypad and LCD forms	    
 ;*************************************
-	
-	
 	
 KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		goto		$-1 
@@ -417,7 +429,7 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		movwf		temp
 		;Key	0x00, OperationDisplay
 		Key	0x00, StartMove
-		Key	0x01, pollColumnSensor		;B/W
+		;Key	0x01, pollColumnSensor		;TESTED
 		Key	0x02, DisplayBlackWhiteIR1
 		Rotation	0x03
 		Key	0x04, DisplayBlackWhiteIR2
@@ -426,12 +438,12 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		Key	0x07, AddBin
 		Key	0x08, Stickers
 		Key	0x09, LCDConversionFront
-		Key	0x0A, ArmRotation2Backwards
+		Key	0x0A, StdRotation2Backwards
 		Key	0x0B, ShaftIR
-		Key	0x0C, ArmRotation1
-		Key	0x0D, ArmRotation2
-		Key	0x0E, PWMSTART1
-		Key	0x0F, PWMSTART2
+		Key	0x0C, StdRotation1
+		Key	0x0D, StdRotation2
+		Key	0x0E, PWMFWD
+		Key	0x0F, PWMBACK
 		btfsc		PORTB,1     ;Wait until key is released
 	        goto		$-1
 		goto		KeypadandLCD
@@ -457,7 +469,7 @@ StartInit
 StartMove
 ;   MOTOR ON
     
-    call    PWMSTART1
+    call    PWMFWD
     ADDL    distanceMoved, distanceMoved, b'1'	    ;increase distance moved
     
     movlw		0x4			;checking whether distance moved is 4
@@ -482,15 +494,15 @@ StartMove
     call    DisplayBlackWhiteIR1	;checks to see if column present
     btfss   Front1,0
     goto    StartMove
-    call    PWMSTART1		;stops motor from moving forward
+    call    PWMFWD		;stops motor from moving forward
     call    HalfS
-    call    PWMSTART2		;starts motor to move arm
+    bsf    Std1		;starts motor to move arm
     call    Clear_Display
     Display OperationTime
     call    HalfS
     call    HalfS
     call    HalfS		;emulates arm movement
-    call    PWMSTART2		;turns off motor to move arm
+    bcf    Std1		;turns off motor to move arm
     goto    StartMove
     
 ;   CHECK IF AT THE END OF BUCKET Line
@@ -526,7 +538,9 @@ MoveBackwards
 ; A to D conversion with LCD display for IR sensor
 ;*********************************************************
 	
-;*** Shiv lcdconvfront ***
+;******************************************
+;	Sticker Print Modules
+;*****************************************
 	
 LCDConversionFront
 	bcf	STATUS,RP0
@@ -548,67 +562,20 @@ LCDConversionFront
 	PrintNumber	Hund
 	PrintNumber     Tens
 	PrintNumber     Ones
+	call		HalfS		;wait half a second to display
 	BCF     STATUS, IRP
 	movlw	0x42
 	movwf	FSR
 	movlw	0X0
 	decf	NumOfBins,W
 	addwf	FSR,F
-	movlw	0X3
+	movlw	0X1
 	subwf	TenK
 	movlw	0x0
 	btfsc	STATUS, C
 	movlw	0x1
 	movwf	INDF
 	return	
-	
-;******************************************
-;	Sticker Print Modules
-;*****************************************
-	
-ReadStickers
-	bsf	PORTC,2		; gives RC2 5 volts
-	
-	PrintNumber	TenK
-		
-	bsf	ADCON0,2		;start conversion and wait for it to complete
-	btfsc	ADCON0,2		;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 LCD CONVERSION MODULE
-	goto	$-1
-	
-	movf	ADRESH, W
-	movwf	NumH
-	movf	ADRESL, W
-	movwf	NumL
-	
-	call		Clear_Display
-	call		bin16_BCD
-	BCF		STATUS, IRP
-	movlw		0x43
-	movfw		FSR
-	movlw		0x0
-	decfsz		binCounter, W
-	goto	$+3
-	return
-			
-	addwf		FSR,F
-	movlw		0x3
-	subwf		TenK
-	movlw		0x0
-	btfsc		STATUS,C
-	movlw		0x1
-	movwf		INDF
-	
-	
-	PrintNumber	Thou
-	PrintNumber	Hund
-	PrintNumber     Tens
-	PrintNumber     Ones
-	call		HalfS
-	call		HalfS
-	
-	
-	bcf	PORTC,2		; gives RC2 5 volts
-	goto	    ReadStickers
 	
 ReadBW
 			
@@ -631,67 +598,23 @@ ReadBW
 	call		HalfS
 	call		Clear_Display
 	
-;	BCF		STATUS, IRP
-;	movlw		0x43
-;	movfw		FSR
-;	movlw		0x0
-;	decfsz		binCounter, W
-;	goto	$+3
-;	return
-	
-;	addwf		FSR,F
 	movlw		0x1
 	subwf		TenK
 	movlw		0x0
 	btfsc		STATUS,C
 	movlw		0x1
-;	movwf		INDF
 	
 	return
-	
-ReadColumn			; not using anymore cus apparently column is ultrasonic
-	
-	bsf	PORTC,2		; gives RC2 5 volts
 		
-	bsf	ADCON0,2		;start conversion and wait for it to complete
-	btfsc	ADCON0,2		;LCD CONVERSION MODULE
-	goto	$-1
-	
-	movf	ADRESH, W
-	movwf	NumH
-	movf	ADRESL, W
-	movwf	NumL
-	
-	call		Clear_Display
-	call		bin16_BCD
-	PrintNumber	TenK
-	PrintNumber	Thou
-	PrintNumber	Hund
-	PrintNumber     Tens
-	PrintNumber     Ones
-	call		HalfS
-	call		Clear_Display
-	
-	movlw		0x1
-	subwf		TenK		    ;check tenK
-	movlw		0x0
-	btfsc		STATUS,C
-	movlw		0x1
-	
-	return
-	
 ShaftIR
-	
-	
+
+	call	Clear_Display
     movfw	TMR0
-    sublw	0x5		; Skip if 
+    sublw	2		; Skip if 
     btfsc	STATUS, Z	; WREG is zero
-    bsf		PORTE,0		; set random pin to check if done
+    bsf	        PORTE,0		; set random pin to check if done
     call	ShaftIR
-	
-	
-	
-	
+    
 ;***************************************************
 ;	US Sensor Modules			    [TESTED]
 ;***************************************************
@@ -751,7 +674,7 @@ Read1_US1
     		bcf	T1CON,TMR1ON	;turn off timer
 		return
 		
-Read2_US
+Read2_US		    
 	 
 	call		Read2_US1 
 	 
@@ -780,31 +703,32 @@ Read2_US
 	btfsc		STATUS,C
 	movlw		0x0
 	
-	
+
 	return
 	
 Read2_US1
+		
 		clrf	TMR1H
 		clrf	TMR1L
 		
-		bcf	UST2		;make sure trigger is clear
+		bcf	UST1		;make sure trigger is clear
 		call	DELAY1
 		;Delay_5ms
 		
-		bsf	UST2		;trigger high, bottom sensor
+		bsf	UST1		;trigger high, bottom sensor
 		call	delay10us		;10us delay
-		bcf	UST2		;trigger low
+		bcf	UST1		;trigger low
 		
-		btfss	US1E2		;wait for echo to go high
+		btfss	US1E1		;wait for echo to go high
 		goto	$-1
 		bsf	T1CON,TMR1ON	;turn on timer
 		
-		btfsc	US1E2		;wait for echo to go low
+		btfsc	US1E1		;wait for echo to go low
 		goto	$-1
 		
     		bcf	T1CON,TMR1ON	;turn off timer
 		return
-	
+		
 
 ;*********************************************
 ; Keypad Modules
@@ -866,25 +790,6 @@ RTCDisplay
 	return
 	goto	    RTCDisplay
 	
-StickerDisplay
-	
-	;movlw	    0x1
-	;movwf	    Front1
-	
-	
-	
-	call	    Clear_Display
-	movlw	    0x0
-	movwf	    counter
-	BCF	    STATUS,IRP
-	movlw	    0x43				;0x43 is the front1
-							;0x4A should be the back1	
-	movwf	    FSR
-	movfw	    binCounter
-	movwf	    countdown
-	PrintNumber	TenK
-	call	    ReadStickers
-	
 AddBin
 	Call Clear_Display
 	incf	NumOfBins,F
@@ -906,15 +811,15 @@ Stickers
 	movfw		NumOfBins
 	movwf		countdown
 FrontLoop	
-		INCF		FSR,1
-		incf		counter	
-		PrintNumber	counter
-		call		HalfS
-		movfw		INDF
-		PrintCol	W
-		decfsz		countdown,F
-		goto		FrontLoop
-Next		return
+	INCF		FSR,1
+	incf		counter	
+	PrintNumber	counter
+	call		HalfS
+	movfw		INDF
+	PrintCol	W
+	decfsz		countdown,F
+	goto		FrontLoop
+Next	return
 		
 LEDControlON
 	
@@ -955,20 +860,10 @@ DisplayBlackWhiteIR2
 	call		HalfS
 	
 	return
-	
-pollColumnSensor	;checks to see if column present
- 
-	call		ReadColumn
-	movwf		isColumnThere		    ;sets the column bit 1 or 0
-	PrintYN		isColumnThere
-	call		HalfS
-	call		HalfS
-	
-	return
+
 	
 DisplayUSSensor1
 	
-	call		ClrLCD
 	call		Read1_US
 	call		ClrLCD
 	movwf		isBinThere		    ;sets the bin bit 1 or 0
@@ -989,45 +884,82 @@ DisplayUSSensor2
 	
 	return
 	
-ArmRotation1
+StdRotation1
 	
 	btfsc	    LEDcounter1,0
 	goto	    $+4
-	bcf		Arm1
+	bcf		Std1
 	bsf	    LEDcounter1,0
 	return
 	
-	bsf		Arm1
+	bsf		Std1
 	bcf	    LEDcounter1,0
 	return
 	
-ArmRotation2
+StdRotation2
 	
 	btfsc	    LEDcounter2,0
 	goto	    $+4
-	bsf		Arm2
+	bsf		Std2
 	bsf	    LEDcounter2,0
 	return
 	
 	
-	bcf		Arm2
+	bcf		Std2
 	bcf	    LEDcounter2,0
 	return
 	
-ArmRotation2Backwards
+StdRotation3
 	
-	btfsc	    LEDcounter1,0
+	btfsc	    LEDcounter3,0
 	goto	    $+4
-	bsf		Arm2Backwards
-	bsf	    LEDcounter1,0
-	return
-	
-	bcf		Arm2Backwards
-	bcf	    LEDcounter1,0
+	bsf		Std3
+	bsf	    LEDcounter3,0
 	return
 	
 	
-PWMSTART1	
+	bcf		Std3
+	bcf	    LEDcounter3,0
+	return
+	
+StdRotation1Backwards
+	
+	btfsc	    LEDcounter4,0
+	goto	    $+4
+	bsf		Std1Backwards
+	bsf	    LEDcounter4,0
+	return
+	
+	bcf		Std1Backwards
+	bcf	    LEDcounter4,0
+	return
+	
+StdRotation2Backwards
+	
+	btfsc	    LEDcounter5,0
+	goto	    $+4
+	bsf		Std2Backwards
+	bsf	    LEDcounter5,0
+	return
+	
+	bcf		Std2Backwards
+	bcf	    LEDcounter5,0
+	return
+
+StdRotation3Backwards
+	
+	btfsc	    LEDcounter6,0
+	goto	    $+4
+	bsf		Std3Backwards
+	bsf	    LEDcounter6,0
+	return
+	
+	bcf		Std3Backwards
+	bcf	    LEDcounter6,0
+	return
+	
+	
+PWMFWD	
 	
     ;************ FIRST PWM - Negative one******************************		    To stop it, clear CCP1RL and/or CCPR2L 
     
@@ -1035,10 +967,10 @@ PWMSTART1
     
  
     
-    btfsc	    LEDcounter3,0
+    btfsc	    LEDcounter7,0
     goto	    $+4
     clrf	    CCP1CON
-    bsf		    LEDcounter3,0
+    bsf		    LEDcounter7,0
     return
     
     BANKSEL TRISC
@@ -1077,19 +1009,19 @@ PWMSTART1
     
     BSF     T2CON, TMR2ON	;and start the timer running
     
-    bcf		    LEDcounter3,0
+    bcf		    LEDcounter7,0
     
     return
     
-PWMSTART2
+PWMBACK
     
     ;************ SECOND PWM - Positive one ******************************
     
-    btfss	    LEDcounter4,0
+    btfss	    LEDcounter8,0
     goto	    $+4
     clrf	    CCP2CON
     ;bcf		    PORTC,1
-    bcf		    LEDcounter4,0
+    bcf		    LEDcounter8,0
     return
     
  
@@ -1131,7 +1063,7 @@ PWMSTART2
     
     ;bsf		    PORTC,1
     
-    bsf		    LEDcounter4,0
+    bsf		    LEDcounter8,0
     
     return
     
