@@ -1,4 +1,4 @@
-	#include <p16f877A.inc>
+	#include <p16f877.inc>
 	
 	;Declare unbanked variables (at 0x70 and on)
 	udata_shr

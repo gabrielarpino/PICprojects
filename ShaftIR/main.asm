@@ -117,7 +117,7 @@ init_PIN
 	 
 Poll_Timer1
     movfw	TMR0
-    sublw	10		; Skip if 
+    sublw	5		; Skip if 
     btfsc	STATUS, Z	; WREG is zero
     call	Set_LED
     call	Poll_Timer1

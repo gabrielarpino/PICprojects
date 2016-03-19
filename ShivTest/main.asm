@@ -30,27 +30,27 @@
 		dat
 		temp
 		Temp
-		Location1
+		Location1	;3C PC
 		Location2
 		Location3
 		Location4
-		Location5
+		Location5	;40
 		Location6
 		Location7
-		Front1		;51 PC
+		Front1		;43 PC7
 		Front2
 		Front3
 		Front4
 		Front5
 		Front6
 		Front7
-		Back1		;58 PC
+		Back1		; 4A PC
 		Back2
 		Back3
 		Back4
 		Back5
 		Back6
-		Back7
+		Back7		;50
 		pr2temp 
 		NumH
 		NumL
@@ -67,17 +67,12 @@
 		binCounter
 		countdown
 		counter
-		NumOfBins
+		NumOfBins1			
 		delay3
-		LEDcounter0
-		LEDcounter1
-		LEDcounter2
-		LEDcounter3
-		LEDcounter4
-		LEDcounter5
-		LEDcounter6
-		LEDcounter7
-		LEDcounter8
+		LEDcounter0, LEDcounter1,LEDcounter2,LEDcounter3,LEDcounter4,LEDcounter5,LEDcounter7,LEDcounter8
+		cm
+		mm
+		distreg
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -99,6 +94,7 @@
 		#define	Std1Backwards	PORTB,2
 		#define	Std2Backwards	PORTB,3
 		#define	Std3Backwards	PORTC,0
+		#define	Switch		PORTA,5	    ; or gated switch to stop motor motion
 		;SHAFTIR is PORTA,4
 		
 		
@@ -108,6 +104,9 @@
          goto      init       ;Just jump to the main code section.
 	 
 	 ;ORG	   0x100	;this command is sketchy
+	 
+
+	
 	 
 ;*******************************************************************************
 ; MACROS
@@ -222,6 +221,33 @@ ADD	Macro	Destination, reg1, reg2
     ADDWF   reg2,W	; W <- reg1 + reg2
     MOVWF   Destination	; Destination <- reg1 + reg2
     endm
+    
+;***************************************
+; Store_Dist macro --> Stores current
+;   distance and stores it in Bin_Dist_reg
+;***************************************		
+Store_Dist macro    Bin_Dist_reg
+	lcall	Dist_Decoder
+	movfw	cm
+	movwf	Bin_Dist_reg
+    endm
+    
+;***************************************
+; Display_Dist macro --> Takes value in Bin_Dist_reg
+;   and converts it into a BCD and prints it
+;   To the LCD
+;***************************************		
+Display_Dist macro    Bin_Dist_reg
+	clrf	NumL
+	clrf	NumH
+	movfw	Bin_Dist_reg
+	;movfw	TMR0
+	movwf	NumL
+	call	bin16_BCD
+	PrintNumber	Hund
+	PrintNumber     Tens
+	PrintNumber     Ones
+    endm
 		
 ;***************************************
 ; Number to Printable
@@ -335,7 +361,7 @@ init
          clrf      INTCON         ; No interrupts
 
          bsf       STATUS,RP0     ; select bank 1
-	 movlw	    0xFF	    ; need to make A input for US sensors
+	 movlw	    0xFF	    ; need to make A input
          movwf      TRISA          ; All port A is input
          movlw     b'11110010'    ; Set required keypad inputs
          movwf     TRISB
@@ -352,7 +378,7 @@ init
          clrf      PORTB
          clrf      PORTC
          clrf      PORTD
-	 clrf	    PORTE
+	 clrf	   PORTE
 	 
 	;Set up I2C for communication
 		 
@@ -386,8 +412,6 @@ init
 
 	;ADCON0
 	bcf	STATUS,RP0
-	movlw	b'11000101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
-	movwf	ADCON0
 	
 ;***************************************************
 ; Initialize variables and Displays
@@ -395,27 +419,25 @@ init
 	Display		Welcome_Msg
 	call		Switch_Lines
 	Display		Welcome_Msg2
+	clrf		NumOfBins1
+	clrf		distreg		    ; clear register for distance
+	call		Init_TMR0	    ; Initialize shaft encoder
 	bsf		PORTD,0
-	movlw		0X00
-	movwf		NumOfBins   ;shivs bin counter init
 	bsf		LEDcounter0,0		    ;counter for LED
 	bsf		LEDcounter1,0		    ;forward motor counters
 	bsf		LEDcounter2,0
 	bsf		LEDcounter3,0		    
 	bsf		LEDcounter4,0		    ;backward motor counters
-	bsf		LEDcounter5,0
-	bsf		LEDcounter6,0		    
+	bsf		LEDcounter5,0	    
 	bsf		LEDcounter7,0		    ;pwm counters
 	bsf		LEDcounter8,0		    
 	
 	bcf		Std1			;std motor 1 is the positive one
-	bsf		Std2
-	bsf		Std3
+	bcf		Std2
 	bcf		Std1Backwards
-	bsf		Std2Backwards
-	bsf		Std3Backwards
-	bsf		PORTC,2		    
-	bsf		PORTC,1		    
+	bcf		Std2Backwards
+	bcf		PORTC,2		    
+	bcf		PORTC,1			; PWM now positive, so start by clearing		    
 
 ;*************************************
 ;	Keypad and LCD forms	    
@@ -436,8 +458,8 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 	    	Key	0x05, LEDControlON
 		Key	0x06, DisplayUSSensor1
 		Key	0x07, AddBin
-		Key	0x08, Stickers
-		Key	0x09, LCDConversionFront
+		Key	0x08, Stickers1
+		Key	0x09, StoreBW1
 		Key	0x0A, StdRotation2Backwards
 		Key	0x0B, ShaftIR
 		Key	0x0C, StdRotation1
@@ -456,54 +478,90 @@ goback
 ;								  MAIN CODE
 ;----------------------------------------------------------------------------------------------------------------------------------------------
 StartInit
-		
-; WAIT FOR INITIAL INPUT
-	movlw	b'00'
-	movwf	binCounter	;initialize bincounter with 0
-	movwf	distanceMoved	;initialize distance moved with 0
-	movlw		0X00
-	movwf		NumOfBins   ;shivs bin counter init
+	
 
 ;    goto    getTimeRTC	    ; gets time from RTC clock
 
 StartMove
 ;   MOTOR ON
+	
+    ;check if encoder is at value
+    ;call    MoveBackwards
     
+    ;else
     call    PWMFWD
-    ADDL    distanceMoved, distanceMoved, b'1'	    ;increase distance moved
-    
-    movlw		0x4			;checking whether distance moved is 4
-    subwf		distanceMoved
-    movlw		0x0
-    btfsc		STATUS,C
-    movlw		0x1
-    btfsc		W,0
-;    btfsc		distanceMoved,3		;count seven
-    call		MoveBackwards
-
-;    bsf	    DCMotor		    ; begin forward movement, set appropriate bit to 1
-;    movlw   b'1'
-;    addwf  distanceMoved,f     ; increments distanceMoved by 1 (will experimentally find binary value for 4 m)
-    
-    
-    
-    
-;;   CHECK COLUMN
-
-    ;call    ChooseIR1		;selects IR1 for data conversion
-    call    DisplayBlackWhiteIR1	;checks to see if column present
-    btfss   Front1,0
-    goto    StartMove
-    call    PWMFWD		;stops motor from moving forward
     call    HalfS
+    call    HalfS
+    
+CHECKCOLUMN
+
+    ;call    Read1_US		;checks to see if column present
+    
+    ;movlw   0x3
+    ;subwf   TMR1H
+    ;btfsc   STATUS,C
+    ;goto    StartMove
+    ;call    PWMFWD		;stops motor from moving forward
+    ;call    HalfS
+    
+    ;motor 1 (white thing)
     bsf    Std1		;starts motor to move arm
     call    Clear_Display
     Display OperationTime
-    call    HalfS
-    call    HalfS
     call    HalfS		;emulates arm movement
+    call    HalfS
     bcf    Std1		;turns off motor to move arm
-    goto    StartMove
+    
+    ;motor 2 (arm)
+    
+   bcf	   Std2
+   call    Clear_Display
+   Display OperationTime
+   call	    HalfS
+   call	    HalfS
+   bsf	   Std2
+   
+STOREDISTANCE
+   
+    ;display distance traveled
+    call    Clear_Display
+    call    Dist_Decoder
+    call    HalfS
+    Store_Dist	distreg
+    Display_Dist	distreg
+    
+    call    StoreThisDistance
+    call    HalfS
+    call    HalfS
+ 
+    call    AddBin
+    call    HalfS
+    call    HalfS
+    
+    call    Clear_Display
+    call    Dist_Decoder
+    call    HalfS
+    Store_Dist	distreg
+    Display_Dist	distreg
+    
+    call    StoreThisDistance
+    call    HalfS
+    call    HalfS
+    
+    call    Locations
+    
+    goto    KeypadandLCD
+    
+CHECKSWITCH
+    
+    bsf	    PORTE,0
+    btfss   Switch
+    bcf	    PORTE,0    
+    
+    goto	CHECKSWITCH
+   
+   
+   
     
 ;   CHECK IF AT THE END OF BUCKET Line
     
@@ -525,7 +583,6 @@ StartMove
 ;    movlw  b'1'
 ;    addwf   frontbinCounter,f	    ;increment the bin counters
 ;    addwf   backbinCounter,f
-    goto    Finalize
     
 MoveBackwards
     
@@ -542,11 +599,8 @@ MoveBackwards
 ;	Sticker Print Modules
 ;*****************************************
 	
-LCDConversionFront
-	bcf	STATUS,RP0
-	movlw	b'00010101'             ;RA0
-	
-	movwf	ADCON0			;RA1
+BWStoreModule1
+
 	bsf	ADCON0,2		;start conversion and wait for it to complete
 	btfsc	ADCON0,2		;LCD CONVERSION MODULE
 	goto	$-1
@@ -556,7 +610,7 @@ LCDConversionFront
 	movf	ADRESL, W
 	movwf	NumL
 	call	Clear_Display
-	Call	bin16_BCD
+	call	bin16_BCD
 	PrintNumber	TenK
 	PrintNumber	Thou
 	PrintNumber	Hund
@@ -567,7 +621,39 @@ LCDConversionFront
 	movlw	0x42
 	movwf	FSR
 	movlw	0X0
-	decf	NumOfBins,W
+	decf	NumOfBins1,W		;want bin number to be decreased when back checks it
+	addwf	FSR,F
+	movlw	0X1
+	subwf	TenK
+	movlw	0x0
+	btfsc	STATUS, C
+	movlw	0x1
+	movwf	INDF
+	return	
+	
+BWStoreModule2
+
+	bsf	ADCON0,2		;start conversion and wait for it to complete
+	btfsc	ADCON0,2		;LCD CONVERSION MODULE
+	goto	$-1
+	
+	movf	ADRESH, W
+	movwf	NumH
+	movf	ADRESL, W
+	movwf	NumL
+	call	Clear_Display
+	call	bin16_BCD
+	PrintNumber	TenK
+	PrintNumber	Thou
+	PrintNumber	Hund
+	PrintNumber     Tens
+	PrintNumber     Ones
+	call		HalfS		;wait half a second to display
+	BCF     STATUS, IRP
+	movlw	0x49			;number 49 to try to get registers for back of bin
+	movwf	FSR
+	movlw	0X0
+	decf	NumOfBins1,W
 	addwf	FSR,F
 	movlw	0X1
 	subwf	TenK
@@ -607,13 +693,18 @@ ReadBW
 	return
 		
 ShaftIR
-
-	call	Clear_Display
     movfw	TMR0
-    sublw	2		; Skip if 
+    sublw	5		; Skip if 
     btfsc	STATUS, Z	; WREG is zero
-    bsf	        PORTE,0		; set random pin to check if done
+    call	Set_LED
     call	ShaftIR
+
+Set_LED
+    call	Clear_Display
+    BSF PORTE, 0
+    call STOP
+  
+STOP	goto STOP
     
 ;***************************************************
 ;	US Sensor Modules			    [TESTED]
@@ -653,15 +744,16 @@ Read1_US
 	
 Read1_US1
 		
-		clrf	TMR1H
+		clrf	TMR1H		; commented are sam harrison edits
 		clrf	TMR1L
 		
-		bcf	UST1		;make sure trigger is clear
-		call	DELAY1
+		;bcf	UST1		;make sure trigger is clear
+		;call	DELAY1
 		;Delay_5ms
 		
 		bsf	UST1		;trigger high, bottom sensor
-		call	delay10us		;10us delay
+		call	lcdLongDelay
+		;call	delay10us		;10us delay used lcdlongdelay
 		bcf	UST1		;trigger low
 		
 		btfss	US1E1		;wait for echo to go high
@@ -711,12 +803,13 @@ Read2_US1
 		clrf	TMR1H
 		clrf	TMR1L
 		
-		bcf	UST1		;make sure trigger is clear
-		call	DELAY1
+;		bcf	UST2		;make sure trigger is clear
+;		call	DELAY1
 		;Delay_5ms
 		
 		bsf	UST1		;trigger high, bottom sensor
-		call	delay10us		;10us delay
+		call	lcdLongDelay		    ;sam harrison edits
+		;call	delay10us		;10us delay
 		bcf	UST1		;trigger low
 		
 		btfss	US1E1		;wait for echo to go high
@@ -729,7 +822,67 @@ Read2_US1
     		bcf	T1CON,TMR1ON	;turn off timer
 		return
 		
+;*******************************************************
+; Dist_Decoder
+;   input:  Timer0, cm, mm
+;   output: Bin_Dist_reg
+;   Desc:   Converts the count in the rotary encoder
+;	    into physical distance
+;*******************************************************
+Dist_Decoder
+	; Initalize all registers
+	clrf	cm		; Clear regs
+	clrf	mm
+	movfw	TMR0		; poll encoder for current state
+	movwf	temp
+	; Check if its already zero
+	movfw	temp
+	sublw	D'0'
+	btfsc	STATUS, Z
+	return
+	
+Decode_loop			; Assume each step is 1.01 cm
+	; Perform decode
+	ADDL	cm, cm, D'1'
+	ADDL	mm, mm, D'1'
+	decf	temp
 
+	; Test if mm has overflowed! (mm >= 10)
+	movlw	D'10'		
+	subwf	mm, w		; mm - 10 --> w (w = f - w, when d = 0) 
+	btfsc	STATUS, C	; Y = mm, w = 10, Y-w
+	call	mm_overflow	; Run overflow routine if it did overflow
+
+Decode_check_done	
+	; Test if done decoding
+	movfw	temp
+	sublw	D'0'
+	;movf	temp, F
+	btfss	STATUS, Z	
+	goto	Decode_loop
+;	btfss	STATUS, C
+;	call	Decode_loop
+	;Display	    StandBy1
+	;goto	    Dist_test
+	return
+	
+mm_overflow
+	incf	cm		; cm + 1 --> cm
+	movlw	D'10'		; 10 --> w
+	subwf	mm, f		; mm - 10 --> mm (f = f - w, when d = 1) 
+	goto	Decode_check_done	; Continue decoding
+	
+StoreThisDistance
+	BCF     STATUS, IRP
+	movlw	0x50			;number 56 to try to get location registers in cblock
+	movwf	FSR
+	movlw	0X0
+	decf	NumOfBins1,W
+	addwf	FSR,F
+	Store_Dist	W		;move the distance into the actual register
+	movwf	INDF
+	
+	return
 ;*********************************************
 ; Keypad Modules
 ;*******************************************
@@ -758,12 +911,6 @@ BinsDisplay
 		
 	return
 	
-BinLocationsDisplay
-        call        Clear_Display
-        Display	    BinLocations
-		
-	return
-
 OperationTimeDisplay
         call        Clear_Display
         Display	    OperationTime
@@ -790,36 +937,102 @@ RTCDisplay
 	return
 	goto	    RTCDisplay
 	
+StoreBW1
+	bcf	STATUS,RP0
+	movlw	b'00000101'           	
+	movwf	ADCON0			;choose RA0
+	
+	call	BWStoreModule1	
+StoreBW2
+	bcf	STATUS,RP0
+	movlw	b'00010101'           	
+	movwf	ADCON0			;choose RA1
+	
+	call	BWStoreModule2
+	
+	return
+	
 AddBin
 	Call Clear_Display
-	incf	NumOfBins,F
-	PrintNumber	NumOfBins
+	incf	NumOfBins1,F
+	PrintNumber	NumOfBins1
 	Call	    HalfS
 	movlw	0X7			;checks if max of 7 bins has been reached
-	subwf	NumOfBins,W		
+	subwf	NumOfBins1,W		
 	btfsc	STATUS,Z
 	goto	Finalize
 	return
 	
-Stickers
+Stickers1
 	call 		Clear_Display
 	movlw		0X0
 	movwf		counter
 	BCF             STATUS, IRP
 	movlw		0x41
 	movwf		FSR
-	movfw		NumOfBins
+	movfw		NumOfBins1
 	movwf		countdown
-FrontLoop	
+	Display		FrontStickers
+FrontLoop1	
 	INCF		FSR,1
-	incf		counter	
+	incf		counter
 	PrintNumber	counter
-	call		HalfS
+	Display		Colon
 	movfw		INDF
 	PrintCol	W
+	Display		Spacee
+	decfsz		countdown,F
+	goto		FrontLoop1
+	
+	call		Switch_Lines
+	
+Stickers2
+	
+	movlw		0X0
+	movwf		counter
+	BCF             STATUS, IRP
+	movlw		0x48
+	movwf		FSR
+	movfw		NumOfBins1
+	movwf		countdown
+	Display		BackStickers
+FrontLoop2
+	INCF		FSR,1
+	incf		counter
+	PrintNumber	counter
+	Display		Colon
+	movfw		INDF
+	PrintCol	W
+	Display		Spacee
+	decfsz		countdown,F
+	goto		FrontLoop2
+	
+	return
+	
+Locations
+	call 		Clear_Display
+	movlw		0X0
+	movwf		counter
+	BCF             STATUS, IRP
+	movlw		0x4f
+	movwf		FSR
+	movfw		NumOfBins1
+	movwf		countdown
+	Display		Distances
+FrontLoop	
+	INCF		FSR,1
+	incf		counter
+	PrintNumber	counter
+	Display		Colon
+	movfw		INDF
+	Display_Dist	W
+	Display		Spacee
 	decfsz		countdown,F
 	goto		FrontLoop
-Next	return
+	
+	return
+	
+
 		
 LEDControlON
 	
@@ -850,7 +1063,7 @@ DisplayBlackWhiteIR1
 	
 DisplayBlackWhiteIR2
 	
-	movlw	b'11001101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
+	movlw	b'11001101'	;movlw	b'11000101' selects the clock and ra as the reader pin
 	movwf	ADCON0	
 	
 	call		ReadBW	
@@ -900,28 +1113,15 @@ StdRotation2
 	
 	btfsc	    LEDcounter2,0
 	goto	    $+4
-	bsf		Std2
+	bcf		Std2
 	bsf	    LEDcounter2,0
 	return
 	
 	
-	bcf		Std2
+	bsf		Std2
 	bcf	    LEDcounter2,0
 	return
-	
-StdRotation3
-	
-	btfsc	    LEDcounter3,0
-	goto	    $+4
-	bsf		Std3
-	bsf	    LEDcounter3,0
-	return
-	
-	
-	bcf		Std3
-	bcf	    LEDcounter3,0
-	return
-	
+		
 StdRotation1Backwards
 	
 	btfsc	    LEDcounter4,0
@@ -945,27 +1145,12 @@ StdRotation2Backwards
 	bcf		Std2Backwards
 	bcf	    LEDcounter5,0
 	return
-
-StdRotation3Backwards
-	
-	btfsc	    LEDcounter6,0
-	goto	    $+4
-	bsf		Std3Backwards
-	bsf	    LEDcounter6,0
-	return
-	
-	bcf		Std3Backwards
-	bcf	    LEDcounter6,0
-	return
-	
 	
 PWMFWD	
 	
     ;************ FIRST PWM - Negative one******************************		    To stop it, clear CCP1RL and/or CCPR2L 
     
     ;save   pr2 value so that you can zero it after
-    
- 
     
     btfsc	    LEDcounter7,0
     goto	    $+4
@@ -1017,11 +1202,11 @@ PWMBACK
     
     ;************ SECOND PWM - Positive one ******************************
     
-    btfss	    LEDcounter8,0
+    btfsc	    LEDcounter8,0
     goto	    $+4
     clrf	    CCP2CON
     ;bcf		    PORTC,1
-    bcf		    LEDcounter8,0
+    bsf		    LEDcounter8,0
     return
     
  
@@ -1063,7 +1248,7 @@ PWMBACK
     
     ;bsf		    PORTC,1
     
-    bsf		    LEDcounter8,0
+    bcf		    LEDcounter8,0
     
     return
     
@@ -1299,6 +1484,15 @@ PrintWhiteSticker
 	call	    WR_DATA
 	return
 	
+lcdLongDelay
+    movlw d'20'
+    movwf lcd_d2
+LLD_LOOP
+    LCD_DELAY
+    decfsz lcd_d2,f
+    goto LLD_LOOP
+    return
+    
 ;***************************************
 ; Look up table
 ;***************************************
@@ -1423,35 +1617,6 @@ Bins
 BinsEntries
 	dt	  "4 bins in total",0
 	
-StickerStatus
-	
-	;Change Page
-	movwf	 Temp
-	movlw	HIGH StickerStatusEntries
-	movwf	PCLATH
-	movf	Temp,w
-	addlw	LOW StickerStatusEntries
-	btfsc	STATUS,C
-	    incf    PCLATH,f
-	movwf	PCL	
-	addwf	 PCL,F
-StickerStatusEntries
-	dt	  "BBWBWWWB",0
-	
-BinLocations
-	;Change Page
-	movwf	 Temp
-	movlw	HIGH BinLocationsEntries
-	movwf	PCLATH
-	movf	Temp,w
-	addlw	LOW BinLocationsEntries
-	btfsc	STATUS,C
-	    incf    PCLATH,f
-	movwf	PCL	
-	addwf	 PCL,F
-BinLocationsEntries
-	dt	  "0.35,0.56,0.79",0
-	
 OperationTime
 	;Change Page
 	movwf	 Temp
@@ -1465,34 +1630,6 @@ OperationTime
 	addwf	 PCL,F
 OperationTimeEntries
 	dt	  "Moving Arm",0
-	
-ReceivedInput
-	;Change Page
-	movwf	 Temp
-	movlw	HIGH ReceivedInputEntries
-	movwf	PCLATH
-	movf	Temp,w
-	addlw	LOW ReceivedInputEntries
-	btfsc	STATUS,C
-	    incf    PCLATH,f
-	movwf	PCL	
-	addwf	 PCL,F
-ReceivedInputEntries
-	dt	  "takin in large value",0
-	
-SmallValueInput
-	;Change Page
-	movwf	 Temp
-	movlw	HIGH SmallValueInputEntries
-	movwf	PCLATH
-	movf	Temp,w
-	addlw	LOW SmallValueInputEntries
-	btfsc	STATUS,C
-	    incf    PCLATH,f
-	movwf	PCL	
-	addwf	 PCL,F
-SmallValueInputEntries
-	dt	  "small value",0
 	
 DectoChar
 	
@@ -1538,6 +1675,80 @@ ColumnValues
         addwf    PCL,F
 ColumnValuesEntries
         dt        "NY",  0
+	
+FrontStickers
 
-    
+	;Change Page
+	movwf	Temp
+	movlw	HIGH FrontStickersEntries
+	movwf	PCLATH
+	movf	Temp,w
+	addlw	LOW FrontStickersEntries
+	btfsc	STATUS,C
+	    incf    PCLATH,f
+	movwf	PCL	
+        addwf    PCL,F
+FrontStickersEntries
+        dt        "Front",  0
+	
+BackStickers
+
+	;Change Page
+	movwf	Temp
+	movlw	HIGH BackStickersEntries
+	movwf	PCLATH
+	movf	Temp,w
+	addlw	LOW BackStickersEntries
+	btfsc	STATUS,C
+	    incf    PCLATH,f
+	movwf	PCL	
+        addwf    PCL,F
+BackStickersEntries
+        dt        "Back",  0
+	
+Spacee
+
+	;Change Page
+	movwf	Temp
+	movlw	HIGH SpaceeEntries
+	movwf	PCLATH
+	movf	Temp,w
+	addlw	LOW SpaceeEntries
+	btfsc	STATUS,C
+	    incf    PCLATH,f
+	movwf	PCL	
+        addwf    PCL,F
+SpaceeEntries
+        dt        " ",  0
+	
+Colon
+
+	;Change Page
+	movwf	Temp
+	movlw	HIGH ColonEntries
+	movwf	PCLATH
+	movf	Temp,w
+	addlw	LOW ColonEntries
+	btfsc	STATUS,C
+	    incf    PCLATH,f
+	movwf	PCL	
+        addwf    PCL,F
+ColonEntries
+        dt        ":",  0
+	
+Distances
+
+	;Change Page
+	movwf	Temp
+	movlw	HIGH DistancesEntries
+	movwf	PCLATH
+	movf	Temp,w
+	addlw	LOW DistancesEntries
+	btfsc	STATUS,C
+	    incf    PCLATH,f
+	movwf	PCL	
+        addwf    PCL,F
+DistancesEntries
+        dt        "Dist (cm)",  0
+	    
 	END
