@@ -406,8 +406,8 @@ init
 	call 	   i2c_common_setup
 ;*******************************************************************************
 ;	 UNCOMMENT IF YOU WANT TO CHANGE THE TIME
-	rtc_resetAll					;works
-	call set_rtc_time
+	;rtc_resetAll					;works
+	;call set_rtc_time
 ;*******************************************************************************
 		 
 		 ;Used to set up time in RTC, load to the PIC when RTC is used for the first time
@@ -479,7 +479,7 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		Key	0x01, DisplayBlackWhiteIR1
 		Key	0x02, DisplayBlackWhiteIR2
 		Rotation	0x03
-		Key	0x04, RTCDisplay
+		Key	0x04, READBIN
 	    	Key	0x05, DisplayUSSensor1
 		Key	0x06, DisplayUSSensor2
 		Key	0x07, AddBin
@@ -501,91 +501,7 @@ goback
 ;**************************************************************************************************************************************************
 ;								  MAIN CODE
 ;----------------------------------------------------------------------------------------------------------------------------------------------
-;StartInit
-;
-;    call    set_rtc_time	    ; resets RTC clock to zero
-;
-;    call    LEDCOLUMNTESTWHILEMOVINGFRONT
-;StartMove
-;
-;    call    PWMFWD
-;    call    HalfS
-;    call    HalfS
-;    
-;TIME
-;      
-;;     rtc_resetAll		    ; for some reason, resetting the time again breaks it
-;;     call   set_rtc_time
-;
-;    call	show_RTC
-;    
-;    return
-;    
-;    
-;CHECKCOLUMN
-;    
-;    bsf	    Std1
-;    call    HalfS
-;    call    HalfS
-;
-;    call    Read1_US		;checks to see if column present
-;    
-;;    movlw   0xff
-;;    subwf   TMR1L
-;    btfss   W,0
-;    goto    CHECKCOLUMN
-;    bsf	    LED
-;    bcf	    Std1		;stops motor from moving forward
-;    call    HalfS
-;    return
-;    
-;LEDCOLUMNTESTWHILEMOVINGFRONT
-;    
-;    ;call    Clear_Display
-;    
-;    ;call    set_rtc_time	    ; resets RTC clock to zero
-;    
-;    ;call    FINDBIN
-;    
-;    bsf	    Std1		;moving
-;    bcf	    LED
-;    
-;    call    Read1_US		;checks to see if column present
-;    
-;    movlw   0x10		; if column present, it'll move forward
-;    subwf   TMR1H
-;    btfsc   STATUS,C
-;    goto    LEDCOLUMNTESTWHILEMOVINGFRONT
-;    bcf	    Std1		;motor will move fwd
-;    bcf	    LED
-;    
-;    
-;    call    AVOIDCOLUMN
-;    
-;    
-;;    bsf	    Std1		;move forward until no more column in the way
-;;    bsf	    LED
-;;    
-;;    call    HalfS
-;;    call    HalfS
-;;    call    HalfS		;wait til it drives enough forward from column
-;;    
-;;    call    Read1_US		;checks to see if column present
-;;    
-;;    movlw   0x10		; if column is not present, it'll go back to original form
-;;    subwf   TMR1H
-;;    btfss   STATUS,C		
-;;    goto    $-6
-;;    
-;;    bcf	    Std1
-;;    bcf	    LED
-;    
-;    
-;    call    RETURNFROMCOLUMN
-;    
-;    ;call    FINDBIN
-;    
-;    goto    EXIT
+
 AVOIDCOLUMN
     
     bcf	    Std1		;motor will stop move fwd
@@ -680,7 +596,7 @@ RETURNFROMCOLUMN
     
 READBIN
 
-    call    HalfS
+    ;call    HalfS
     bcf     Std1
     
     call    AddBin		;adds bin to list
@@ -713,7 +629,7 @@ READBIN
     call    HalfS
     call    HalfS
     
-    bcf	    LED
+    bsf	    LED
     
     return
     
@@ -725,14 +641,15 @@ TOTAL
     call    Read1_US		;warms up us sensors that was weird
     call    Read2_US
     
-    call    DisplayBlackWhiteIR2	;warms up IR
-    call    DisplayBlackWhiteIR1	;warms up IR
+    ;call    DisplayBlackWhiteIR2	;warms up IR
+    ;call    DisplayBlackWhiteIR1	;warms up IR
     
 TOTAL1
     
     bsf	    Std1		;moving
     clrf    count_highs		;reset the high value counter
     
+COLREADINGSTART
     call    Read1_US		;checks to see if column present
     
 ;********THRESHOLD CALCULATION FOR COLUMN**************:
@@ -741,19 +658,22 @@ TOTAL1
 ;	To be safe, will minus 02603 from the TMR variables.
 ;	This means, subtract 0x4 from TMR1H 
 ;	Value before at integration was 0x14, now trying 0x4
+;	THE FOLLOWING CODE COUNTS 3 HIGHS
     
     movlw   0xF		; if column present, it'll move forward
     subwf   TMR1H
-    btfss   STATUS,C
+    btfsc   STATUS,C	    
+    goto    $+7
+    incf    count_highs
+    movlw   MAX_HIGHS
+    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+    btfss   STATUS,Z		    ; if result is zero, Z bit is set.
+    goto    COLREADINGSTART
     call    AVOIDCOLUMN
     
-;    goto    $+6
-;    incf    count_highs
-;    movlw   MAX_HIGHS
-;    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
-;    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
-    
     clrf    count_highs		;reset the high value counter
+    
+BINREADINGSTART
     
     call    Read2_US		;checks to see if bin present
     
@@ -763,61 +683,43 @@ TOTAL1
 ;	To be safe, will minus 01210 from the TMR variables.
 ;	This means, subtract 0x4 from TMR1H 
 ;	Value before at integration was 0x14, now trying 0x4
+;	CODE COUNTS 3 HIGHS
+
     
-    
-    movlw   0x6		; read the bin
+    movlw   0x8		; read the bin
     subwf   TMR1H
-    btfss   STATUS,C
+    btfsc   STATUS,C
+    goto    $+8
+    incf    count_highs
+    call    lcdLongDelay
+    movlw   MAX_HIGHS
+    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+    btfss   STATUS,Z		    ; if result is zero, Z bit is set.
+    goto    BINREADINGSTART
     call    DELAYEDREAD
-    goto    ENDTHIS		    ;switch endthis with delayread for max high thing
-    
-       
-;    incf    count_highs
-;    movlw   MAX_HIGHS
-;    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
-;    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
+
+    call    BINREADINGSTART
+
    
     
     
 DELAYEDREAD
-    call    HalfS	    ; wait for robot to move a bit in front of bin
+    ;checks to see when the bin sensor is past bin
+    call    Read2_US		;checks to see if bin present
+    movlw   0x6		; read the bin
+    subwf   TMR1H
+    btfss   STATUS,C
+    goto    DELAYEDREAD
     call    READBIN
-    bsf	    Std1		; move forward a bit so that you don't double read bin
-    call    HalfS
-    call    HalfS
-    bsf	    LED			; turn off LED After reading
+    bcf	    LED			; turn off LED After reading
     
 ENDTHIS   
     
-;    movlw   0x4
-    btfss   NumOfBins1,1		;checking if its at two bins
-;    btfsc   STATUS,C
-    goto TOTAL1
-    
-    
-;    bsf	    Std1		;move forward until no more column in the way
-;    bsf	    LED5
-;    
-;    call    HalfS
-;    call    HalfS
-;    call    HalfS		;wait til it drives enough forward from column
-;    
-;    call    Read1_US		;checks to see if column present
-;    
-;    movlw   0x10		; if column is not present, it'll go back to original form
-;    subwf   TMR1H
-;    btfss   STATUS,C		
-;    goto    $-6
-;    
-;    bcf	    Std1
-;    bcf	    LED
-;    
-;    
-;    call    RETURNFROMCOLUMN
-    
-    ;call    FINDBIN
-    
+    movlw	0X1			;checks if max of 7 bins has been reached
+    subwf	NumOfBins1,W		
+    btfsc	STATUS,Z
     goto    EXIT
+    goto TOTAL1
     
 CHECKSWITCH
     
@@ -852,7 +754,7 @@ EXIT
     Display	Welcome_Msg2
     
     bcf		Std1
-    bsf		Std1Backwards
+    ;bsf		Std1Backwards
     
     goto	EXITDISPLAY
     
@@ -943,7 +845,7 @@ BWStoreModule1
 	movlw	0X0
 	decf	NumOfBins1,W		;want bin number to be decreased when back checks it
 	addwf	FSR,F
-	movlw	0X29
+	movlw	0X52			; roughly 21000
 	subwf	NumH
 	movlw	0x0
 	btfsc	STATUS, C
@@ -968,7 +870,6 @@ BWScanModule2
 	PrintNumber	Hund
 	PrintNumber     Tens
 	PrintNumber     Ones
-;	call		HalfS		;wait half a second to display
 	return
 BWStoreModule2
 	BCF     STATUS, IRP
@@ -977,7 +878,7 @@ BWStoreModule2
 	movlw	0X0
 	decf	NumOfBins1,W
 	addwf	FSR,F
-	movlw	0X29
+	movlw	0X10
 	subwf	NumH
 	movlw	0x0
 	btfsc	STATUS, C
@@ -985,36 +886,6 @@ BWStoreModule2
 	movwf	INDF
 	return	
 	
-ReadBW
-			
-	bsf	ADCON0,2		;start conversion and wait for it to complete
-	btfsc	ADCON0,2		;LCD CONVERSION MODULE
-	goto	$-1
-	
-	movf	ADRESH, W
-	movwf	NumH
-	movf	ADRESL, W
-	movwf	NumL
-	
-	call		Clear_Display
-	call		bin16_BCD
-	PrintNumber	TenK
-	PrintNumber	Thou
-	PrintNumber	Hund
-	PrintNumber     Tens
-	PrintNumber     Ones
-	call		HalfS
-	call		Clear_Display
-	
-	movlw		0x1
-	subwf		TenK
-	movlw		0x0
-	btfsc		STATUS,C
-	movlw		0x1
-	
-	return
-		
-    
 ;***************************************************
 ;	US Sensor Modules			    [TESTED]
 ;***************************************************
@@ -1036,34 +907,13 @@ Read1_US
 	
 	PrintNumber	TenK
 	PrintNumber	Thou
-	PrintNumber	Hund
-	PrintNumber	Tens
-	PrintNumber	Ones
-	
-	;call		HalfS
+;	PrintNumber	Hund
+;	PrintNumber	Tens
+;	PrintNumber	Ones
 	
 	call		Clear_Display
 	return
-	
-;Read1_US1
-;		
-;		clrf	TMR1H		; commented are sam harrison edits
-;		clrf	TMR1L
-;		
-;		bsf	UST1		;trigger high, bottom sensor
-;		call	lcdLongDelay
-;		bcf	UST1		;trigger low
-;		
-;		btfss	US1E1		;wait for echo to go high
-;		goto	$-1
-;		bsf	T1CON,TMR1ON	;turn on timer
-;		
-;		btfsc	US1E1		;wait for echo to go low
-;		goto	$-1
-;		
-;    		bcf	T1CON,TMR1ON	;turn off timer
-;		return
-		
+
 Read2_US		    
 	 
 	;call		Read2_US1 
@@ -1081,33 +931,14 @@ Read2_US
 	
 	PrintNumber	TenK
 	PrintNumber	Thou
-	PrintNumber	Hund
-	PrintNumber	Tens
-	PrintNumber	Ones
+;	PrintNumber	Hund
+;	PrintNumber	Tens
+;	PrintNumber	Ones
 	
 	;call		HalfS
 	
 	call		Clear_Display
 	return
-	
-;Read2_US1
-;		
-;		clrf	TMR1H
-;		clrf	TMR1L
-;		
-;		bsf	UST2		;trigger high, bottom sensor
-;		call	lcdLongDelay		    ;sam harrison edits
-;		bcf	UST2		;trigger low
-;		
-;		btfss	US1E2		;wait for echo to go high
-;		goto	$-1
-;		bsf	T1CON,TMR1ON	;turn on timer
-;		
-;		btfsc	US1E2		;wait for echo to go low
-;		goto	$-1
-;		
-;    		bcf	T1CON,TMR1ON	;turn off timer
-;		return
 		
 ;*******************************************************
 ; Dist_Decoder
@@ -1328,11 +1159,9 @@ DisplayBlackWhiteIR1
 	movlw	b'11000101'	;movlw	b'11000101' selects the clock and ra0 as the reader pin
 	movwf	ADCON0	
 		
-	call		ReadBW	
-	movwf		Front1
-	PrintCol    	Front1
-	call		HalfS
-	call		HalfS
+	call		BWScanModule1	
+;	movwf		Front1
+;	PrintCol    	Front1
 
 	return
 	
@@ -1342,11 +1171,9 @@ DisplayBlackWhiteIR2
 	movlw	b'11001101'	;movlw	b'11000101' selects the clock and ra as the reader pin
 	movwf	ADCON0	
 	
-	call		ReadBW	
-	movwf		Front1
-	PrintCol    	Front1
-	call		HalfS
-	call		HalfS
+	call		BWScanModule1	
+;	movwf		Front1
+;	PrintCol    	Front1
 	
 	return
 
