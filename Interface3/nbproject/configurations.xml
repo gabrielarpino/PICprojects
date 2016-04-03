@@ -26,6 +26,7 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>../ShivTest</Elem>
+    <Elem>.</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>

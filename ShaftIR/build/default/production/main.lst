@@ -1,4 +1,4 @@
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  1
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00041 ;***************************************
                       00042 BANK2 Macro
                       00043     bsf STATUS,RP0 
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  2
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00094 ; Initialize
                       00095 ;***************************************
 0001                  00096 init_PIN
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  3
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
                       00140     MOVLF   B'00101000', OPTION_REG
 001A   3028               M     MOVLW  B'00101000'  ; move literal into working register
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  4
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -195,7 +195,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 001F   0008           00151     return   
                       00152     
 3F7A                  00153         END
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  5
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  5
 
 
 SYMBOL TABLE
@@ -254,7 +254,7 @@ CHS0                              00000003
 CHS1                              00000004
 CHS2                              00000005
 CKE                               00000006
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  6
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  6
 
 
 SYMBOL TABLE
@@ -313,7 +313,7 @@ NOT_POR                           00000001
 NOT_RBPU                          00000007
 NOT_RC8                           00000006
 NOT_T1SYNC                        00000002
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  7
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  7
 
 
 SYMBOL TABLE
@@ -372,7 +372,7 @@ RB7                               00000007
 RBIE                              00000003
 RBIF                              00000000
 RC0                               00000000
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  8
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  8
 
 
 SYMBOL TABLE
@@ -431,7 +431,7 @@ SSPM1                             00000001
 SSPM2                             00000002
 SSPM3                             00000003
 SSPOV                             00000006
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE  9
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE  9
 
 
 SYMBOL TABLE
@@ -490,7 +490,7 @@ TRISB5                            00000005
 TRISB6                            00000006
 TRISB7                            00000007
 TRISC                             00000087
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE 10
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE 10
 
 
 SYMBOL TABLE
@@ -549,7 +549,7 @@ _CP_UPPER_256                     00002FEF
 _DEBUG_OFF                        00003FFF
 _DEBUG_ON                         000037FF
 _DEVID1                           00002006
-MPASM 5.65                          MAIN.ASM   3-18-2016  15:07:15         PAGE 11
+MPASM 5.65                          MAIN.ASM   3-21-2016  16:40:22         PAGE 11
 
 
 SYMBOL TABLE

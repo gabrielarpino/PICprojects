@@ -74,7 +74,6 @@
 		mm
 		m
 		distreg
-		lcd_d1_2
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -90,15 +89,14 @@
 		#define	LED	PORTB,0
 		#define	Std1	PORTC,5		    ;std stands for standard motor (not pwm)
 		#define	Std2	PORTC,6		    ;Std1 is the negative one
+		#define	Std3	PORTC,7
 		#define	Std1Backwards	PORTC,0
 		#define	Std2Backwards	PORTC,7
-		#define	SwitchYS		PORTB,2	    ; or gated switch to stop motor motion
-		#define	SwitchYD		PORTB,3
+		#define	Std3Backwards	PORTC,0
+		#define	Switch		PORTB,2	    ; or gated switch to stop motor motion
 		#define	NOTPWMFWD		PORTC,2
 		#define	NOTPWMBACK		PORTC,1
 		;SHAFTIR is PORTA,4
-		;PWMFWD is RC2
-		;PWMBACK is RC1
 		
 		
 ;distanceMoved	equ	b'0'
@@ -107,7 +105,10 @@
          goto      init       ;Just jump to the main code section.
 	 
 	 ;ORG	   0x100	;this command is sketchy
+	 
 
+	
+	 
 ;*******************************************************************************
 ; MACROS
 ;*******************************************************************************
@@ -379,9 +380,9 @@ init
 		 
 	call 	   i2c_common_setup
 ;*******************************************************************************
-;	 UNCOMMENT IF YOU WANT TO CHANGE THE TIME
-	rtc_resetAll					;works
-	call set_rtc_time
+	; UNCOMMENT IF YOU WANT TO CHANGE THE TIME
+	;rtc_resetAll
+	;call set_rtc_time
 ;*******************************************************************************
 		 
 		 ;Used to set up time in RTC, load to the PIC when RTC is used for the first time
@@ -390,23 +391,23 @@ init
          call      InitLCD  	  ;Initialize the LCD (code in lcd.asm; imported by lcd.inc)
 	  ;A/D converter attempt
 	 
-;	 bcf	STATUS,RP1
-;	 bsf	STATUS,RP0	;Select bank 1
-;	 
-;	 bsf	IR1		;makes RA0 an input
-;	 bcf	STATUS,RP0	; go back to bank 0
+	 bcf	STATUS,RP1
+	 bsf	STATUS,RP0	;Select bank 1
+	 
+	 bsf	IR1		;makes RA0 an input
+	 bcf	STATUS,RP0	; go back to bank 0
+	 
+	;bsf	PORTC,2		; gives RC2 5 volts
 	 
 	; Set ADCON1 to use RA0 as analog input
 	
-	bcf	STATUS,RP1
+	
 	bsf	STATUS,RP0	;Select bank 1
 	movlw	b'00000110'	;left justified, all inputs digital
 	movwf	ADCON1			;All digital input, reference voltage Vdd Vss
 
 	;ADCON0
 	bcf	STATUS,RP0
-	
-	
 	
 ;***************************************************
 ; Initialize variables and Displays
@@ -432,7 +433,7 @@ init
 	bcf		Std1Backwards
 	bsf		Std2Backwards
 	bsf		PORTC,2		    
-	bsf		PORTC,1			; PWM now negative, so start by clearing	
+	bsf		PORTC,1			; PWM now negative, so start by clearing		    
 
 ;*************************************
 ;	Keypad and LCD forms	    
@@ -444,20 +445,21 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		swapf		PORTB,W     ;Read PortB<7:4> into W<3:0>
 		andlw		0x0F
 		movwf		temp
-		
+		;Key	0x00, OperationDisplay
 		Key	0x00, TOTAL
-		Key	0x01, DisplayBlackWhiteIR1
-		Key	0x02, DisplayBlackWhiteIR2
+		;Key	0x01, pollColumnSensor		;TESTED
+		Key	0x02, TIME
 		Rotation	0x03
 		Key	0x04, RTCDisplay
-	    	Key	0x05, DisplayUSSensor1
-		Key	0x06, DisplayUSSensor2
+	    	Key	0x05, FINDBINA
+		Key	0x06, DisplayUSSensor1
 		Key	0x07, AddBin
 		Key	0x08, Stickers1
-		Key	0x09, MOVEFWDFORABIT
-		Key	0x0A, CHECKSWITCH		
-		Key	0x0C, StdRotation2
-		Key	0x0D, StdRotation2Backwards
+		Key	0x09, StoreBW1
+		Key	0x0A, set_rtc_time		
+		Key	0x0B, ShaftIR
+		Key	0x0C, StdRotation1
+		Key	0x0D, StdRotation2
 		Key	0x0E, PWMFWD
 		Key	0x0F, PWMBACK
 		btfsc		PORTB,1     ;Wait until key is released
@@ -471,102 +473,112 @@ goback
 ;**************************************************************************************************************************************************
 ;								  MAIN CODE
 ;----------------------------------------------------------------------------------------------------------------------------------------------
-;StartInit
-;
-;    call    set_rtc_time	    ; resets RTC clock to zero
-;
-;    call    LEDCOLUMNTESTWHILEMOVINGFRONT
-;StartMove
-;
-;    call    PWMFWD
-;    call    HalfS
-;    call    HalfS
-;    
-;TIME
-;      
-;;     rtc_resetAll		    ; for some reason, resetting the time again breaks it
-;;     call   set_rtc_time
-;
-;    call	show_RTC
-;    
-;    return
-;    
-;    
-;CHECKCOLUMN
-;    
-;    bsf	    Std1
-;    call    HalfS
-;    call    HalfS
-;
-;    call    Read1_US		;checks to see if column present
-;    
-;;    movlw   0xff
-;;    subwf   TMR1L
-;    btfss   W,0
-;    goto    CHECKCOLUMN
+StartInit
+
+    call    set_rtc_time	    ; resets RTC clock to zero
+
+    call    LEDCOLUMNTESTWHILEMOVINGFRONT
+StartMove
+;   MOTOR ON
+	
+    ;check if encoder is at value
+    ;call    MoveBackwards
+    
+    ;else
+    call    PWMFWD
+    call    HalfS
+    call    HalfS
+    
+TIME
+    
+    ;call    set_rtc_time
+    
+    call    HalfS
+    call    HalfS
+    call    HalfS
+    
+    call	show_RTC
+    
+    return
+    
+    
+CHECKCOLUMN
+    
+    bsf	    Std1
+    call    HalfS
+    call    HalfS
+
+    call    Read1_US		;checks to see if column present
+    
+;    movlw   0xff
+;    subwf   TMR1L
+    btfss   W,0
+    goto    CHECKCOLUMN
+    bsf	    LED
+    bcf	    Std1		;stops motor from moving forward
+    call    HalfS
+    return
+    
+LEDCOLUMNTESTWHILEMOVINGFRONT
+    
+    ;call    Clear_Display
+    
+    ;call    set_rtc_time	    ; resets RTC clock to zero
+    
+    ;call    FINDBIN
+    
+    bsf	    Std1		;moving
+    bcf	    LED
+    
+    call    Read1_US		;checks to see if column present
+    
+    movlw   0x10		; if column present, it'll move forward
+    subwf   TMR1H
+    btfsc   STATUS,C
+    goto    LEDCOLUMNTESTWHILEMOVINGFRONT
+    bcf	    Std1		;motor will move fwd
+    bcf	    LED
+    
+    
+    call    AVOIDCOLUMN
+    
+    
+;    bsf	    Std1		;move forward until no more column in the way
 ;    bsf	    LED
-;    bcf	    Std1		;stops motor from moving forward
+;    
 ;    call    HalfS
-;    return
-;    
-;LEDCOLUMNTESTWHILEMOVINGFRONT
-;    
-;    ;call    Clear_Display
-;    
-;    ;call    set_rtc_time	    ; resets RTC clock to zero
-;    
-;    ;call    FINDBIN
-;    
-;    bsf	    Std1		;moving
-;    bcf	    LED
+;    call    HalfS
+;    call    HalfS		;wait til it drives enough forward from column
 ;    
 ;    call    Read1_US		;checks to see if column present
 ;    
-;    movlw   0x10		; if column present, it'll move forward
+;    movlw   0x10		; if column is not present, it'll go back to original form
 ;    subwf   TMR1H
-;    btfsc   STATUS,C
-;    goto    LEDCOLUMNTESTWHILEMOVINGFRONT
-;    bcf	    Std1		;motor will move fwd
+;    btfss   STATUS,C		
+;    goto    $-6
+;    
+;    bcf	    Std1
 ;    bcf	    LED
-;    
-;    
-;    call    AVOIDCOLUMN
-;    
-;    
-;;    bsf	    Std1		;move forward until no more column in the way
-;;    bsf	    LED
-;;    
-;;    call    HalfS
-;;    call    HalfS
-;;    call    HalfS		;wait til it drives enough forward from column
-;;    
-;;    call    Read1_US		;checks to see if column present
-;;    
-;;    movlw   0x10		; if column is not present, it'll go back to original form
-;;    subwf   TMR1H
-;;    btfss   STATUS,C		
-;;    goto    $-6
-;;    
-;;    bcf	    Std1
-;;    bcf	    LED
-;    
-;    
-;    call    RETURNFROMCOLUMN
-;    
-;    ;call    FINDBIN
-;    
-;    goto    EXIT
+    
+    
+    call    RETURNFROMCOLUMN
+    
+    ;call    FINDBIN
+    
+    goto    EXIT
 AVOIDCOLUMN
     
     bcf	    Std1		;motor will stop move fwd
     bcf	    LED
     
-    bcf	    Std2		; start white thing fwd
-    call    DELAY2		;delat 0.25 s maybe fixes it
-    btfss   SwitchYS
-    goto    $-2
-   
-    bsf	    Std2		   ; stop white thing fwd
+    bcf	    Std2	    ;move white thing forward
+    
+    ;btfss   Switch
+    ;goto    AVOIDCOLUMN 
+    
+    call    DELAY2    
+    
+    bsf	    Std2	    ;stop white thing forward
     
      call    HalfS
     call    HalfS
@@ -577,18 +589,19 @@ AVOIDCOLUMN
      call    HalfS
     call    HalfS
     
-    call    PWMFWD	    ;start arm forward
+    call    PWMBACK	    ;start arm forward
     
-    ;btfss   SwitchYS
+    ;btfss   Switch
     ;goto    $-1
  
     call    HalfS
+    call    DELAY2
     
-    call    PWMFWD	    ;stop arm forward
+    call    PWMBACK	    ;stop arm forward
     
 ;-------------------------------------------------
     
-    bsf	    Std1		;move forward until no more column in the way
+        bsf	    Std1		;move forward until no more column in the way
     bsf	    LED
     
     call    HalfS
@@ -599,11 +612,12 @@ AVOIDCOLUMN
     call    HalfS
     call    HalfS		;wait til it drives enough forward from column
     call    HalfS
+    call    HalfS
     call    HalfS		;wait til it drives enough forward from column
     
     call    Read1_US		;checks to see if column present
     
-    movlw   0xF		; if column is not present, it'll go back to original form
+    movlw   0x10		; if column is not present, it'll go back to original form
     subwf   TMR1H
     btfss   STATUS,C		
     goto    $-6
@@ -614,71 +628,88 @@ AVOIDCOLUMN
     
     call    RETURNFROMCOLUMN
     
+    ;call    FINDBIN
+    
+    ;goto    EXIT
+    
     return 
     
 RETURNFROMCOLUMN
     
-    call    PWMBACK	    ;start arm backwards
+    call    PWMFWD	    ;start white forward
     
-    call    DELAY1
+    call    HalfS
+    call    DELAY2
     
-    call    PWMBACK	    ;stop arm backwards
+    call    PWMFWD	    ;stop white backwards
     
     call    HalfS
     call    HalfS
      call    HalfS
+    call    HalfS
+     call    HalfS
+    call    HalfS
+     call    HalfS
+    call    HalfS
     
-    bcf	    Std2Backwards
+    bcf	    Std2Backwards	    ;move arm backwards
+    
+    ;btfss   Switch
+    ;goto    $-1
+    
     call    DELAY2
-    btfss   SwitchYD
-    goto    $-2 
     
-    bsf	    Std2Backwards
+    bsf	    Std2Backwards	    ;stop arm backwards
     
     return
     
-;FINDBINA
-;    
-;    call    FINDBIN
-;    call    FINDBIN
-;    
-;    goto    EXIT
-;    
-;FINDBIN
-;    
-;    ;call    set_rtc_time	    ; resets RTC clock to zero
-;    
-;    bsf	    Std1	;move fwd
-;
-;    call    Read2_US		;checks to see if bin present
-;    
-;    movlw   0x10		; if column is not present, it'll go back to original form
-;    subwf   TMR1H
-;    btfsc   STATUS,C
-;    goto    FINDBIN		;set LED to know found bin
+FINDBINA
+    
+    call    FINDBIN
+    call    FINDBIN
+    
+    goto    EXIT
+    
+FINDBIN
+    
+    ;call    set_rtc_time	    ; resets RTC clock to zero
+    
+    bsf	    Std1	;move fwd
+
+    call    Read2_US		;checks to see if bin present
+    
+    movlw   0x10		; if column is not present, it'll go back to original form
+    subwf   TMR1H
+    btfsc   STATUS,C
+    goto    FINDBIN		;set LED to know found bin
     
 READBIN
-
+    bcf	    LED
     call    HalfS
     bcf     Std1
     
+    call    HalfS
+    call    HalfS
+    
     call    AddBin		;adds bin to list
+    
+    call    HalfS
+    call    HalfS
     
     call    Dist_Decoder	; stores the distance
     Put_Dist_In_Reg	distreg
     Display_Dist	distreg
     call    StoreThisDistance
     
-    call    Clear_Display    
+    call    Clear_Display
+    
+    call    HalfS
+    call    HalfS
+    call    HalfS
+    call    HalfS
+    
     
     call    StoreBW1		;reads & stores first IR data
-    
-;*****THRESHHOLD TEST ON IR 1************
-;    nothing in front: 02056
-;    black in front: 10000-41000
-;    white in front: >60000
-    
-    ;READ 2 ALGORITHM IMPLEMENT HERE
     
     call    HalfS
     call    HalfS
@@ -687,12 +718,18 @@ READBIN
     
     call    Clear_Display
     
+    call    HalfS
+    call    HalfS
+    call    HalfS
+    call    HalfS
+    
+    call    DisplayBlackWhiteIR2
     call    StoreBW2
     
     call    HalfS
     call    HalfS
     
-    bcf	    LED
+    bsf	    LED
     
     return
     
@@ -701,59 +738,42 @@ READBIN
     
 TOTAL
     
-    call    Read1_US		;warms up us sensors that was weird
-    call    Read2_US
-    
-    call    DisplayBlackWhiteIR2	;warms up IR
-    call    DisplayBlackWhiteIR1	;warms up IR
+    call    Read1_US		;checks to see if column present    
     
 TOTAL1
     
+    ;call    Clear_Display
+    
+    ;call    set_rtc_time	    ; resets RTC clock to zero
+    
+    ;call    FINDBIN
+    
     bsf	    Std1		;moving
+    bcf	    LED
     
     call    Read1_US		;checks to see if column present
     
-;********THRESHOLD CALCULATION FOR COLUMN**************:
-;   At around cm from col, reading: 02303
-;	So, this will be the max value.
-;	To be safe, will minus 02603 from the TMR variables.
-;	This means, subtract 0x4 from TMR1H 
-;	Value before at integration was 0x14, now trying 0x4
-    
-    movlw   0xF		; if column present, it'll move forward
+    movlw   0x14		; if column present, it'll move forward
     subwf   TMR1H
     btfss   STATUS,C
     call    AVOIDCOLUMN
     
-    
     call    Read2_US		;checks to see if bin present
     
-;********THRESHOLD CALCULATION FOR BIN**************:
-;   At around 6cm from white bin, reading: 01103
-;	So, this will be the max value.
-;	To be safe, will minus 01210 from the TMR variables.
-;	This means, subtract 0x4 from TMR1H 
-;	Value before at integration was 0x14, now trying 0x4
-    
-    
-    movlw   0x6		; read the bin
+    movlw   0x14		; if column is not present, it'll go back to original form
     subwf   TMR1H
     btfss   STATUS,C
     call    DELAYEDREAD
-    goto    ENDTHIS
-    
+    call    ENDTHIS
     
 DELAYEDREAD
-    call    HalfS	    ; wait for robot to move a bit in front of bin
     call    READBIN
-    bsf	    Std1		; move forward a bit so that you don't double read bin
+    bsf	    Std1
     call    HalfS
-    call    HalfS
-    bsf	    LED			; turn off LED After reading
     
 ENDTHIS   
     
-    btfss   NumOfBins1,1	;checking if its at two bins
+    btfss   NumOfBins1,1
     goto TOTAL1
     
     
@@ -783,53 +803,24 @@ ENDTHIS
     
 CHECKSWITCH
     
-    ;call    Clear_Display
-    ;Display DectoChar
+    call    Clear_Display
     
-    bcf	    Std2
-    call    DELAY2		;delat 0.25 s maybe fixes it
-    btfss   SwitchYS
-    goto    $-2
-   
-    bsf	    Std2
+    bcf	    PORTE,0
+    btfss   Switch
+    goto    $-1
+    bsf	    PORTE,0    
     
-    bcf	    Std2Backwards
-    call    DELAY2
-    btfss   SwitchYD
-    goto    $-2 
-    
-    bsf	    Std2Backwards
-    
-    goto    CHECKSWITCH  
+    goto	CHECKSWITCH    
 
 
 EXIT
     
     call	Clear_Display
     ;display final interface for choosing stuff
-    Display	FinalMessage
-    call	Switch_Lines
-    Display	Welcome_Msg2
+    Display	FinalMessage	
     
     bcf		Std1
     bsf		Std1Backwards
-    
-    goto	EXITDISPLAY
-    
-MOVEFWDFORABIT
-    
-    bsf		Std1
-    
-    call	OneS
-    call	OneS
-        call	OneS
-    call	OneS
-        call	OneS
-    call	OneS
-    
-    bcf		Std1
-    
-    goto	EXITDISPLAY
     
 EXITDISPLAY	btfss		PORTB,1     ;Wait until data is available from the keypad
 		goto		$-1 
@@ -837,12 +828,12 @@ EXITDISPLAY	btfss		PORTB,1     ;Wait until data is available from the keypad
 		swapf		PORTB,W     ;Read PortB<7:4> into W<3:0>
 		andlw		0x0F
 		movwf		temp
-		Key	0x00, show_RTC
+		Key	0x00, Locations
 		Key	0x02, Stickers1
 		Rotation	0x03
 		Key	0x04, ShowBins
 	    	Key	0x05, TotalDistance
-		Key	0x06, Locations
+		Key	0x06, show_RTC
 		Key	0x07, AddBin
 		btfsc		PORTB,1     ;Wait until key is released
 	        goto		$-1
@@ -878,7 +869,7 @@ MoveBackwards
 ;	Sticker Print Modules
 ;*****************************************
 	
-BWScanModule1
+BWStoreModule1
 
 	bsf	ADCON0,2		;start conversion and wait for it to complete
 	btfsc	ADCON0,2		;LCD CONVERSION MODULE
@@ -895,8 +886,6 @@ BWScanModule1
 	PrintNumber	Hund
 	PrintNumber     Tens
 	PrintNumber     Ones
-	return
-BWStoreModule1
 	BCF     STATUS, IRP
 	movlw	0x42
 	movwf	FSR
@@ -911,7 +900,7 @@ BWStoreModule1
 	movwf	INDF
 	return	
 	
-BWScanModule2
+BWStoreModule2
 
 	bsf	ADCON0,2		;start conversion and wait for it to complete
 	btfsc	ADCON0,2		;LCD CONVERSION MODULE
@@ -928,9 +917,7 @@ BWScanModule2
 	PrintNumber	Hund
 	PrintNumber     Tens
 	PrintNumber     Ones
-;	call		HalfS		;wait half a second to display
-	return
-BWStoreModule2
+	call		HalfS		;wait half a second to display
 	BCF     STATUS, IRP
 	movlw	0x49			;number 49 to try to get registers for back of bin
 	movwf	FSR
@@ -998,7 +985,7 @@ Read1_US
 	PrintNumber	Tens
 	PrintNumber	Ones
 	
-	;call		HalfS
+	call		HalfS
 	
 	call		Clear_Display
 	
@@ -1049,7 +1036,7 @@ Read2_US
 	PrintNumber	Tens
 	PrintNumber	Ones
 	
-	;call		HalfS
+	call		HalfS
 	
 	call		Clear_Display
 	
@@ -1103,7 +1090,7 @@ Dist_Decoder
 Decode_loop			; Assume each step is 1.01 cm
 	; Perform decode
 	ADDL	cm, cm, D'2'
-	ADDL	mm, mm, D'0'
+	ADDL	mm, mm, D'1'
 	decf	temp
 
 	; Test if mm has overflowed! (mm >= 10)
@@ -1172,17 +1159,12 @@ StoreBW1
 	movlw	b'00000101'           	
 	movwf	ADCON0			;choose RA0
 	
-	call	BWScanModule1	
-	call	BWStoreModule1
-	
-	return				; why was there not a return here before?
-	
+	call	BWStoreModule1	
 StoreBW2
 	bcf	STATUS,RP0
 	movlw	b'00010101'           	
 	movwf	ADCON0			;choose RA1
 	
-	call	BWScanModule2
 	call	BWStoreModule2
 	
 	return
@@ -1305,9 +1287,8 @@ DisplayBlackWhiteIR1
 	PrintCol    	Front1
 	call		HalfS
 	call		HalfS
-
-	return
 	
+	goto		DisplayBlackWhiteIR1
 	
 DisplayBlackWhiteIR2
 	
@@ -1326,22 +1307,22 @@ DisplayBlackWhiteIR2
 DisplayUSSensor1
 	
 	call		Read1_US
-;	call		ClrLCD
-;	movwf		isBinThere		    ;sets the bin bit 1 or 0
-;	call		HalfS
-;	call		HalfS			    ;see if half second removes feedback
+	call		ClrLCD
+	movwf		isBinThere		    ;sets the bin bit 1 or 0
+	call		HalfS
+	call		HalfS
 	
-
-	
-	goto		DisplayUSSensor1
+	return
 	
 DisplayUSSensor2
 	
 	call		Read2_US
-	;call		ClrLCD
-	;movwf		isColumnThere		    ;sets the bin bit 1 or 0
+	call		ClrLCD
+	movwf		isColumnThere		    ;sets the bin bit 1 or 0
+	call		HalfS
+	call		HalfS
 	
-	goto		DisplayUSSensor2
+	return
 	
 StdRotation1
 	
@@ -1357,27 +1338,15 @@ StdRotation1
 	
 StdRotation2
 	
-;	bcf	Std2
-;	
 	btfsc	    LEDcounter2,0
 	goto	    $+4
-	
 	bcf		Std2
 	bsf	    LEDcounter2,0
 	return
 	
-	btfss	    SwitchYS
-	bsf	    Std2
 	
 	bsf		Std2
 	bcf	    LEDcounter2,0
-;testingrotationfwd	
-;	
-;	btfsc	Switch
-;	bsf	Std2
-;	
-;	goto	testingrotationfwd
-	
 	return
 		
 StdRotation1Backwards
@@ -1394,29 +1363,15 @@ StdRotation1Backwards
 	
 StdRotation2Backwards
 	
-;	bcf	    Std2Backwards
-	
 	btfsc	    LEDcounter5,0
 	goto	    $+4
 	bsf		Std2Backwards
 	bsf	    LEDcounter5,0
 	return
 	
-	btfss	    SwitchYS
-	bsf	    Std2
-	
 	bcf		Std2Backwards
 	bcf	    LEDcounter5,0
 	return
-	
-;testingrotationback	
-;	
-;	
-;	call	Clear_Display
-;	btfsc	Switch
-;	bsf	Std2Backwards
-;	
-;	goto	testingrotationback
 	
 PWMFWD	
 	
@@ -1460,7 +1415,7 @@ PWMFWD
     ;01001110
     BSF	    CCP1CON, 5				; change 1s here to 2 to get two pwm bro
     BSF	    CCP1CON, 4
-    MOVLF   B'01100000', CCPR1L			; previous was 01101
+    MOVLF   B'01000000', CCPR1L			; previous was 01101
     BSF	    CCP1CON, 3
     BSF	    CCP1CON, 2
     
@@ -1510,7 +1465,7 @@ PWMBACK
     ;01001110
     BSF	    CCP2CON, 5				; change 1s here to 2 to get two pwm bro
     BSF	    CCP2CON, 4
-    MOVLW   B'01100000'				; good speed for moving the arm
+    MOVLW   B'01000000'
     MOVWF   CCPR2L	
     BSF	    CCP2CON, 3
     BSF	    CCP2CON, 2
@@ -1573,26 +1528,23 @@ HalfS_0
 		return
 		
 ;***************************************
+; Delay: ~ 5ms
 ;***************************************
-; Delay = 0.75 seconds
-; Clock frequency = 4 MHz
-DELAY1
-	movlw	0x86
+DELAY1 
+				;4998 cycles
+	movlw	0xE7
 	movwf	lcd_d1
-	movlw	0xA3
+	movlw	0x04
 	movwf	lcd_d2
-	movlw	0x02
-	movwf	lcd_d1_2
 Delay_0
 	decfsz	lcd_d1, f
 	goto	$+2
 	decfsz	lcd_d2, f
-	goto	$+2
-	decfsz	lcd_d1_2, f
 	goto	Delay_0
 
-			;1 cycle
-	nop
+			;2 cycles
+	goto	$+1
+	return
 	
 ;0.25s delay	
 	
@@ -1709,28 +1661,20 @@ show_RTC
 ;***************************************
 set_rtc_time
 
-		;rtc_resetAll	;reset rtc
-		;works up to here
+		rtc_resetAll	;reset rtc
 
-		;rtc_set	0x00,	B'10000000'
-		;works up to here
-		
+		rtc_set	0x00,	B'10000000'
+
 		;set time 
-;		rtc_set	0x06,	B'00010110'		; Year
-;		;works up to here
-;		rtc_set	0x05,	B'00000011'		; Month
-;		rtc_set	0x04,	B'00100000'		; Date
-		;works up to here
-		;rtc_set	0x03,	B'00100010'		; Day
-		;stops working on this one^
-		;seems like day is the one that crashes it
+		rtc_set	0x06,	B'00010110'		; Year
+		rtc_set	0x05,	B'00000011'		; Month
+		rtc_set	0x04,	B'00100010'		; Date
+		rtc_set	0x03,	B'00100010'		; Day
 		rtc_set	0x02,	B'00000000'		; Hours
-		;works on this one
 		rtc_set	0x01,	B'00000000'		; Minutes
-		;works on this one
 		rtc_set	0x00,	B'00000000'		; Seconds
-		;works on this one
 		return
+
 
 ;***************************************
 ; Delay 1s
@@ -1798,7 +1742,7 @@ Welcome_Msg2
 	movwf	PCL	
         addwf    PCL,F
 Welcome_Msg2Entries
-        dt        "5Distance 6Locations", 0
+        dt        "5:FINDBin|9CHECKSWITCH", 0
         
 FinalMessage
 	
@@ -1813,7 +1757,7 @@ FinalMessage
 	movwf	PCL
         addwf    PCL,F
 FinalMessageEntries
-        dt        "1Time 3Stickers 4#Bins",0
+        dt        "1Locations 2Stickers 4#Bins",0
 	
 DectoChar
 	
