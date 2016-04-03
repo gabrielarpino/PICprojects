@@ -458,7 +458,11 @@ init
 	bcf		Std1Backwards
 	bsf		Std2Backwards
 	bsf		PORTC,2		    
-	bsf		PORTC,1			; PWM now negative, so start by clearing	
+	bsf		PORTC,1			; PWM now negative, so start by clearing
+	
+	;trying to fix the switch bs
+	bcf		SwitchWhite
+	bcf		SwitchArm
 
 ;*************************************
 ;	Keypad and LCD forms	    
@@ -587,8 +591,7 @@ AVOIDCOLUMN
     bcf	    Std1		;motor will stop move fwd
     
     bcf	    Std2		; start white thing fwd
-    call    lcdLongDelay		;delay it
-    call    lcdLongDelay		;delay it
+    call    HalfS
     btfss   SwitchWhite
     goto    $-1
    
@@ -611,16 +614,12 @@ AVOIDCOLUMN
     
     bsf	    Std1		;move forward until no more column in the way
     
-    call    HalfS
-    call    HalfS
-    call    HalfS		;wait til it drives enough forward from column
-    
-    call    HalfS
-    call    HalfS
-    call    HalfS		;wait til it drives enough forward from column
-    call    HalfS
-    call    HalfS		;wait til it drives enough forward from column
-        call    HalfS
+    call    OneS
+    call    OneS
+    call    OneS
+    call    OneS
+    call    OneS
+    call    OneS
 
     
     call    Read1_US		;checks to see if column present
@@ -640,8 +639,7 @@ AVOIDCOLUMN
 RETURNFROMCOLUMN
     
     call    PWMBACK	    ;start arm BACK
-    call    lcdLongDelay
-    call    lcdLongDelay
+    call    HalfS
     btfss   SwitchArm
     goto    $-1
     
@@ -652,8 +650,7 @@ RETURNFROMCOLUMN
     call    HalfS
     
     bcf	    Std2Backwards
-    call    lcdLongDelay
-    call    lcdLongDelay
+    call    HalfS
     btfss   SwitchWhite
     goto    $-1 
     
@@ -747,13 +744,14 @@ TOTAL1
     
     movlw   0xF		; if column present, it'll move forward
     subwf   TMR1H
-    btfsc   STATUS,C
-    goto    $+6
-    incf    count_highs
-    movlw   MAX_HIGHS
-    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
-    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
+    btfss   STATUS,C
     call    AVOIDCOLUMN
+    
+;    goto    $+6
+;    incf    count_highs
+;    movlw   MAX_HIGHS
+;    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+;    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
     
     clrf    count_highs		;reset the high value counter
     
@@ -769,13 +767,15 @@ TOTAL1
     
     movlw   0x6		; read the bin
     subwf   TMR1H
-    btfsc   STATUS,C
-    goto    ENDTHIS
-    incf    count_highs
-    movlw   MAX_HIGHS
-    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
-    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
+    btfss   STATUS,C
     call    DELAYEDREAD
+    goto    ENDTHIS		    ;switch endthis with delayread for max high thing
+    
+       
+;    incf    count_highs
+;    movlw   MAX_HIGHS
+;    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+;    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
    
     
     
@@ -824,19 +824,21 @@ CHECKSWITCH
     ;call    Clear_Display
     ;Display DectoChar
     
-    bcf	    Std2
+    call    PWMFWD
     call    DELAY1
-    btfss   SwitchWhite
-    goto    $-2
+    call    HalfS
+    btfss   SwitchArm
+    goto    $-1
    
-    bsf	    Std2
+    call    PWMFWD
  
-    bcf	    Std2Backwards
+    call    PWMBACK
     call    DELAY1
-    btfss   SwitchWhite
-    goto    $-2 
+    call    HalfS
+    btfss   SwitchArm
+    goto    $-1 
     
-    bsf	    Std2Backwards
+    call    PWMBACK
     
     goto    CHECKSWITCH  
 
