@@ -75,6 +75,7 @@
 		m
 		distreg
 		lcd_d1_2
+		count_highs		;the number of consecutive high counter for the US sensor
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -92,10 +93,11 @@
 		#define	Std2	PORTC,6		    ;Std1 is the negative one
 		#define	Std1Backwards	PORTC,0
 		#define	Std2Backwards	PORTC,7
-		#define	SwitchYS		PORTB,2	    ; or gated switch to stop motor motion
-		#define	SwitchYD		PORTB,3
+		#define	SwitchWhite		PORTB,2	    ; or gated switch to stop motor motion
+		#define	SwitchArm		PORTB,3
 		#define	NOTPWMFWD		PORTC,2
 		#define	NOTPWMBACK		PORTC,1
+		#define	MAX_HIGHS	0x3
 		;SHAFTIR is PORTA,4
 		;PWMFWD is RC2
 		;PWMBACK is RC1
@@ -267,6 +269,30 @@ PrintCol macro	    number
 	call	    StickerColours
 	call	    WR_DATA
 	endm	
+
+;***************************************
+;	    US READ MACRO
+;****************************************
+ReadUltrasonic macro	trigger, trigger_bit, echo, echo_bit
+    clrf	TMR1H
+    clrf	TMR1L
+
+    bcf	trigger, trigger_bit		;make sure trigger is clear
+    call lcdLongDelay
+
+    bsf	trigger, trigger_bit	;trigger high, bottom sensor
+    call lcdLongDelay		;10us delay
+    bcf	trigger, trigger_bit	;trigger low
+
+    btfss	echo, echo_bit		;wait for echo to go high
+    goto	$-1
+    bsf	T1CON,TMR1ON	;turn on timer
+
+    btfsc	echo, echo_bit		;wait for echo to go low
+    goto	$-1
+
+    bcf	T1CON,TMR1ON	;turn off timer
+    endm
 	
 ;*******************************************************
 ;******             BCD		        ****************
@@ -559,12 +585,12 @@ goback
 AVOIDCOLUMN
     
     bcf	    Std1		;motor will stop move fwd
-    bcf	    LED
     
     bcf	    Std2		; start white thing fwd
-    call    DELAY2		;delat 0.25 s maybe fixes it
-    btfss   SwitchYS
-    goto    $-2
+    call    lcdLongDelay		;delay it
+    call    lcdLongDelay		;delay it
+    btfss   SwitchWhite
+    goto    $-1
    
     bsf	    Std2		   ; stop white thing fwd
     
@@ -572,24 +598,18 @@ AVOIDCOLUMN
     call    HalfS
      call    HalfS
     call    HalfS
-     call    HalfS
-    call    HalfS
-     call    HalfS
-    call    HalfS
     
     call    PWMFWD	    ;start arm forward
-    
-    ;btfss   SwitchYS
-    ;goto    $-1
- 
-    call    HalfS
+    call    lcdLongDelay
+    call    lcdLongDelay
+    btfss   SwitchArm
+    goto    $-1
     
     call    PWMFWD	    ;stop arm forward
     
 ;-------------------------------------------------
     
     bsf	    Std1		;move forward until no more column in the way
-    bsf	    LED
     
     call    HalfS
     call    HalfS
@@ -600,6 +620,8 @@ AVOIDCOLUMN
     call    HalfS		;wait til it drives enough forward from column
     call    HalfS
     call    HalfS		;wait til it drives enough forward from column
+        call    HalfS
+
     
     call    Read1_US		;checks to see if column present
     
@@ -609,7 +631,6 @@ AVOIDCOLUMN
     goto    $-6
     
     bcf	    Std1
-    bcf	    LED
     
     
     call    RETURNFROMCOLUMN
@@ -618,20 +639,23 @@ AVOIDCOLUMN
     
 RETURNFROMCOLUMN
     
-    call    PWMBACK	    ;start arm backwards
+    call    PWMBACK	    ;start arm BACK
+    call    lcdLongDelay
+    call    lcdLongDelay
+    btfss   SwitchArm
+    goto    $-1
     
-    call    DELAY1
+    call    PWMBACK	    ;stop arm BACK
     
-    call    PWMBACK	    ;stop arm backwards
     
     call    HalfS
     call    HalfS
-     call    HalfS
     
     bcf	    Std2Backwards
-    call    DELAY2
-    btfss   SwitchYD
-    goto    $-2 
+    call    lcdLongDelay
+    call    lcdLongDelay
+    btfss   SwitchWhite
+    goto    $-1 
     
     bsf	    Std2Backwards
     
@@ -710,6 +734,7 @@ TOTAL
 TOTAL1
     
     bsf	    Std1		;moving
+    clrf    count_highs		;reset the high value counter
     
     call    Read1_US		;checks to see if column present
     
@@ -722,9 +747,15 @@ TOTAL1
     
     movlw   0xF		; if column present, it'll move forward
     subwf   TMR1H
-    btfss   STATUS,C
+    btfsc   STATUS,C
+    goto    $+6
+    incf    count_highs
+    movlw   MAX_HIGHS
+    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
     call    AVOIDCOLUMN
     
+    clrf    count_highs		;reset the high value counter
     
     call    Read2_US		;checks to see if bin present
     
@@ -738,9 +769,14 @@ TOTAL1
     
     movlw   0x6		; read the bin
     subwf   TMR1H
-    btfss   STATUS,C
-    call    DELAYEDREAD
+    btfsc   STATUS,C
     goto    ENDTHIS
+    incf    count_highs
+    movlw   MAX_HIGHS
+    subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
+    btfsc   STATUS,Z		    ; if result is zero, Z bit is set.
+    call    DELAYEDREAD
+   
     
     
 DELAYEDREAD
@@ -753,12 +789,14 @@ DELAYEDREAD
     
 ENDTHIS   
     
-    btfss   NumOfBins1,1	;checking if its at two bins
+;    movlw   0x4
+    btfss   NumOfBins1,1		;checking if its at two bins
+;    btfsc   STATUS,C
     goto TOTAL1
     
     
 ;    bsf	    Std1		;move forward until no more column in the way
-;    bsf	    LED
+;    bsf	    LED5
 ;    
 ;    call    HalfS
 ;    call    HalfS
@@ -787,15 +825,15 @@ CHECKSWITCH
     ;Display DectoChar
     
     bcf	    Std2
-    call    DELAY2		;delat 0.25 s maybe fixes it
-    btfss   SwitchYS
+    call    DELAY1
+    btfss   SwitchWhite
     goto    $-2
    
     bsf	    Std2
-    
+ 
     bcf	    Std2Backwards
-    call    DELAY2
-    btfss   SwitchYD
+    call    DELAY1
+    btfss   SwitchWhite
     goto    $-2 
     
     bsf	    Std2Backwards
@@ -981,8 +1019,10 @@ ReadBW
 	
 Read1_US		    
 	 
-	call		Read1_US1 
+	;call		Read1_US1 
 	 
+	ReadUltrasonic	UST1,US1E1
+	
 	call		Clear_Display
 	
 	movf		TMR1H, W
@@ -1001,38 +1041,32 @@ Read1_US
 	;call		HalfS
 	
 	call		Clear_Display
-	
-	movlw		0x1
-	subwf		TenK
-	movlw		0x1
-	btfsc		STATUS,C
-	movlw		0x0
-	
-
 	return
 	
-Read1_US1
-		
-		clrf	TMR1H		; commented are sam harrison edits
-		clrf	TMR1L
-		
-		bsf	UST1		;trigger high, bottom sensor
-		call	lcdLongDelay
-		bcf	UST1		;trigger low
-		
-		btfss	US1E1		;wait for echo to go high
-		goto	$-1
-		bsf	T1CON,TMR1ON	;turn on timer
-		
-		btfsc	US1E1		;wait for echo to go low
-		goto	$-1
-		
-    		bcf	T1CON,TMR1ON	;turn off timer
-		return
+;Read1_US1
+;		
+;		clrf	TMR1H		; commented are sam harrison edits
+;		clrf	TMR1L
+;		
+;		bsf	UST1		;trigger high, bottom sensor
+;		call	lcdLongDelay
+;		bcf	UST1		;trigger low
+;		
+;		btfss	US1E1		;wait for echo to go high
+;		goto	$-1
+;		bsf	T1CON,TMR1ON	;turn on timer
+;		
+;		btfsc	US1E1		;wait for echo to go low
+;		goto	$-1
+;		
+;    		bcf	T1CON,TMR1ON	;turn off timer
+;		return
 		
 Read2_US		    
 	 
-	call		Read2_US1 
+	;call		Read2_US1 
+	
+	ReadUltrasonic	UST2,US1E2
 	 
 	call		Clear_Display
 	
@@ -1052,34 +1086,26 @@ Read2_US
 	;call		HalfS
 	
 	call		Clear_Display
-	
-	movlw		0x3
-	subwf		TenK
-	movlw		0x1
-	btfsc		STATUS,C
-	movlw		0x0
-	
-
 	return
 	
-Read2_US1
-		
-		clrf	TMR1H
-		clrf	TMR1L
-		
-		bsf	UST2		;trigger high, bottom sensor
-		call	lcdLongDelay		    ;sam harrison edits
-		bcf	UST2		;trigger low
-		
-		btfss	US1E2		;wait for echo to go high
-		goto	$-1
-		bsf	T1CON,TMR1ON	;turn on timer
-		
-		btfsc	US1E2		;wait for echo to go low
-		goto	$-1
-		
-    		bcf	T1CON,TMR1ON	;turn off timer
-		return
+;Read2_US1
+;		
+;		clrf	TMR1H
+;		clrf	TMR1L
+;		
+;		bsf	UST2		;trigger high, bottom sensor
+;		call	lcdLongDelay		    ;sam harrison edits
+;		bcf	UST2		;trigger low
+;		
+;		btfss	US1E2		;wait for echo to go high
+;		goto	$-1
+;		bsf	T1CON,TMR1ON	;turn on timer
+;		
+;		btfsc	US1E2		;wait for echo to go low
+;		goto	$-1
+;		
+;    		bcf	T1CON,TMR1ON	;turn off timer
+;		return
 		
 ;*******************************************************
 ; Dist_Decoder
@@ -1366,7 +1392,7 @@ StdRotation2
 	bsf	    LEDcounter2,0
 	return
 	
-	btfss	    SwitchYS
+	btfss	    SwitchWhite
 	bsf	    Std2
 	
 	bsf		Std2
@@ -1402,7 +1428,7 @@ StdRotation2Backwards
 	bsf	    LEDcounter5,0
 	return
 	
-	btfss	    SwitchYS
+	btfss	    SwitchWhite
 	bsf	    Std2
 	
 	bcf		Std2Backwards
@@ -1574,12 +1600,13 @@ HalfS_0
 		
 ;***************************************
 ;***************************************
-; Delay = 0.75 seconds
+; Delay = 0.6 seconds
 ; Clock frequency = 4 MHz
 DELAY1
-	movlw	0x86
+			;599996 cycles
+	movlw	0xD1
 	movwf	lcd_d1
-	movlw	0xA3
+	movlw	0x4F
 	movwf	lcd_d2
 	movlw	0x02
 	movwf	lcd_d1_2
@@ -1591,8 +1618,8 @@ Delay_0
 	decfsz	lcd_d1_2, f
 	goto	Delay_0
 
-			;1 cycle
-	nop
+			;4 cycles
+	return
 	
 ;0.25s delay	
 	
@@ -1610,6 +1637,8 @@ Delay_02
 
 			;2 cycles
 	goto	$+1
+	
+return
 	
 ;***************************************
 ;Init_TMR0
