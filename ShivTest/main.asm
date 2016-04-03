@@ -608,6 +608,9 @@ READBIN
     
     call    Clear_Display    
     
+        
+    call    DisplayBlackWhiteIR1	;warms up IR
+    call    DisplayBlackWhiteIR1	;warms up IR  
     call    StoreBW1		;reads & stores first IR data
     
 ;*****THRESHHOLD TEST ON IR 1************
@@ -624,6 +627,8 @@ READBIN
     
     call    Clear_Display
     
+    call    DisplayBlackWhiteIR2	;warms up IR
+    call    DisplayBlackWhiteIR2	;warms up IR
     call    StoreBW2
     
     call    HalfS
@@ -640,10 +645,7 @@ TOTAL
     
     call    Read1_US		;warms up us sensors that was weird
     call    Read2_US
-    
-    ;call    DisplayBlackWhiteIR2	;warms up IR
-    ;call    DisplayBlackWhiteIR1	;warms up IR
-    
+   
 TOTAL1
     
     bsf	    Std1		;moving
@@ -1028,7 +1030,7 @@ RTCDisplay
 	
 StoreBW1
 	bcf	STATUS,RP0
-	movlw	b'00000101'           	
+	movlw	b'11000101'           	
 	movwf	ADCON0			;choose RA0
 	
 	call	BWScanModule1	
@@ -1038,7 +1040,7 @@ StoreBW1
 	
 StoreBW2
 	bcf	STATUS,RP0
-	movlw	b'00010101'           	
+	movlw	b'11010101'           	
 	movwf	ADCON0			;choose RA1
 	
 	call	BWScanModule2
