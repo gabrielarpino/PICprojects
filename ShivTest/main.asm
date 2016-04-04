@@ -77,6 +77,7 @@
 		lcd_d1_2
 		count_highs		;the number of consecutive high counter for the US sensor
 		temp_2
+		hour1,hour2,min1,min2,sec1,sec2
 	endc	
 
 	;Declare constants for pin assignments (LCD on PORTD)
@@ -375,11 +376,11 @@ init
 	call 	   i2c_common_setup
 ;*******************************************************************************
 ;	 UNCOMMENT IF YOU WANT TO CHANGE THE TIME
-	;rtc_resetAll					;works
-	;call set_rtc_time
+;	rtc_resetAll					;works;\
+;	call set_rtc_time
 ;*******************************************************************************          
          call      InitLCD  	  ;Initialize the LCD (code in lcd.asm; imported by lcd.inc)
-	  ;A/D converter attempt
+	 ;A/D converter attempt
 	 	 
 	; Set ADCON1 to use RA0 as analog input	
 	bcf	STATUS,RP1
@@ -434,10 +435,10 @@ KeypadandLCD	btfss		PORTB,1     ;Wait until data is available from the keypad
 		Key	0x01, DisplayBlackWhiteIR1
 		Key	0x02, DisplayBlackWhiteIR2
 		Rotation	0x03
-		Key	0x04, COLREADINGSTART
+		Key	0x04, EXIT
 	    	Key	0x05, Read1_US
 		Key	0x06, Read2_US
-		Key	0x07, AddBin
+		Key	0x07, set_rtc_time
 		Key	0x08, Stickers1
 		Key	0x09, LEDControlON
 		Key	0x0A, CHECKSWITCH		
@@ -677,10 +678,32 @@ CHECKSWITCH
 
 EXIT
     
+    call	OneS
+    call	OneS
+    call	OneS
+    call	OneS
+    
     call	Clear_Display
     Display	FinalMessage     ;display final interface for choosing stuff
     call	Switch_Lines
     Display	Welcome_Msg2
+    
+    ;saving elapsed time    
+    rtc_read	0x02		;Read Address 0x02 from DS1307---hour
+    movf	0x77,W
+    movwf	hour1
+    movf	0x78,W
+    movwf	hour2		
+    rtc_read	0x01		;Read Address 0x01 from DS1307---min
+    movf	0x77,W
+    movwf	min1
+    movf	0x78,W
+    movwf	min2		
+    rtc_read	0x00		;Read Address 0x00 from DS1307---seconds
+    movf	0x77,W
+    movwf	sec1
+    movf	0x78,W
+    movwf	sec2
     
     bcf		Std1
     ;bsf		Std1Backwards
@@ -958,7 +981,7 @@ AddBin
 	Call Clear_Display
 	incf	NumOfBins1,F
 	PrintNumber	NumOfBins1
-	movlw	0X7			;checks if max of 7 bins has been reached
+	movlw	0X2			;checks if max of 7 bins has been reached
 	subwf	NumOfBins1,W		
 	btfsc	STATUS,Z
 	goto	EXIT
@@ -1388,27 +1411,27 @@ show_RTC
 
 		;Get hour
 		rtc_read	0x02		;Read Address 0x02 from DS1307---hour
-		movfw	0x77
+		movfw	hour1		;0x77
 		call	WR_DATA
-		movfw	0x78
+		movfw	hour2		;0x78
 		call	WR_DATA
 		movlw			":"
 		call	WR_DATA
 
 		;Get minute		
 		rtc_read	0x01		;Read Address 0x01 from DS1307---min
-		movfw	0x77
+		movfw	min1		;0x77
 		call	WR_DATA
-		movfw	0x78
+		movfw	min2		;0x78
 		call	WR_DATA		
 		movlw			":"
 		call	WR_DATA
 		
 		;Get seconds
 		rtc_read	0x00		;Read Address 0x00 from DS1307---seconds
-		movfw	0x77
+		movfw	sec1	    ;0x77
 		call	WR_DATA
-		movfw	0x78
+		movfw	sec2	    ;0x78
 		call	WR_DATA
 		
 		call	OneS			;Delay for exactly one seconds and read DS1307 again
@@ -1466,7 +1489,7 @@ OneS_0
       nop
       nop
 		return
-
+		
 lcdLongDelay
     movlw d'20'
     movwf lcd_d2

@@ -13,16 +13,18 @@ dat		res	1
 #define	E 	PORTD,3
 
 ;Delay: ~160us
-LCD_DELAY macro
+	LCD_DELAY macro
 	movlw   0xFF
 	movwf   lcd_d1
 	decfsz  lcd_d1,f
 	goto    $-1
 	endm
 	
+	
 
 	code 
 	global InitLCD,WR_INS,WR_DATA,ClrLCD		;Only these functions are visible to other asm files.
+
     ;***********************************
 InitLCD
 	bcf STATUS,RP0
