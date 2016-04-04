@@ -376,8 +376,8 @@ init
 	call 	   i2c_common_setup
 ;*******************************************************************************
 ;	 UNCOMMENT IF YOU WANT TO CHANGE THE TIME
-;	rtc_resetAll					;works;\
-;	call set_rtc_time
+	rtc_resetAll					;works;\
+	call set_rtc_time
 ;*******************************************************************************          
          call      InitLCD  	  ;Initialize the LCD (code in lcd.asm; imported by lcd.inc)
 	 ;A/D converter attempt
@@ -408,6 +408,13 @@ init
 	bsf		LEDcounter5,0	    
 	bsf		LEDcounter7,0		    ;pwm counters
 	bsf		LEDcounter8,0		    
+	
+	clrf		hour1
+	clrf		hour2
+	clrf		min1
+	clrf		min2
+	clrf		sec1
+	clrf		sec2
 	
 	bcf		Std1			    ;use this one for negative for when need to move full motor			
 	bsf		Std2
@@ -529,10 +536,7 @@ RETURNFROMCOLUMN
     return
     
 READBIN
-
-    ;call    HalfS
     bcf     Std1
-    
     call    AddBin		;adds bin to list
     
     call    Dist_Decoder	; stores the distance
@@ -646,7 +650,7 @@ DELAYEDREAD
     call    READBIN
     bcf	    LED			; turn off LED After reading    
 ENDTHIS       
-    movlw	0X7			;checks if max of 7 bins has been reached
+    movlw	0X3			;checks if max of 7 bins has been reached
     subwf	NumOfBins1,W		
     btfsc	STATUS,Z
     goto	EXIT
@@ -677,36 +681,14 @@ CHECKSWITCH
     goto    CHECKSWITCH  
 
 EXIT
-    
-    call	OneS
-    call	OneS
-    call	OneS
-    call	OneS
-    
+
     call	Clear_Display
     Display	FinalMessage     ;display final interface for choosing stuff
     call	Switch_Lines
-    Display	Welcome_Msg2
-    
-    ;saving elapsed time    
-    rtc_read	0x02		;Read Address 0x02 from DS1307---hour
-    movf	0x77,W
-    movwf	hour1
-    movf	0x78,W
-    movwf	hour2		
-    rtc_read	0x01		;Read Address 0x01 from DS1307---min
-    movf	0x77,W
-    movwf	min1
-    movf	0x78,W
-    movwf	min2		
-    rtc_read	0x00		;Read Address 0x00 from DS1307---seconds
-    movf	0x77,W
-    movwf	sec1
-    movf	0x78,W
-    movwf	sec2
+    call	show_RTC
     
     bcf		Std1
-    ;bsf		Std1Backwards
+    bsf		Std1Backwards
     goto	EXITDISPLAY
 
 EXITDISPLAY	btfss		PORTB,1     ;Wait until data is available from the keypad
@@ -715,13 +697,11 @@ EXITDISPLAY	btfss		PORTB,1     ;Wait until data is available from the keypad
 		swapf		PORTB,W     ;Read PortB<7:4> into W<3:0>
 		andlw		0x0F
 		movwf		temp
-		Key	0x00, show_RTC
-		Key	0x02, Stickers1
+		Key	0x00, Stickers1
+		Key	0x01, ShowBins
+		Key	0x02, Locations
 		Rotation	0x03
-		Key	0x04, ShowBins
-	    	;Key	0x05, TotalDistance
-		Key	0x06, Locations
-		Key	0x07, AddBin
+		Key	0x04, show_RTC
 		btfsc		PORTB,1     ;Wait until key is released
 	        goto		$-1
 		goto		EXITDISPLAY
@@ -981,7 +961,7 @@ AddBin
 	Call Clear_Display
 	incf	NumOfBins1,F
 	PrintNumber	NumOfBins1
-	movlw	0X2			;checks if max of 7 bins has been reached
+	movlw	0X8			;checks if max of 7 bins has been reached
 	subwf	NumOfBins1,W		
 	btfsc	STATUS,Z
 	goto	EXIT
@@ -1371,67 +1351,67 @@ Init_TMR0			    ; INITIALIZE TIMER 0
 ;************************************
     
 show_RTC
-		;clear LCD screen
-		movlw	b'00000001'
-		call	WR_INS
-
-		;Get year
-		movlw	"2"				;First line shows 20**/**/**
-		call	WR_DATA
-		movlw	"0"
-		call	WR_DATA
-		rtc_read	0x06		;Read Address 0x06 from DS1307---year
-		movfw	0x77
-		call	WR_DATA
-		movfw	0x78
-		call	WR_DATA
-
-		movlw	"/"
-		call	WR_DATA
-
-		;Get month
-		rtc_read	0x05		;Read Address 0x05 from DS1307---month
-		movfw	0x77
-		call	WR_DATA
-		movfw	0x78
-		call	WR_DATA
-
-		movlw	"/"
-		call	WR_DATA
-
-		;Get day
-		rtc_read	0x04		;Read Address 0x04 from DS1307---day
-		movfw	0x77
-		call	WR_DATA
-		movfw	0x78
-		call	WR_DATA
-
-		movlw	B'11000000'		;Next line displays (hour):(min):(sec) **:**:**
-		call	WR_INS
-
+;		;clear LCD screen
+;		movlw	b'00000001'
+;		call	WR_INS
+;
+;		;Get year
+;		movlw	"2"				;First line shows 20**/**/**
+;		call	WR_DATA
+;		movlw	"0"
+;		call	WR_DATA
+;		rtc_read	0x06		;Read Address 0x06 from DS1307---year
+;		movfw	0x77
+;		call	WR_DATA
+;		movfw	0x78
+;		call	WR_DATA
+;
+;		movlw	"/"
+;		call	WR_DATA
+;
+;		;Get month
+;		rtc_read	0x05		;Read Address 0x05 from DS1307---month
+;		movfw	0x77
+;		call	WR_DATA
+;		movfw	0x78
+;		call	WR_DATA
+;
+;		movlw	"/"
+;		call	WR_DATA
+;
+;		;Get day
+;		rtc_read	0x04		;Read Address 0x04 from DS1307---day
+;		movfw	0x77
+;		call	WR_DATA
+;		movfw	0x78
+;		call	WR_DATA
+;
+;		movlw	B'11000000'		;Next line displays (hour):(min):(sec) **:**:**
+;		call	WR_INS
+;		ONLY GONNA DISPLAY THE TIME HAHA
 		;Get hour
 		rtc_read	0x02		;Read Address 0x02 from DS1307---hour
-		movfw	hour1		;0x77
+		movfw	0x77
 		call	WR_DATA
-		movfw	hour2		;0x78
+		movfw	0x78
 		call	WR_DATA
 		movlw			":"
 		call	WR_DATA
 
 		;Get minute		
 		rtc_read	0x01		;Read Address 0x01 from DS1307---min
-		movfw	min1		;0x77
+		movfw	0x77
 		call	WR_DATA
-		movfw	min2		;0x78
+		movfw	0x78
 		call	WR_DATA		
 		movlw			":"
 		call	WR_DATA
 		
 		;Get seconds
 		rtc_read	0x00		;Read Address 0x00 from DS1307---seconds
-		movfw	sec1	    ;0x77
+		movfw	0x77
 		call	WR_DATA
-		movfw	sec2	    ;0x78
+		movfw	0x78
 		call	WR_DATA
 		
 		call	OneS			;Delay for exactly one seconds and read DS1307 again
@@ -1546,7 +1526,7 @@ FinalMessage
 	movwf	PCL
         addwf    PCL,F
 FinalMessageEntries
-        dt        "1Time 3Stickers 4#Bins",0
+        dt        "1Stickers 2Bins 3Locations",0
 	
 DectoChar
 	
