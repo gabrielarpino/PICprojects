@@ -100,7 +100,7 @@
 		#define	NOTPWMFWD		PORTC,2
 		#define	NOTPWMBACK		PORTC,1
 		#define	MAX_HIGHS	0x3		    ; number of consecutive highs we want to detect US
-		#define	MAX_TICKS	d'200'		    ; number of ticks where it reaches 4 metres, max time to get back from 4 meters is 36 seconds
+		#define	MAX_TICKS	d'70'		    ; number of ticks where it reaches 4 metres, max time to get back from 4 meters is 36 seconds
 		;SHAFTIR is PORTA,4
 		;PWMFWD is RC2
 		;PWMBACK is RC1
@@ -494,6 +494,8 @@ AVOIDCOLUMN1
     goto    $-2
     
     call    PWMFWD	    ;stop arm forward
+ 
+    call    HalfS
     
     return
     
@@ -527,6 +529,10 @@ AVOIDCOLUMN2
 RETURNFROMCOLUMN
     
     bcf	    Std1
+    
+    call    PWMBACK	    ;start arm BACK
+    call    HalfS
+    call    PWMBACK
     
     call    PWMBACK	    ;start arm BACK
     call    HalfS
@@ -574,17 +580,13 @@ READBIN
     ;READ 2 ALGORITHM IMPLEMENT HERE
     
     call    HalfS
-    call    HalfS
-    call    HalfS
-    call    HalfS
-    
+
     call    Clear_Display
     
     call    DisplayBlackWhiteIR2	;warms up IR
     call    DisplayBlackWhiteIR2	;warms up IR
     call    StoreBW2
     
-    call    HalfS
     call    HalfS
     
     bcf	    LED
@@ -668,10 +670,17 @@ DELAYEDREAD
     call    READBIN
     bcf	    LED			; turn off LED After reading    
 ENDTHIS       
-    movlw	0X7			;checks if max of 7 bins has been reached
+    movlw	0X5		;checks if max of 7 bins has been reached
     subwf	NumOfBins1,W		
-    btfsc	STATUS,Z
+    btfss	STATUS,Z
+    goto	ENDTHIS1
+    bsf		Std1
+    call	OneS
+    call	OneS
+    call	HalfS
     goto	EXIT
+    
+ENDTHIS1  
     
     movfw	TMR0			;checks if max ticks has been reached
     subwf	MAX_TICKS,W
@@ -772,7 +781,7 @@ BWStoreModule1
 	movlw	0X0
 	decf	NumOfBins1,W		;want bin number to be decreased when back checks it
 	addwf	FSR,F
-	movlw	0X55			; roughly 21000
+	movlw	0X9c			; roughly 40000
 	subwf	NumH
 	movlw	0x0
 	btfsc	STATUS, C
@@ -805,7 +814,7 @@ BWStoreModule2
 	movlw	0X0
 	decf	NumOfBins1,W
 	addwf	FSR,F
-	movlw	0X3
+	movlw	0XA			;2800 threshold
 	subwf	NumH
 	movlw	0x0
 	btfsc	STATUS, C
@@ -1056,7 +1065,7 @@ Locations			;TESTED
 FrontLoop	
 	INCF		FSR,1
 	incf		counter
-	PrintNumber	counter
+	;PrintNumber	counter
 	Display		Colon
 	Display_Dist	INDF
 	Display		Spacee
@@ -1331,13 +1340,12 @@ Delay_0
 	return
 	
 
-DELAY2			;80s
-			;79999995 cycles
-	movlw	0xDA
-	movwf	lcd_d1
+DELAY2		;95 secs		;94999994 cycles
 	movlw	0x63
+	movwf	lcd_d1
+	movlw	0x16
 	movwf	lcd_d2
-	movlw	0xAF
+	movlw	0xD0
 	movwf	lcd_d1_2
 Delay_01
 	decfsz	lcd_d1, f
@@ -1347,9 +1355,7 @@ Delay_01
 	decfsz	lcd_d1_2, f
 	goto	Delay_01
 
-			;5 cycles
-	goto	$+1
-	goto	$+1
+			;1 cycle
 	nop
 	
 	return

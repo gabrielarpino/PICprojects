@@ -1,5 +1,5 @@
 MPLINK 5.08, LINKER
-Linker Map File - Created Tue Apr 05 03:44:18 2016
+Linker Map File - Created Tue Apr 05 15:46:58 2016
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
@@ -25,89 +25,90 @@ Linker Map File - Created Tue Apr 05 03:44:18 2016
                      Name    Address   Location    Storage File                     
                 ---------  ---------  ---------  --------- ---------                
              AVOIDCOLUMN1   0x0000ff    program     static ..\ShivTest\main.asm     
-             AVOIDCOLUMN2   0x000115    program     static ..\ShivTest\main.asm     
-                   AddBin   0x00028e    program     static ..\ShivTest\main.asm     
+             AVOIDCOLUMN2   0x000116    program     static ..\ShivTest\main.asm     
+                   AddBin   0x000293    program     static ..\ShivTest\main.asm     
           BINREADINGSTART   0x000165    program     static ..\ShivTest\main.asm     
-            BWScanModule1   0x0001c3    program     static ..\ShivTest\main.asm     
-            BWScanModule2   0x0001e9    program     static ..\ShivTest\main.asm     
-           BWStoreModule1   0x0001dc    program     static ..\ShivTest\main.asm     
-           BWStoreModule2   0x000202    program     static ..\ShivTest\main.asm     
+            BWScanModule1   0x0001c8    program     static ..\ShivTest\main.asm     
+            BWScanModule2   0x0001ee    program     static ..\ShivTest\main.asm     
+           BWStoreModule1   0x0001e1    program     static ..\ShivTest\main.asm     
+           BWStoreModule2   0x000207    program     static ..\ShivTest\main.asm     
              BackStickers   0x0004f0    program     static ..\ShivTest\main.asm     
       BackStickersEntries   0x0004f9    program     static ..\ShivTest\main.asm     
-              CHECKSWITCH   0x000184    program     static ..\ShivTest\main.asm     
+              CHECKSWITCH   0x000189    program     static ..\ShivTest\main.asm     
           COLREADINGSTART   0x000158    program     static ..\ShivTest\main.asm     
-        Check_cm_overflow   0x000257    program     static ..\ShivTest\main.asm     
-        Check_mm_overflow   0x000253    program     static ..\ShivTest\main.asm     
-            Clear_Display   0x0003b3    program     static ..\ShivTest\main.asm     
+        Check_cm_overflow   0x00025c    program     static ..\ShivTest\main.asm     
+        Check_mm_overflow   0x000258    program     static ..\ShivTest\main.asm     
+            Clear_Display   0x0003b5    program     static ..\ShivTest\main.asm     
                    ClrLCD   0x000645    program     extern ..\ShivTest\lcd.asm      
                     Colon   0x000509    program     static ..\ShivTest\main.asm     
              ColonEntries   0x000512    program     static ..\ShivTest\main.asm     
-                   DELAY1   0x0003c6    program     static ..\ShivTest\main.asm     
-                   DELAY2   0x0003d3    program     static ..\ShivTest\main.asm     
+                   DELAY1   0x0003c8    program     static ..\ShivTest\main.asm     
+                   DELAY2   0x0003d5    program     static ..\ShivTest\main.asm     
               DELAYEDREAD   0x000173    program     static ..\ShivTest\main.asm     
-        Decode_check_done   0x00025d    program     static ..\ShivTest\main.asm     
-              Decode_loop   0x00024c    program     static ..\ShivTest\main.asm     
+        Decode_check_done   0x000262    program     static ..\ShivTest\main.asm     
+              Decode_loop   0x000251    program     static ..\ShivTest\main.asm     
                 DectoChar   0x0004c1    program     static ..\ShivTest\main.asm     
          DectoCharEntries   0x0004ca    program     static ..\ShivTest\main.asm     
-                  Delay_0   0x0003cc    program     static ..\ShivTest\main.asm     
-                 Delay_01   0x0003d9    program     static ..\ShivTest\main.asm     
-     DisplayBlackWhiteIR1   0x00033a    program     static ..\ShivTest\main.asm     
-     DisplayBlackWhiteIR2   0x00033e    program     static ..\ShivTest\main.asm     
-             Dist_Decoder   0x000245    program     static ..\ShivTest\main.asm     
+                  Delay_0   0x0003ce    program     static ..\ShivTest\main.asm     
+                 Delay_01   0x0003db    program     static ..\ShivTest\main.asm     
+     DisplayBlackWhiteIR1   0x00033c    program     static ..\ShivTest\main.asm     
+     DisplayBlackWhiteIR2   0x000340    program     static ..\ShivTest\main.asm     
+             Dist_Decoder   0x00024a    program     static ..\ShivTest\main.asm     
          Distance_Display   0x000001    program     static ..\ShivTest\main.asm     
                 Distances   0x000514    program     static ..\ShivTest\main.asm     
          DistancesEntries   0x00051d    program     static ..\ShivTest\main.asm     
                   ENDTHIS   0x00017b    program     static ..\ShivTest\main.asm     
-                     EXIT   0x00018d    program     static ..\ShivTest\main.asm     
-              EXITDISPLAY   0x0001a0    program     static ..\ShivTest\main.asm     
+                 ENDTHIS1   0x000184    program     static ..\ShivTest\main.asm     
+                     EXIT   0x000192    program     static ..\ShivTest\main.asm     
+              EXITDISPLAY   0x0001a5    program     static ..\ShivTest\main.asm     
              FinalMessage   0x00049d    program     static ..\ShivTest\main.asm     
       FinalMessageEntries   0x0004a6    program     static ..\ShivTest\main.asm     
-                FrontLoop   0x000313    program     static ..\ShivTest\main.asm     
-               FrontLoop1   0x0002af    program     static ..\ShivTest\main.asm     
-               FrontLoop2   0x0002e0    program     static ..\ShivTest\main.asm     
+                FrontLoop   0x000318    program     static ..\ShivTest\main.asm     
+               FrontLoop1   0x0002b4    program     static ..\ShivTest\main.asm     
+               FrontLoop2   0x0002e5    program     static ..\ShivTest\main.asm     
             FrontStickers   0x0004e1    program     static ..\ShivTest\main.asm     
      FrontStickersEntries   0x0004ea    program     static ..\ShivTest\main.asm     
-                    HalfS   0x0003b6    program     static ..\ShivTest\main.asm     
+                    HalfS   0x0003b8    program     static ..\ShivTest\main.asm     
                   InitLCD   0x000627    program     extern ..\ShivTest\lcd.asm      
                 Init_TMR0   0x0003e3    program     static ..\ShivTest\main.asm     
              KeypadandLCD   0x0000ab    program     static ..\ShivTest\main.asm     
-             LEDControlON   0x000332    program     static ..\ShivTest\main.asm     
-                 LLD_LOOP   0x000446    program     static ..\ShivTest\main.asm     
+             LEDControlON   0x000334    program     static ..\ShivTest\main.asm     
                  LLD_LOOP   0x00066a    program     static ..\ShivTest\lcd.asm      
+                 LLD_LOOP   0x000446    program     static ..\ShivTest\main.asm     
                       Lb1   0x000032    program     static ..\ShivTest\main.asm     
                       Lb2   0x000036    program     static ..\ShivTest\main.asm     
                       Lb3   0x00003a    program     static ..\ShivTest\main.asm     
                       Lb4   0x00003e    program     static ..\ShivTest\main.asm     
-                Locations   0x000300    program     static ..\ShivTest\main.asm     
-            MoveBackwards   0x0001c2    program     static ..\ShivTest\main.asm     
+                Locations   0x000305    program     static ..\ShivTest\main.asm     
+            MoveBackwards   0x0001c7    program     static ..\ShivTest\main.asm     
                      OneS   0x000434    program     static ..\ShivTest\main.asm     
-                  PWMBACK   0x000389    program     static ..\ShivTest\main.asm     
-                   PWMFWD   0x000366    program     static ..\ShivTest\main.asm     
-                  PWMSTOP   0x0003ab    program     static ..\ShivTest\main.asm     
+                  PWMBACK   0x00038b    program     static ..\ShivTest\main.asm     
+                   PWMFWD   0x000368    program     static ..\ShivTest\main.asm     
+                  PWMSTOP   0x0003ad    program     static ..\ShivTest\main.asm     
                    RD_END   0x0005bf    program     static ..\ShivTest\i2c_common.asm
                    RD_ERR   0x0005be    program     static ..\ShivTest\i2c_common.asm
-                  READBIN   0x000137    program     static ..\ShivTest\main.asm     
-         RETURNFROMCOLUMN   0x000128    program     static ..\ShivTest\main.asm     
-               RTCDisplay   0x000278    program     static ..\ShivTest\main.asm     
+                  READBIN   0x00013b    program     static ..\ShivTest\main.asm     
+         RETURNFROMCOLUMN   0x000129    program     static ..\ShivTest\main.asm     
+               RTCDisplay   0x00027d    program     static ..\ShivTest\main.asm     
                     R_END   0x000621    program     static ..\ShivTest\i2c_common.asm
-                 Read1_US   0x00020f    program     static ..\ShivTest\main.asm     
-                 Read2_US   0x00022a    program     static ..\ShivTest\main.asm     
-                ShiftLeft   0x000274    program     static ..\ShivTest\main.asm     
-                 ShowBins   0x000298    program     static ..\ShivTest\main.asm     
+                 Read1_US   0x000214    program     static ..\ShivTest\main.asm     
+                 Read2_US   0x00022f    program     static ..\ShivTest\main.asm     
+                ShiftLeft   0x000279    program     static ..\ShivTest\main.asm     
+                 ShowBins   0x00029d    program     static ..\ShivTest\main.asm     
                    Spacee   0x0004fe    program     static ..\ShivTest\main.asm     
             SpaceeEntries   0x000507    program     static ..\ShivTest\main.asm     
-             StdRotation1   0x000342    program     static ..\ShivTest\main.asm     
-    StdRotation1Backwards   0x000354    program     static ..\ShivTest\main.asm     
-             StdRotation2   0x00034a    program     static ..\ShivTest\main.asm     
-    StdRotation2Backwards   0x00035c    program     static ..\ShivTest\main.asm     
+             StdRotation1   0x000344    program     static ..\ShivTest\main.asm     
+    StdRotation1Backwards   0x000356    program     static ..\ShivTest\main.asm     
+             StdRotation2   0x00034c    program     static ..\ShivTest\main.asm     
+    StdRotation2Backwards   0x00035e    program     static ..\ShivTest\main.asm     
            StickerColours   0x0004d5    program     static ..\ShivTest\main.asm     
     StickerColoursEntries   0x0004de    program     static ..\ShivTest\main.asm     
-                Stickers1   0x00029d    program     static ..\ShivTest\main.asm     
-                Stickers2   0x0002cf    program     static ..\ShivTest\main.asm     
-                 StoreBW1   0x000282    program     static ..\ShivTest\main.asm     
-                 StoreBW2   0x000288    program     static ..\ShivTest\main.asm     
-            StoreThisTick   0x00026a    program     static ..\ShivTest\main.asm     
-             Switch_Lines   0x0003b0    program     static ..\ShivTest\main.asm     
+                Stickers1   0x0002a2    program     static ..\ShivTest\main.asm     
+                Stickers2   0x0002d4    program     static ..\ShivTest\main.asm     
+                 StoreBW1   0x000287    program     static ..\ShivTest\main.asm     
+                 StoreBW2   0x00028d    program     static ..\ShivTest\main.asm     
+            StoreThisTick   0x00026f    program     static ..\ShivTest\main.asm     
+             Switch_Lines   0x0003b2    program     static ..\ShivTest\main.asm     
                     TOTAL   0x000154    program     static ..\ShivTest\main.asm     
                    TOTAL1   0x000156    program     static ..\ShivTest\main.asm     
                   WR_DATA   0x000657    program     extern ..\ShivTest\lcd.asm      
@@ -149,76 +150,74 @@ Linker Map File - Created Tue Apr 05 03:44:18 2016
              _.org_0_0106   0x000106    program     static ..\ShivTest\main.asm     
              _.org_0_010F   0x00010f    program     static ..\ShivTest\main.asm     
              _.org_0_0112   0x000112    program     static ..\ShivTest\main.asm     
-             _.org_0_011F   0x00011f    program     static ..\ShivTest\main.asm     
-             _.org_0_0124   0x000124    program     static ..\ShivTest\main.asm     
-             _.org_0_012C   0x00012c    program     static ..\ShivTest\main.asm     
-             _.org_0_0133   0x000133    program     static ..\ShivTest\main.asm     
+             _.org_0_0120   0x000120    program     static ..\ShivTest\main.asm     
+             _.org_0_0125   0x000125    program     static ..\ShivTest\main.asm     
+             _.org_0_0130   0x000130    program     static ..\ShivTest\main.asm     
+             _.org_0_0137   0x000137    program     static ..\ShivTest\main.asm     
              _.org_0_015C   0x00015c    program     static ..\ShivTest\main.asm     
              _.org_0_016A   0x00016a    program     static ..\ShivTest\main.asm     
-             _.org_0_0187   0x000187    program     static ..\ShivTest\main.asm     
-             _.org_0_018A   0x00018a    program     static ..\ShivTest\main.asm     
-             _.org_0_01A1   0x0001a1    program     static ..\ShivTest\main.asm     
-             _.org_0_01BF   0x0001bf    program     static ..\ShivTest\main.asm     
-             _.org_0_01C5   0x0001c5    program     static ..\ShivTest\main.asm     
-             _.org_0_01EB   0x0001eb    program     static ..\ShivTest\main.asm     
-             _.org_0_0217   0x000217    program     static ..\ShivTest\main.asm     
-             _.org_0_021A   0x00021a    program     static ..\ShivTest\main.asm     
-             _.org_0_0232   0x000232    program     static ..\ShivTest\main.asm     
-             _.org_0_0235   0x000235    program     static ..\ShivTest\main.asm     
-             _.org_0_0333   0x000333    program     static ..\ShivTest\main.asm     
-             _.org_0_0343   0x000343    program     static ..\ShivTest\main.asm     
-             _.org_0_034B   0x00034b    program     static ..\ShivTest\main.asm     
-             _.org_0_0355   0x000355    program     static ..\ShivTest\main.asm     
-             _.org_0_035D   0x00035d    program     static ..\ShivTest\main.asm     
-             _.org_0_0367   0x000367    program     static ..\ShivTest\main.asm     
-             _.org_0_038A   0x00038a    program     static ..\ShivTest\main.asm     
-             _.org_0_03BD   0x0003bd    program     static ..\ShivTest\main.asm     
+             _.org_0_018C   0x00018c    program     static ..\ShivTest\main.asm     
+             _.org_0_018F   0x00018f    program     static ..\ShivTest\main.asm     
+             _.org_0_01A6   0x0001a6    program     static ..\ShivTest\main.asm     
+             _.org_0_01C4   0x0001c4    program     static ..\ShivTest\main.asm     
+             _.org_0_01CA   0x0001ca    program     static ..\ShivTest\main.asm     
+             _.org_0_01F0   0x0001f0    program     static ..\ShivTest\main.asm     
+             _.org_0_021C   0x00021c    program     static ..\ShivTest\main.asm     
+             _.org_0_021F   0x00021f    program     static ..\ShivTest\main.asm     
+             _.org_0_0237   0x000237    program     static ..\ShivTest\main.asm     
+             _.org_0_023A   0x00023a    program     static ..\ShivTest\main.asm     
+             _.org_0_0335   0x000335    program     static ..\ShivTest\main.asm     
+             _.org_0_0345   0x000345    program     static ..\ShivTest\main.asm     
+             _.org_0_034D   0x00034d    program     static ..\ShivTest\main.asm     
+             _.org_0_0357   0x000357    program     static ..\ShivTest\main.asm     
+             _.org_0_035F   0x00035f    program     static ..\ShivTest\main.asm     
+             _.org_0_0369   0x000369    program     static ..\ShivTest\main.asm     
+             _.org_0_038C   0x00038c    program     static ..\ShivTest\main.asm     
              _.org_0_03BF   0x0003bf    program     static ..\ShivTest\main.asm     
-             _.org_0_03C2   0x0003c2    program     static ..\ShivTest\main.asm     
-             _.org_0_03CD   0x0003cd    program     static ..\ShivTest\main.asm     
+             _.org_0_03C1   0x0003c1    program     static ..\ShivTest\main.asm     
+             _.org_0_03C4   0x0003c4    program     static ..\ShivTest\main.asm     
              _.org_0_03CF   0x0003cf    program     static ..\ShivTest\main.asm     
-             _.org_0_03DA   0x0003da    program     static ..\ShivTest\main.asm     
+             _.org_0_03D1   0x0003d1    program     static ..\ShivTest\main.asm     
              _.org_0_03DC   0x0003dc    program     static ..\ShivTest\main.asm     
-             _.org_0_03DF   0x0003df    program     static ..\ShivTest\main.asm     
-             _.org_0_03E0   0x0003e0    program     static ..\ShivTest\main.asm     
+             _.org_0_03DE   0x0003de    program     static ..\ShivTest\main.asm     
              _.org_0_043B   0x00043b    program     static ..\ShivTest\main.asm     
              _.org_0_043D   0x00043d    program     static ..\ShivTest\main.asm     
              _.org_0_0440   0x000440    program     static ..\ShivTest\main.asm     
              _.org_0_0449   0x000449    program     static ..\ShivTest\main.asm     
-                _0HalfS_0   0x0003bc    program     static ..\ShivTest\main.asm     
+                _0HalfS_0   0x0003be    program     static ..\ShivTest\main.asm     
                  _0OneS_0   0x00043a    program     static ..\ShivTest\main.asm     
-                  _26end_   0x00019d    program     static ..\ShivTest\main.asm     
-                 _26loop_   0x000195    program     static ..\ShivTest\main.asm     
-                  _52end_   0x0002af    program     static ..\ShivTest\main.asm     
-                 _52loop_   0x0002a7    program     static ..\ShivTest\main.asm     
-                  _54end_   0x0002be    program     static ..\ShivTest\main.asm     
-                 _54loop_   0x0002b6    program     static ..\ShivTest\main.asm     
-                  _56end_   0x0002cc    program     static ..\ShivTest\main.asm     
-                 _56loop_   0x0002c4    program     static ..\ShivTest\main.asm     
-                  _57end_   0x0002e0    program     static ..\ShivTest\main.asm     
-                 _57loop_   0x0002d8    program     static ..\ShivTest\main.asm     
-                  _59end_   0x0002ef    program     static ..\ShivTest\main.asm     
-                 _59loop_   0x0002e7    program     static ..\ShivTest\main.asm     
-                  _61end_   0x0002fd    program     static ..\ShivTest\main.asm     
-                 _61loop_   0x0002f5    program     static ..\ShivTest\main.asm     
-                  _62end_   0x000312    program     static ..\ShivTest\main.asm     
-                 _62loop_   0x00030a    program     static ..\ShivTest\main.asm     
-                  _64end_   0x000322    program     static ..\ShivTest\main.asm     
-                 _64loop_   0x00031a    program     static ..\ShivTest\main.asm     
-                  _67end_   0x00032f    program     static ..\ShivTest\main.asm     
-                 _67loop_   0x000327    program     static ..\ShivTest\main.asm     
+                  _26end_   0x0001a2    program     static ..\ShivTest\main.asm     
+                 _26loop_   0x00019a    program     static ..\ShivTest\main.asm     
+                  _52end_   0x0002b4    program     static ..\ShivTest\main.asm     
+                 _52loop_   0x0002ac    program     static ..\ShivTest\main.asm     
+                  _54end_   0x0002c3    program     static ..\ShivTest\main.asm     
+                 _54loop_   0x0002bb    program     static ..\ShivTest\main.asm     
+                  _56end_   0x0002d1    program     static ..\ShivTest\main.asm     
+                 _56loop_   0x0002c9    program     static ..\ShivTest\main.asm     
+                  _57end_   0x0002e5    program     static ..\ShivTest\main.asm     
+                 _57loop_   0x0002dd    program     static ..\ShivTest\main.asm     
+                  _59end_   0x0002f4    program     static ..\ShivTest\main.asm     
+                 _59loop_   0x0002ec    program     static ..\ShivTest\main.asm     
+                  _61end_   0x000302    program     static ..\ShivTest\main.asm     
+                 _61loop_   0x0002fa    program     static ..\ShivTest\main.asm     
+                  _62end_   0x000317    program     static ..\ShivTest\main.asm     
+                 _62loop_   0x00030f    program     static ..\ShivTest\main.asm     
+                  _63end_   0x000324    program     static ..\ShivTest\main.asm     
+                 _63loop_   0x00031c    program     static ..\ShivTest\main.asm     
+                  _66end_   0x000331    program     static ..\ShivTest\main.asm     
+                 _66loop_   0x000329    program     static ..\ShivTest\main.asm     
                    _6end_   0x000086    program     static ..\ShivTest\main.asm     
                   _6loop_   0x00007e    program     static ..\ShivTest\main.asm     
                    _7end_   0x000091    program     static ..\ShivTest\main.asm     
                   _7loop_   0x000089    program     static ..\ShivTest\main.asm     
                 bin16_BCD   0x000011    program     static ..\ShivTest\main.asm     
-              cm_overflow   0x000266    program     static ..\ShivTest\main.asm     
+              cm_overflow   0x00026b    program     static ..\ShivTest\main.asm     
                    goback   0x0000fe    program     static ..\ShivTest\main.asm     
          i2c_common_setup   0x000529    program     extern ..\ShivTest\i2c_common.asm
                      init   0x000044    program     static ..\ShivTest\main.asm     
              lcdLongDelay   0x000444    program     static ..\ShivTest\main.asm     
              lcdLongDelay   0x000668    program     static ..\ShivTest\lcd.asm      
-              mm_overflow   0x000262    program     static ..\ShivTest\main.asm     
+              mm_overflow   0x000267    program     static ..\ShivTest\main.asm     
                  p2p_read   0x0005fd    program     extern ..\ShivTest\i2c_common.asm
                 p2p_write   0x0005d3    program     extern ..\ShivTest\i2c_common.asm
                  read_rtc   0x000576    program     extern ..\ShivTest\i2c_common.asm
@@ -257,13 +256,13 @@ Linker Map File - Created Tue Apr 05 03:44:18 2016
              _.org_0_0106   0x000106    program     static ..\ShivTest\main.asm     
              _.org_0_010F   0x00010f    program     static ..\ShivTest\main.asm     
              _.org_0_0112   0x000112    program     static ..\ShivTest\main.asm     
-             AVOIDCOLUMN2   0x000115    program     static ..\ShivTest\main.asm     
-             _.org_0_011F   0x00011f    program     static ..\ShivTest\main.asm     
-             _.org_0_0124   0x000124    program     static ..\ShivTest\main.asm     
-         RETURNFROMCOLUMN   0x000128    program     static ..\ShivTest\main.asm     
-             _.org_0_012C   0x00012c    program     static ..\ShivTest\main.asm     
-             _.org_0_0133   0x000133    program     static ..\ShivTest\main.asm     
-                  READBIN   0x000137    program     static ..\ShivTest\main.asm     
+             AVOIDCOLUMN2   0x000116    program     static ..\ShivTest\main.asm     
+             _.org_0_0120   0x000120    program     static ..\ShivTest\main.asm     
+             _.org_0_0125   0x000125    program     static ..\ShivTest\main.asm     
+         RETURNFROMCOLUMN   0x000129    program     static ..\ShivTest\main.asm     
+             _.org_0_0130   0x000130    program     static ..\ShivTest\main.asm     
+             _.org_0_0137   0x000137    program     static ..\ShivTest\main.asm     
+                  READBIN   0x00013b    program     static ..\ShivTest\main.asm     
                     TOTAL   0x000154    program     static ..\ShivTest\main.asm     
                    TOTAL1   0x000156    program     static ..\ShivTest\main.asm     
           COLREADINGSTART   0x000158    program     static ..\ShivTest\main.asm     
@@ -272,100 +271,99 @@ Linker Map File - Created Tue Apr 05 03:44:18 2016
              _.org_0_016A   0x00016a    program     static ..\ShivTest\main.asm     
               DELAYEDREAD   0x000173    program     static ..\ShivTest\main.asm     
                   ENDTHIS   0x00017b    program     static ..\ShivTest\main.asm     
-              CHECKSWITCH   0x000184    program     static ..\ShivTest\main.asm     
-             _.org_0_0187   0x000187    program     static ..\ShivTest\main.asm     
-             _.org_0_018A   0x00018a    program     static ..\ShivTest\main.asm     
-                     EXIT   0x00018d    program     static ..\ShivTest\main.asm     
-                 _26loop_   0x000195    program     static ..\ShivTest\main.asm     
-                  _26end_   0x00019d    program     static ..\ShivTest\main.asm     
-              EXITDISPLAY   0x0001a0    program     static ..\ShivTest\main.asm     
-             _.org_0_01A1   0x0001a1    program     static ..\ShivTest\main.asm     
-             _.org_0_01BF   0x0001bf    program     static ..\ShivTest\main.asm     
-            MoveBackwards   0x0001c2    program     static ..\ShivTest\main.asm     
-            BWScanModule1   0x0001c3    program     static ..\ShivTest\main.asm     
-             _.org_0_01C5   0x0001c5    program     static ..\ShivTest\main.asm     
-           BWStoreModule1   0x0001dc    program     static ..\ShivTest\main.asm     
-            BWScanModule2   0x0001e9    program     static ..\ShivTest\main.asm     
-             _.org_0_01EB   0x0001eb    program     static ..\ShivTest\main.asm     
-           BWStoreModule2   0x000202    program     static ..\ShivTest\main.asm     
-                 Read1_US   0x00020f    program     static ..\ShivTest\main.asm     
-             _.org_0_0217   0x000217    program     static ..\ShivTest\main.asm     
-             _.org_0_021A   0x00021a    program     static ..\ShivTest\main.asm     
-                 Read2_US   0x00022a    program     static ..\ShivTest\main.asm     
-             _.org_0_0232   0x000232    program     static ..\ShivTest\main.asm     
-             _.org_0_0235   0x000235    program     static ..\ShivTest\main.asm     
-             Dist_Decoder   0x000245    program     static ..\ShivTest\main.asm     
-              Decode_loop   0x00024c    program     static ..\ShivTest\main.asm     
-        Check_mm_overflow   0x000253    program     static ..\ShivTest\main.asm     
-        Check_cm_overflow   0x000257    program     static ..\ShivTest\main.asm     
-        Decode_check_done   0x00025d    program     static ..\ShivTest\main.asm     
-              mm_overflow   0x000262    program     static ..\ShivTest\main.asm     
-              cm_overflow   0x000266    program     static ..\ShivTest\main.asm     
-            StoreThisTick   0x00026a    program     static ..\ShivTest\main.asm     
-                ShiftLeft   0x000274    program     static ..\ShivTest\main.asm     
-               RTCDisplay   0x000278    program     static ..\ShivTest\main.asm     
-                 StoreBW1   0x000282    program     static ..\ShivTest\main.asm     
-                 StoreBW2   0x000288    program     static ..\ShivTest\main.asm     
-                   AddBin   0x00028e    program     static ..\ShivTest\main.asm     
-                 ShowBins   0x000298    program     static ..\ShivTest\main.asm     
-                Stickers1   0x00029d    program     static ..\ShivTest\main.asm     
-                 _52loop_   0x0002a7    program     static ..\ShivTest\main.asm     
-               FrontLoop1   0x0002af    program     static ..\ShivTest\main.asm     
-                  _52end_   0x0002af    program     static ..\ShivTest\main.asm     
-                 _54loop_   0x0002b6    program     static ..\ShivTest\main.asm     
-                  _54end_   0x0002be    program     static ..\ShivTest\main.asm     
-                 _56loop_   0x0002c4    program     static ..\ShivTest\main.asm     
-                  _56end_   0x0002cc    program     static ..\ShivTest\main.asm     
-                Stickers2   0x0002cf    program     static ..\ShivTest\main.asm     
-                 _57loop_   0x0002d8    program     static ..\ShivTest\main.asm     
-                  _57end_   0x0002e0    program     static ..\ShivTest\main.asm     
-               FrontLoop2   0x0002e0    program     static ..\ShivTest\main.asm     
-                 _59loop_   0x0002e7    program     static ..\ShivTest\main.asm     
-                  _59end_   0x0002ef    program     static ..\ShivTest\main.asm     
-                 _61loop_   0x0002f5    program     static ..\ShivTest\main.asm     
-                  _61end_   0x0002fd    program     static ..\ShivTest\main.asm     
-                Locations   0x000300    program     static ..\ShivTest\main.asm     
-                 _62loop_   0x00030a    program     static ..\ShivTest\main.asm     
-                  _62end_   0x000312    program     static ..\ShivTest\main.asm     
-                FrontLoop   0x000313    program     static ..\ShivTest\main.asm     
-                 _64loop_   0x00031a    program     static ..\ShivTest\main.asm     
-                  _64end_   0x000322    program     static ..\ShivTest\main.asm     
-                 _67loop_   0x000327    program     static ..\ShivTest\main.asm     
-                  _67end_   0x00032f    program     static ..\ShivTest\main.asm     
-             LEDControlON   0x000332    program     static ..\ShivTest\main.asm     
-             _.org_0_0333   0x000333    program     static ..\ShivTest\main.asm     
-     DisplayBlackWhiteIR1   0x00033a    program     static ..\ShivTest\main.asm     
-     DisplayBlackWhiteIR2   0x00033e    program     static ..\ShivTest\main.asm     
-             StdRotation1   0x000342    program     static ..\ShivTest\main.asm     
-             _.org_0_0343   0x000343    program     static ..\ShivTest\main.asm     
-             StdRotation2   0x00034a    program     static ..\ShivTest\main.asm     
-             _.org_0_034B   0x00034b    program     static ..\ShivTest\main.asm     
-    StdRotation1Backwards   0x000354    program     static ..\ShivTest\main.asm     
-             _.org_0_0355   0x000355    program     static ..\ShivTest\main.asm     
-    StdRotation2Backwards   0x00035c    program     static ..\ShivTest\main.asm     
-             _.org_0_035D   0x00035d    program     static ..\ShivTest\main.asm     
-                   PWMFWD   0x000366    program     static ..\ShivTest\main.asm     
-             _.org_0_0367   0x000367    program     static ..\ShivTest\main.asm     
-                  PWMBACK   0x000389    program     static ..\ShivTest\main.asm     
-             _.org_0_038A   0x00038a    program     static ..\ShivTest\main.asm     
-                  PWMSTOP   0x0003ab    program     static ..\ShivTest\main.asm     
-             Switch_Lines   0x0003b0    program     static ..\ShivTest\main.asm     
-            Clear_Display   0x0003b3    program     static ..\ShivTest\main.asm     
-                    HalfS   0x0003b6    program     static ..\ShivTest\main.asm     
-                _0HalfS_0   0x0003bc    program     static ..\ShivTest\main.asm     
-             _.org_0_03BD   0x0003bd    program     static ..\ShivTest\main.asm     
+                 ENDTHIS1   0x000184    program     static ..\ShivTest\main.asm     
+              CHECKSWITCH   0x000189    program     static ..\ShivTest\main.asm     
+             _.org_0_018C   0x00018c    program     static ..\ShivTest\main.asm     
+             _.org_0_018F   0x00018f    program     static ..\ShivTest\main.asm     
+                     EXIT   0x000192    program     static ..\ShivTest\main.asm     
+                 _26loop_   0x00019a    program     static ..\ShivTest\main.asm     
+                  _26end_   0x0001a2    program     static ..\ShivTest\main.asm     
+              EXITDISPLAY   0x0001a5    program     static ..\ShivTest\main.asm     
+             _.org_0_01A6   0x0001a6    program     static ..\ShivTest\main.asm     
+             _.org_0_01C4   0x0001c4    program     static ..\ShivTest\main.asm     
+            MoveBackwards   0x0001c7    program     static ..\ShivTest\main.asm     
+            BWScanModule1   0x0001c8    program     static ..\ShivTest\main.asm     
+             _.org_0_01CA   0x0001ca    program     static ..\ShivTest\main.asm     
+           BWStoreModule1   0x0001e1    program     static ..\ShivTest\main.asm     
+            BWScanModule2   0x0001ee    program     static ..\ShivTest\main.asm     
+             _.org_0_01F0   0x0001f0    program     static ..\ShivTest\main.asm     
+           BWStoreModule2   0x000207    program     static ..\ShivTest\main.asm     
+                 Read1_US   0x000214    program     static ..\ShivTest\main.asm     
+             _.org_0_021C   0x00021c    program     static ..\ShivTest\main.asm     
+             _.org_0_021F   0x00021f    program     static ..\ShivTest\main.asm     
+                 Read2_US   0x00022f    program     static ..\ShivTest\main.asm     
+             _.org_0_0237   0x000237    program     static ..\ShivTest\main.asm     
+             _.org_0_023A   0x00023a    program     static ..\ShivTest\main.asm     
+             Dist_Decoder   0x00024a    program     static ..\ShivTest\main.asm     
+              Decode_loop   0x000251    program     static ..\ShivTest\main.asm     
+        Check_mm_overflow   0x000258    program     static ..\ShivTest\main.asm     
+        Check_cm_overflow   0x00025c    program     static ..\ShivTest\main.asm     
+        Decode_check_done   0x000262    program     static ..\ShivTest\main.asm     
+              mm_overflow   0x000267    program     static ..\ShivTest\main.asm     
+              cm_overflow   0x00026b    program     static ..\ShivTest\main.asm     
+            StoreThisTick   0x00026f    program     static ..\ShivTest\main.asm     
+                ShiftLeft   0x000279    program     static ..\ShivTest\main.asm     
+               RTCDisplay   0x00027d    program     static ..\ShivTest\main.asm     
+                 StoreBW1   0x000287    program     static ..\ShivTest\main.asm     
+                 StoreBW2   0x00028d    program     static ..\ShivTest\main.asm     
+                   AddBin   0x000293    program     static ..\ShivTest\main.asm     
+                 ShowBins   0x00029d    program     static ..\ShivTest\main.asm     
+                Stickers1   0x0002a2    program     static ..\ShivTest\main.asm     
+                 _52loop_   0x0002ac    program     static ..\ShivTest\main.asm     
+                  _52end_   0x0002b4    program     static ..\ShivTest\main.asm     
+               FrontLoop1   0x0002b4    program     static ..\ShivTest\main.asm     
+                 _54loop_   0x0002bb    program     static ..\ShivTest\main.asm     
+                  _54end_   0x0002c3    program     static ..\ShivTest\main.asm     
+                 _56loop_   0x0002c9    program     static ..\ShivTest\main.asm     
+                  _56end_   0x0002d1    program     static ..\ShivTest\main.asm     
+                Stickers2   0x0002d4    program     static ..\ShivTest\main.asm     
+                 _57loop_   0x0002dd    program     static ..\ShivTest\main.asm     
+                  _57end_   0x0002e5    program     static ..\ShivTest\main.asm     
+               FrontLoop2   0x0002e5    program     static ..\ShivTest\main.asm     
+                 _59loop_   0x0002ec    program     static ..\ShivTest\main.asm     
+                  _59end_   0x0002f4    program     static ..\ShivTest\main.asm     
+                 _61loop_   0x0002fa    program     static ..\ShivTest\main.asm     
+                  _61end_   0x000302    program     static ..\ShivTest\main.asm     
+                Locations   0x000305    program     static ..\ShivTest\main.asm     
+                 _62loop_   0x00030f    program     static ..\ShivTest\main.asm     
+                  _62end_   0x000317    program     static ..\ShivTest\main.asm     
+                FrontLoop   0x000318    program     static ..\ShivTest\main.asm     
+                 _63loop_   0x00031c    program     static ..\ShivTest\main.asm     
+                  _63end_   0x000324    program     static ..\ShivTest\main.asm     
+                 _66loop_   0x000329    program     static ..\ShivTest\main.asm     
+                  _66end_   0x000331    program     static ..\ShivTest\main.asm     
+             LEDControlON   0x000334    program     static ..\ShivTest\main.asm     
+             _.org_0_0335   0x000335    program     static ..\ShivTest\main.asm     
+     DisplayBlackWhiteIR1   0x00033c    program     static ..\ShivTest\main.asm     
+     DisplayBlackWhiteIR2   0x000340    program     static ..\ShivTest\main.asm     
+             StdRotation1   0x000344    program     static ..\ShivTest\main.asm     
+             _.org_0_0345   0x000345    program     static ..\ShivTest\main.asm     
+             StdRotation2   0x00034c    program     static ..\ShivTest\main.asm     
+             _.org_0_034D   0x00034d    program     static ..\ShivTest\main.asm     
+    StdRotation1Backwards   0x000356    program     static ..\ShivTest\main.asm     
+             _.org_0_0357   0x000357    program     static ..\ShivTest\main.asm     
+    StdRotation2Backwards   0x00035e    program     static ..\ShivTest\main.asm     
+             _.org_0_035F   0x00035f    program     static ..\ShivTest\main.asm     
+                   PWMFWD   0x000368    program     static ..\ShivTest\main.asm     
+             _.org_0_0369   0x000369    program     static ..\ShivTest\main.asm     
+                  PWMBACK   0x00038b    program     static ..\ShivTest\main.asm     
+             _.org_0_038C   0x00038c    program     static ..\ShivTest\main.asm     
+                  PWMSTOP   0x0003ad    program     static ..\ShivTest\main.asm     
+             Switch_Lines   0x0003b2    program     static ..\ShivTest\main.asm     
+            Clear_Display   0x0003b5    program     static ..\ShivTest\main.asm     
+                    HalfS   0x0003b8    program     static ..\ShivTest\main.asm     
+                _0HalfS_0   0x0003be    program     static ..\ShivTest\main.asm     
              _.org_0_03BF   0x0003bf    program     static ..\ShivTest\main.asm     
-             _.org_0_03C2   0x0003c2    program     static ..\ShivTest\main.asm     
-                   DELAY1   0x0003c6    program     static ..\ShivTest\main.asm     
-                  Delay_0   0x0003cc    program     static ..\ShivTest\main.asm     
-             _.org_0_03CD   0x0003cd    program     static ..\ShivTest\main.asm     
+             _.org_0_03C1   0x0003c1    program     static ..\ShivTest\main.asm     
+             _.org_0_03C4   0x0003c4    program     static ..\ShivTest\main.asm     
+                   DELAY1   0x0003c8    program     static ..\ShivTest\main.asm     
+                  Delay_0   0x0003ce    program     static ..\ShivTest\main.asm     
              _.org_0_03CF   0x0003cf    program     static ..\ShivTest\main.asm     
-                   DELAY2   0x0003d3    program     static ..\ShivTest\main.asm     
-                 Delay_01   0x0003d9    program     static ..\ShivTest\main.asm     
-             _.org_0_03DA   0x0003da    program     static ..\ShivTest\main.asm     
+             _.org_0_03D1   0x0003d1    program     static ..\ShivTest\main.asm     
+                   DELAY2   0x0003d5    program     static ..\ShivTest\main.asm     
+                 Delay_01   0x0003db    program     static ..\ShivTest\main.asm     
              _.org_0_03DC   0x0003dc    program     static ..\ShivTest\main.asm     
-             _.org_0_03DF   0x0003df    program     static ..\ShivTest\main.asm     
-             _.org_0_03E0   0x0003e0    program     static ..\ShivTest\main.asm     
+             _.org_0_03DE   0x0003de    program     static ..\ShivTest\main.asm     
                 Init_TMR0   0x0003e3    program     static ..\ShivTest\main.asm     
                  show_RTC   0x0003eb    program     static ..\ShivTest\main.asm     
              set_rtc_time   0x000418    program     static ..\ShivTest\main.asm     

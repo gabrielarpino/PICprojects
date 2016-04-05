@@ -1,4 +1,4 @@
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  1
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Warning[207]: Found label after column 1. (LCD_DELAY)
                       00039         ; -> Send b'0011' 3 times
 0005   3033           00040         movlw   b'00110011'
 0006   2???           00041         call    WR_INS
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  2
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0028   0E??           00092         swapf   com,w
 0029   39F0           00093         andlw   0xF0                    ;1111 0010
 002A   0088           00094         movwf   PORTD                   ;send 4 bits LSB
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  3
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -164,7 +164,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0049   0008           00130     return
                       00131     
                       00132     end
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  4
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  4
 
 
 SYMBOL TABLE
@@ -223,7 +223,7 @@ CSRC                              00000007
 ClrLCD                            0000001E
 D                                 00000005
 DATA_ADDRESS                      00000005
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  5
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  5
 
 
 SYMBOL TABLE
@@ -282,7 +282,7 @@ NOT_WRITE                         00000002
 OBF                               00000006
 OERR                              00000001
 OPTION_REG                        00000081
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  6
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  6
 
 
 SYMBOL TABLE
@@ -341,7 +341,7 @@ RC5                               00000005
 RC6                               00000006
 RC7                               00000007
 RC8_9                             00000006
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  7
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  7
 
 
 SYMBOL TABLE
@@ -400,7 +400,7 @@ T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  8
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  8
 
 
 SYMBOL TABLE
@@ -459,7 +459,7 @@ TRISC5                            00000005
 TRISC6                            00000006
 TRISC7                            00000007
 TRISD                             00000088
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE  9
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE  9
 
 
 SYMBOL TABLE
@@ -518,7 +518,7 @@ _FOSC_XT                          00003FFD
 _HS_OSC                           00003FFE
 _IDLOC0                           00002000
 _IDLOC1                           00002001
-MPASM 5.65                           LCD.ASM   4-5-2016  3:34:13         PAGE 10
+MPASM 5.65                           LCD.ASM   4-5-2016  15:42:55         PAGE 10
 
 
 SYMBOL TABLE
