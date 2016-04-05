@@ -1057,7 +1057,7 @@ FrontLoop
 	INCF		FSR,1
 	incf		counter
 	PrintNumber	counter
-	Display		Colon
+	;Display		Colon
 	Display_Dist	INDF
 	Display		Spacee
 	decfsz		countdown,F
@@ -1331,16 +1331,14 @@ Delay_0
 	return
 	
 
-DELAY2
+DELAY2		;80s
 
-; Actual delay = 36 seconds = 36000000 cycles
-; Error = 0 %
-			;35999997 cycles
-	movlw	0x48
+			;79999995 cycles
+	movlw	0xDA
 	movwf	lcd_d1
-	movlw	0x7A
+	movlw	0x63
 	movwf	lcd_d2
-	movlw	0x4F
+	movlw	0xAF
 	movwf	lcd_d1_2
 Delay_01
 	decfsz	lcd_d1, f
@@ -1349,10 +1347,6 @@ Delay_01
 	goto	$+2
 	decfsz	lcd_d1_2, f
 	goto	Delay_01
-
-			;3 cycles
-	goto	$+1
-	nop
 	
 	return
 	
