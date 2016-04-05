@@ -100,7 +100,7 @@
 		#define	NOTPWMFWD		PORTC,2
 		#define	NOTPWMBACK		PORTC,1
 		#define	MAX_HIGHS	0x3		    ; number of consecutive highs we want to detect US
-		#define	MAX_TICKS	d'200'		    ; number of ticks where it reaches 4 metres
+		#define	MAX_TICKS	d'200'		    ; number of ticks where it reaches 4 metres, max time to get back from 4 meters is 36 seconds
 		;SHAFTIR is PORTA,4
 		;PWMFWD is RC2
 		;PWMBACK is RC1
@@ -465,15 +465,19 @@ goback
 ;								  MAIN CODE
 ;----------------------------------------------------------------------------------------------------------------------------------------------
 
-AVOIDCOLUMN
+AVOIDCOLUMN1
     
     bcf	    Std1		;motor will stop move fwd
     
+    ;WORKSSSSSSSSSSSSSSSSSSSSSSSSSSSS
     bcf	    Std2		; start white thing fwd
-    call    HalfS
+    call    HalfS	
+    btfsc   SwitchWhite
+    goto    $-2
+    call    lcdLongDelay
     btfss   SwitchWhite
-    goto    $-1
-   
+    goto    $-2
+    
     bsf	    Std2		   ; stop white thing fwd
     
      call    HalfS
@@ -482,14 +486,20 @@ AVOIDCOLUMN
     call    HalfS
     
     call    PWMFWD	    ;start arm forward
-    call    lcdLongDelay
+    call    HalfS	
+    btfsc   SwitchArm
+    goto    $-2
     call    lcdLongDelay
     btfss   SwitchArm
-    goto    $-1
+    goto    $-2
     
     call    PWMFWD	    ;stop arm forward
     
+    return
+    
 ;-------------------------------------------------
+    
+AVOIDCOLUMN2
     
     bsf	    Std1		;move forward until no more column in the way
     
@@ -498,23 +508,25 @@ AVOIDCOLUMN
     call    OneS
     call    OneS
     call    OneS
-    call    OneS
-    
-    call    Read1_US		;checks to see if column present
-    
-    movlw   0xF		; if column is not present, it'll go back to original form
+    ;wait to see the thing
+    call    Read2_US		;checks to see if bin present
+    movlw   0x8		; read the bin
     subwf   TMR1H
-    btfss   STATUS,C		
-    goto    $-6
-    call    OneS
-    
-    bcf	    Std1
-    
+    btfsc   STATUS,C
+    goto    $-4
+    call    Read2_US		;checks to see if bin present
+    movlw   0x6		; read the bin
+    subwf   TMR1H
+    btfss   STATUS,C
+    goto    $-4
     call    RETURNFROMCOLUMN
-    
-    goto    BINREADINGSTART 
+    call    READBIN	
+    goto    ENDTHIS
+
     
 RETURNFROMCOLUMN
+    
+    bcf	    Std1
     
     call    PWMBACK	    ;start arm BACK
     call    HalfS
@@ -533,9 +545,12 @@ RETURNFROMCOLUMN
     
     bsf	    Std2Backwards
     
+    bsf	    Std1	    ; make it start moving right after column
+    
     return
     
 READBIN
+    bsf	    LED
     bcf     Std1
     call    AddBin		;adds bin to list
     
@@ -572,7 +587,7 @@ READBIN
     call    HalfS
     call    HalfS
     
-    bsf	    LED
+    bcf	    LED
     
     return
     
@@ -609,11 +624,14 @@ COLREADINGSTART
     subwf   count_highs,W	    ; will always be negative UNTIL the high count is the one we want
     btfss   STATUS,Z		    ; if result is zero, Z bit is set.
     goto    COLREADINGSTART
-    call    AVOIDCOLUMN
+    call    AVOIDCOLUMN1
+    call    AVOIDCOLUMN2
     
     clrf    count_highs		;reset the high value counter
  
 BINREADINGSTART
+    
+    bsf	    Std1		;gotta always be moving
     
     call    Read2_US		;checks to see if bin present
     
@@ -650,7 +668,7 @@ DELAYEDREAD
     call    READBIN
     bcf	    LED			; turn off LED After reading    
 ENDTHIS       
-    movlw	0X3			;checks if max of 7 bins has been reached
+    movlw	0X7			;checks if max of 7 bins has been reached
     subwf	NumOfBins1,W		
     btfsc	STATUS,Z
     goto	EXIT
@@ -661,35 +679,41 @@ ENDTHIS
     goto	EXIT
     
     goto	TOTAL1    
+    
 CHECKSWITCH
-    call    PWMFWD
-    call    DELAY1
-    call    HalfS
-    btfss   SwitchArm
-    goto    $-1
+    ;WORKSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+    bcf	    Std2		; start white thing fwd
+    call    HalfS	
+    btfsc   SwitchWhite
+    goto    $-2
+    call    lcdLongDelay
+    btfss   SwitchWhite
+    goto    $-2
+    
    
-    call    PWMFWD
- 
-    call    PWMBACK
-    call    DELAY1
-    call    HalfS
-    btfss   SwitchArm
-    goto    $-1 
+    bsf	    Std2		   ; stop white thing fwd
     
-    call    PWMBACK
-    
-    goto    CHECKSWITCH  
+    return
 
 EXIT
+    
+    bcf		Std1
+    call	AVOIDCOLUMN1	 ;RETRACT ARM
+    bsf		Std1Backwards
+    
+    ;add delays
+    call	DELAY2
 
+    bcf		Std1Backwards
+    
     call	Clear_Display
     Display	FinalMessage     ;display final interface for choosing stuff
     call	Switch_Lines
     call	show_RTC
     
-    bcf		Std1
-    bsf		Std1Backwards
     goto	EXITDISPLAY
+    
+
 
 EXITDISPLAY	btfss		PORTB,1     ;Wait until data is available from the keypad
 		goto		$-1 
@@ -860,8 +884,8 @@ Dist_Decoder
 	
 Decode_loop			; Assume each step is 3.6 cm
 	; Perform decode
-	ADDL	cm, cm, D'6'	    ;perimeter of 2*pi
-	ADDL	mm, mm, D'3'
+	ADDL	cm, cm, D'5'	    ;perimeter of 2*pi
+	ADDL	mm, mm, D'9'
 	decf	temp
 	
 Check_mm_overflow
@@ -968,6 +992,7 @@ AddBin
 	return
 	
 ShowBins
+	call		Clear_Display
 	PrintNumber	NumOfBins1
 	return
 	
@@ -1305,24 +1330,31 @@ Delay_0
 			;4 cycles
 	return
 	
-;0.25s delay	
-	
+
 DELAY2
-			;249998 cycles
-	movlw	0x4F
+
+; Actual delay = 36 seconds = 36000000 cycles
+; Error = 0 %
+			;35999997 cycles
+	movlw	0x48
 	movwf	lcd_d1
-	movlw	0xC4
+	movlw	0x7A
 	movwf	lcd_d2
-Delay_02
+	movlw	0x4F
+	movwf	lcd_d1_2
+Delay_01
 	decfsz	lcd_d1, f
 	goto	$+2
 	decfsz	lcd_d2, f
-	goto	Delay_0
+	goto	$+2
+	decfsz	lcd_d1_2, f
+	goto	Delay_01
 
-			;2 cycles
+			;3 cycles
 	goto	$+1
+	nop
 	
-return
+	return
 	
 ;***************************************
 ;Init_TMR0
