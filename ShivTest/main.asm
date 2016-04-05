@@ -1057,7 +1057,7 @@ FrontLoop
 	INCF		FSR,1
 	incf		counter
 	PrintNumber	counter
-	;Display		Colon
+	Display		Colon
 	Display_Dist	INDF
 	Display		Spacee
 	decfsz		countdown,F
@@ -1195,7 +1195,7 @@ PWMFWD
     ;01001110
     BSF	    CCP1CON, 5				; change 1s here to 2 to get two pwm bro
     BSF	    CCP1CON, 4
-    MOVLF   B'01100000', CCPR1L			; previous was 01101
+    MOVLF   B'01101111', CCPR1L			; previous was 01101
     BSF	    CCP1CON, 3
     BSF	    CCP1CON, 2
     
@@ -1245,7 +1245,7 @@ PWMBACK
     ;01001110
     BSF	    CCP2CON, 5				; change 1s here to 2 to get two pwm bro
     BSF	    CCP2CON, 4
-    MOVLW   B'01100000'				; good speed for moving the arm
+    MOVLW   B'01101111'				; good speed for moving the arm
     MOVWF   CCPR2L	
     BSF	    CCP2CON, 3
     BSF	    CCP2CON, 2
@@ -1331,8 +1331,7 @@ Delay_0
 	return
 	
 
-DELAY2		;80s
-
+DELAY2			;80s
 			;79999995 cycles
 	movlw	0xDA
 	movwf	lcd_d1
@@ -1347,6 +1346,11 @@ Delay_01
 	goto	$+2
 	decfsz	lcd_d1_2, f
 	goto	Delay_01
+
+			;5 cycles
+	goto	$+1
+	goto	$+1
+	nop
 	
 	return
 	
